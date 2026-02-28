@@ -37,7 +37,7 @@ export default function UserStudents() {
               </div>
 
               <div className="student-right">
-                <p>💼 Informatique initiation MS Office</p>
+                <p> Informatique initiation MS Office</p>
                 <span className="status finished">Cours Terminé</span>
               </div>
             </div>

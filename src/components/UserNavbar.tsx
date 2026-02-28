@@ -13,10 +13,10 @@ export default function UserNavbar() {
 
         <div className="user-navbar-center">
           <nav className="user-nav">
-            <a href="/user-home" className="nav-link">Accueil</a>
+            {/* <a href="/user-home" className="nav-link">Accueil</a> */}
             <a href="/user-students" className="nav-link">Mes élèves</a>
             <a href="/user-accounts" className="nav-link">Mes acomptes</a>
-            <a href="/user-courses" className="nav-link">Mes bulletins de paie</a>
+            {/* <a href="/user-courses" className="nav-link">Mes bulletins de paie</a> */}
             <a href="#" className="nav-link">Mes récapitulatifs annuels</a>
             <a href="#" className="nav-link">Mes vidéos</a>
             <a href="#" className="nav-link">Mes documents utiles</a>

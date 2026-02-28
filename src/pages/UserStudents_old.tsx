@@ -50,6 +50,9 @@ export default function UserStudents() {
           </div>
 
         </section>
+
+        {/* Student Cards Section */}
+        <section className="students-cards">
           <div className="student-card">
             <div className="student-header">
               <div className="student-avatar">
