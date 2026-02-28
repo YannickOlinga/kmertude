@@ -1,0 +1,172 @@
+/* Testimonial Section */
+.testimonial-section {
+  padding: 80px 20px;
+  background: white;
+}
+
+.testimonial-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.testimonial-header h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.testimonials-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 40px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.testimonial-card {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+}
+
+.testimonial-header-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.reviewer-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.reviewer-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.review-date {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #666;
+}
+
+.trustpilot-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.trustpilot-logo {
+  width: 80px;
+  height: auto;
+}
+
+.stars {
+  display: flex;
+  gap: 2px;
+}
+
+.star {
+  color: #00b67a;
+  font-size: 16px;
+}
+
+.testimonial-title {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 15px 0;
+  line-height: 1.4;
+}
+
+.testimonial-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: #666;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .testimonial-section {
+    padding: 60px 15px;
+  }
+  
+  .testimonial-header h2 {
+    font-size: 28px;
+  }
+  
+  .testimonials-container {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .testimonial-card {
+    padding: 25px 20px;
+  }
+  
+  .testimonial-header-info {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+  
+  .trustpilot-info {
+    align-items: flex-start;
+  }
+  
+  .testimonial-title {
+    font-size: 16px;
+  }
+  
+  .testimonial-text {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .testimonial-section {
+    padding: 40px 10px;
+  }
+  
+  .testimonial-header h2 {
+    font-size: 24px;
+  }
+  
+  .testimonial-card {
+    padding: 20px 15px;
+  }
+  
+  .trustpilot-logo {
+    width: 60px;
+  }
+  
+  .star {
+    font-size: 14px;
+  }
+  
+  .testimonial-title {
+    font-size: 15px;
+  }
+  
+  .testimonial-text {
+    font-size: 13px;
+  }
+}

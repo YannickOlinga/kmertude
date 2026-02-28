@@ -1,0 +1,611 @@
+/* User Courses Page */
+.user-courses {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+.user-courses-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+/* Header Section */
+.courses-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.courses-header h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: #6b46c1;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+  background: #5a3aa8;
+  transform: translateY(-2px);
+}
+
+.filter-tabs {
+  display: flex;
+  background: white;
+  border-radius: 8px;
+  padding: 4px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tab {
+  padding: 8px 16px;
+  border: none;
+  background: transparent;
+  color: #666;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.tab.active {
+  background: #6b46c1;
+  color: white;
+}
+
+.tab:hover:not(.active) {
+  background: #f8f9fa;
+}
+
+/* Calendar Section */
+.calendar-section {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.calendar-header h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.calendar-nav {
+  display: flex;
+  gap: 10px;
+}
+
+.calendar-nav-btn {
+  width: 40px;
+  height: 40px;
+  border: 1px solid #e9ecef;
+  background: white;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.calendar-nav-btn:hover {
+  background: #f8f9fa;
+  border-color: #6b46c1;
+}
+
+.calendar-grid {
+  display: grid;
+  gap: 1px;
+  background: #e9ecef;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: #f8f9fa;
+}
+
+.calendar-weekdays div {
+  padding: 15px 5px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #666;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  background: white;
+}
+
+.calendar-day {
+  padding: 15px 5px;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.calendar-day:hover {
+  background: #f8f9fa;
+}
+
+.calendar-day.today {
+  background: #6b46c1;
+  color: white;
+  font-weight: 600;
+}
+
+.calendar-day.has-course {
+  font-weight: 600;
+}
+
+.course-dot {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+}
+
+.calendar-day.today .course-dot {
+  background: white;
+}
+
+/* Courses List Section */
+.courses-list {
+  margin-bottom: 30px;
+}
+
+.courses-list h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 25px 0;
+}
+
+.course-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  display: flex;
+  gap: 25px;
+  transition: all 0.3s ease;
+}
+
+.course-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.course-card.completed {
+  opacity: 0.8;
+  background: #f8f9fa;
+}
+
+.course-time {
+  flex: 0 0 auto;
+  text-align: center;
+  min-width: 120px;
+}
+
+.time-badge {
+  background: #6b46c1;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.course-card.completed .time-badge {
+  background: #666;
+}
+
+.time-details {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #666;
+}
+
+.course-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.course-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.course-header h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.course-type {
+  background: #e8f5e8;
+  color: #22c55e;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.course-type:nth-child(2) {
+  background: #e3f2fd;
+  color: #3b82f6;
+}
+
+.course-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.teacher-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.teacher-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.teacher-name {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.subject {
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  color: #666;
+}
+
+.student-info {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #666;
+}
+
+.course-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.btn-join,
+.btn-view-details,
+.btn-reschedule,
+.btn-cancel,
+.btn-review,
+.btn-report,
+.btn-book-again {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-join {
+  background: #22c55e;
+  color: white;
+}
+
+.btn-join:hover {
+  background: #16a34a;
+}
+
+.btn-view-details {
+  background: #3b82f6;
+  color: white;
+}
+
+.btn-view-details:hover {
+  background: #2563eb;
+}
+
+.btn-reschedule {
+  background: #f59e0b;
+  color: white;
+}
+
+.btn-reschedule:hover {
+  background: #d97706;
+}
+
+.btn-cancel {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-cancel:hover {
+  background: #dc2626;
+}
+
+.btn-review {
+  background: #8b5cf6;
+  color: white;
+}
+
+.btn-review:hover {
+  background: #7c3aed;
+}
+
+.btn-report {
+  background: #64748b;
+  color: white;
+}
+
+.btn-report:hover {
+  background: #475569;
+}
+
+.btn-book-again {
+  background: #22c55e;
+  color: white;
+}
+
+.btn-book-again:hover {
+  background: #16a34a;
+}
+
+/* Statistics Section */
+.courses-stats {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.courses-stats h2 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 25px 0;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #6b46c1, #5a3aa8);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.stat-content h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  margin: 0 0 5px 0;
+}
+
+.stat-content p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .courses-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .header-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 768px) {
+  .user-courses-container {
+    padding: 20px 15px;
+  }
+  
+  .courses-header h1 {
+    font-size: 28px;
+  }
+  
+  .header-actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .filter-tabs {
+    justify-content: center;
+  }
+  
+  .calendar-section {
+    padding: 20px;
+  }
+  
+  .calendar-header {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .course-card {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .course-time {
+    min-width: auto;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .course-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  
+  .course-actions {
+    justify-content: center;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .user-courses-container {
+    padding: 15px 10px;
+  }
+  
+  .courses-header h1 {
+    font-size: 24px;
+  }
+  
+  .calendar-header h2,
+  .courses-list h2,
+  .courses-stats h2 {
+    font-size: 20px;
+  }
+  
+  .calendar-section {
+    padding: 15px;
+  }
+  
+  .course-card {
+    padding: 20px;
+  }
+  
+  .filter-tabs {
+    flex-wrap: wrap;
+  }
+  
+  .tab {
+    font-size: 12px;
+    padding: 6px 12px;
+  }
+  
+  .course-actions {
+    flex-direction: column;
+  }
+  
+  .btn-join,
+  .btn-view-details,
+  .btn-reschedule,
+  .btn-cancel,
+  .btn-review,
+  .btn-report,
+  .btn-book-again {
+    width: 100%;
+    text-align: center;
+  }
+}

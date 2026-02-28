@@ -1,0 +1,411 @@
+/* User Students Page */
+.user-students {
+  min-height: 100vh;
+  background: #f8f9fa;
+}
+
+.user-students-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+/* Header Section */
+.students-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.students-header h1 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 32px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.btn-add-student {
+  background: #6b46c1;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+}
+
+.btn-add-student:hover {
+  background: #5a3aa8;
+  transform: translateY(-2px);
+}
+
+/* Students Grid */
+.students-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 30px;
+}
+
+.student-card {
+  background: white;
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 1px solid #e9ecef;
+}
+
+.student-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+/* Student Header */
+.student-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  gap: 15px;
+}
+
+.student-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid #f8f9fa;
+  flex-shrink: 0;
+}
+
+.student-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.student-info {
+  flex: 1;
+}
+
+.student-info h3 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 5px 0;
+}
+
+.student-info p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+.student-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-edit,
+.btn-delete {
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-edit {
+  background: #e3f2fd;
+  color: #3b82f6;
+}
+
+.btn-edit:hover {
+  background: #bbdefb;
+}
+
+.btn-delete {
+  background: #ffebee;
+  color: #ef4444;
+}
+
+.btn-delete:hover {
+  background: #ffcdd2;
+}
+
+/* Student Details */
+.student-details {
+  margin-bottom: 25px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 15px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.detail-label {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #666;
+  font-weight: 500;
+}
+
+.detail-value {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Student Progress */
+.student-progress {
+  text-align: center;
+  margin-bottom: 25px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 12px;
+}
+
+.student-progress h4 {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 15px 0;
+}
+
+.progress-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: conic-gradient(#6b46c1 0% 78%, #e9ecef 78% 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 15px auto;
+  position: relative;
+}
+
+.progress-circle::before {
+  content: '';
+  position: absolute;
+  width: 60px;
+  height: 60px;
+  background: white;
+  border-radius: 50%;
+}
+
+.progress-value {
+  font-family: 'Poppins', sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #6b46c1;
+  position: relative;
+  z-index: 1;
+}
+
+.student-progress p {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #666;
+  margin: 0;
+}
+
+/* Student Actions Bottom */
+.student-actions-bottom {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-primary,
+.btn-secondary {
+  flex: 1;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-primary {
+  background: #6b46c1;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #5a3aa8;
+}
+
+.btn-secondary {
+  background: #f8f9fa;
+  color: #333;
+  border: 1px solid #e9ecef;
+}
+
+.btn-secondary:hover {
+  background: #e9ecef;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .user-students-container {
+    padding: 20px 15px;
+  }
+  
+  .students-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .students-header h1 {
+    font-size: 28px;
+  }
+  
+  .students-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  
+  .student-card {
+    padding: 25px 20px;
+  }
+  
+  .student-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .student-actions {
+    align-self: flex-end;
+  }
+  
+  .student-avatar {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .student-info h3 {
+    font-size: 18px;
+  }
+  
+  .progress-circle {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .progress-circle::before {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .progress-value {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .user-students-container {
+    padding: 15px 10px;
+  }
+  
+  .students-header h1 {
+    font-size: 24px;
+  }
+  
+  .btn-add-student {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .student-card {
+    padding: 20px 15px;
+  }
+  
+  .student-header {
+    margin-bottom: 20px;
+  }
+  
+  .student-avatar {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .student-info h3 {
+    font-size: 16px;
+  }
+  
+  .student-info p {
+    font-size: 12px;
+  }
+  
+  .detail-item {
+    padding: 10px 12px;
+  }
+  
+  .detail-label,
+  .detail-value {
+    font-size: 12px;
+  }
+  
+  .student-progress {
+    padding: 15px;
+  }
+  
+  .student-progress h4 {
+    font-size: 14px;
+  }
+  
+  .progress-circle {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .progress-circle::before {
+    width: 45px;
+    height: 45px;
+  }
+  
+  .progress-value {
+    font-size: 14px;
+  }
+  
+  .student-actions-bottom {
+    flex-direction: column;
+  }
+  
+  .btn-primary,
+  .btn-secondary {
+    padding: 10px 15px;
+    font-size: 13px;
+  }
+}

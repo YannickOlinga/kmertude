@@ -1,0 +1,254 @@
+/* Footer */
+.footer {
+  width: 100%;
+  background: #f8f9fa;
+}
+
+.footer-top {
+  background: #f8f9fa;
+  padding: 40px 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.footer-bottom {
+  background: #2c3e50;
+  padding: 30px 20px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Footer Top Section */
+.footer-left,
+.footer-right {
+  flex: 1;
+}
+
+.footer-left {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.footer-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ifop-section,
+.certification-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 200px;
+}
+
+.ifop-logo,
+.certification-logo {
+  height: 60px;
+  margin-bottom: 15px;
+}
+
+.ifop-text,
+.certification-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+  margin: 0 0 10px 0;
+}
+
+.footer-link {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  color: #6b46c1;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #5a3aa8;
+  text-decoration: underline;
+}
+
+/* Footer Bottom Section */
+.footer-bottom .footer-container {
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer-links .footer-link {
+  color: #ecf0f1;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.footer-links .footer-link:hover {
+  color: #bdc3c7;
+}
+
+.separator {
+  color: #7f8c8d;
+  font-size: 12px;
+  margin: 0 4px;
+}
+
+.social-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.social-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #3498db;
+  color: white;
+  border-radius: 50%;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+}
+
+.services-icon {
+  background: #3498db;
+  padding: 8px 12px;
+  border-radius: 20px;
+  width: auto;
+  height: auto;
+}
+
+.services-text {
+  font-family: 'Poppins', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-top {
+    padding: 30px 15px;
+  }
+  
+  .footer-bottom {
+    padding: 25px 15px;
+  }
+  
+  .footer-top .footer-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .footer-left,
+  .footer-right {
+    justify-content: center;
+  }
+  
+  .ifop-section,
+  .certification-section {
+    max-width: 180px;
+  }
+  
+  .ifop-logo,
+  .certification-logo {
+    height: 50px;
+  }
+  
+  .ifop-text,
+  .certification-text {
+    font-size: 14px;
+  }
+  
+  .footer-link {
+    font-size: 13px;
+  }
+  
+  .footer-links {
+    gap: 6px;
+  }
+  
+  .footer-links .footer-link {
+    font-size: 12px;
+  }
+  
+  .social-icons {
+    gap: 15px;
+  }
+  
+  .social-icon {
+    width: 35px;
+    height: 35px;
+  }
+  
+  .services-text {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-top {
+    padding: 20px 10px;
+  }
+  
+  .footer-bottom {
+    padding: 20px 10px;
+  }
+  
+  .ifop-section,
+  .certification-section {
+    max-width: 150px;
+  }
+  
+  .ifop-logo,
+  .certification-logo {
+    height: 40px;
+  }
+  
+  .ifop-text,
+  .certification-text {
+    font-size: 13px;
+  }
+  
+  .footer-links {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .separator {
+    display: none;
+  }
+  
+  .social-icons {
+    gap: 12px;
+  }
+  
+  .social-icon {
+    width: 30px;
+    height: 30px;
+  }
+  
+  .services-text {
+    font-size: 9px;
+  }
+}
