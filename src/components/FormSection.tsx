@@ -4,7 +4,7 @@ export default function FormSection() {
   return (
     <section className="form-section">
       <div className="form-section-header">
-        <h2>Découvrir l'offre Complétude !</h2>
+        <h2>Découvrir l'offre Kmertude !</h2>
       </div>
       <div className="cards-container">
         <div className="service-card">

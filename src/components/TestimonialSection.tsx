@@ -27,7 +27,7 @@ export default function TestimonialSection() {
           </div>
           <h3 className="testimonial-title">Super prof et super méthode</h3>
           <p className="testimonial-text">
-            Ma fille est en terminale et a beaucoup de mal avec la philo. Nous avons trouvé un prof super compétent qui a su la mettre en confiance et lui donner une méthode. Les résultats sont là. Merci Complétude !
+            Ma fille est en terminale et a beaucoup de mal avec la philo. Nous avons trouvé un prof super compétent qui a su la mettre en confiance et lui donner une méthode. Les résultats sont là. Merci Kmertude !
           </p>
         </div>
 
@@ -50,7 +50,7 @@ export default function TestimonialSection() {
           </div>
           <h3 className="testimonial-title">Excellente prise en charge</h3>
           <p className="testimonial-text">
-            Mon fils en 3ème avait beaucoup de difficultés en maths. Le prof que Complétude nous a trouvé est patient et pédagogue. Les progrès sont visibles après seulement quelques semaines. Je recommande vivement !
+            Mon fils en 3ème avait beaucoup de difficultés en maths. Le prof que Kmertude nous a trouvé est patient et pédagogue. Les progrès sont visibles après seulement quelques semaines. Je recommande vivement !
           </p>
         </div>
 
@@ -73,7 +73,7 @@ export default function TestimonialSection() {
           </div>
           <h3 className="testimonial-title">Stage de vacances réussi</h3>
           <p className="testimonial-text">
-            Ma fille a suivi un stage de préparation au brevet pendant les vacances de février. Le format intensif lui a beaucoup plu et elle se sent beaucoup plus confiante pour l'examen. Merci à l'équipe Complétude !
+            Ma fille a suivi un stage de préparation au brevet pendant les vacances de février. Le format intensif lui a beaucoup plu et elle se sent beaucoup plus confiante pour l'examen. Merci à l'équipe Kmertude !
           </p>
         </div>
       </div>

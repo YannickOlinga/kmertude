@@ -55,7 +55,7 @@ export default function Navbar() {
         <nav className="navbar-main">
           <div className="navbar-logo">
             <div className="logo-content">
-              <h1 className="logo-title">complétude</h1>
+              <h1 className="logo-title">Kmertude</h1>
               <div className="logo-subtitle">
                 <div className="logo-icon"></div>
                 <span>soutien scolaire</span>

@@ -26,7 +26,7 @@ export default function Footer() {
       <div className="footer-bottom">
         <div className="footer-container">
           <div className="footer-links">
-            <a href="#" className="footer-link">À propos de Complétude</a>
+            <a href="#" className="footer-link">À propos de Kmertude</a>
             <span className="separator">|</span>
             <a href="#" className="footer-link">Nous rejoindre</a>
             <span className="separator">|</span>

@@ -149,7 +149,7 @@ const BulletinsDePaie: React.FC = () => {
       <nav className="navbar">
         <div className="navbar-logo">
           <div className="navbar-logo-text">
-            complétude<span>✕</span>
+            Kmertude<span>✕</span>
           </div>
           <div className="navbar-logo-sub">soutien scolaire</div>
         </div>
