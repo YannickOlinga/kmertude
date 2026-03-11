@@ -124,7 +124,14 @@
   color: #333;
   font-size: 14px;
   font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s;
   line-height: 1.2;
+}
+
+.user-name:hover {
+  color: #6b46c1;
+  text-decoration: underline;
 }
 
 .user-role {

@@ -5,21 +5,41 @@ import Button from './Button.tsx'
 export default function Navbar() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isStagesDropdownOpen, setIsStagesDropdownOpen] = useState(false)
+  const [dropdownTimeout, setDropdownTimeout] = useState<number | null>(null)
+  const [stagesDropdownTimeout, setStagesDropdownTimeout] = useState<number | null>(null)
 
   const handleMouseEnter = () => {
+    // Clear any existing timeout
+    if (dropdownTimeout) {
+      clearTimeout(dropdownTimeout)
+      setDropdownTimeout(null)
+    }
     setIsDropdownOpen(true)
   }
 
   const handleMouseLeave = () => {
-    setIsDropdownOpen(false)
+    // Set timeout to close dropdown after 800ms
+    const timeout = window.setTimeout(() => {
+      setIsDropdownOpen(false)
+    }, 800)
+    setDropdownTimeout(timeout)
   }
 
   const handleStagesMouseEnter = () => {
+    // Clear any existing timeout
+    if (stagesDropdownTimeout) {
+      clearTimeout(stagesDropdownTimeout)
+      setStagesDropdownTimeout(null)
+    }
     setIsStagesDropdownOpen(true)
   }
 
   const handleStagesMouseLeave = () => {
-    setIsStagesDropdownOpen(false)
+    // Set timeout to close dropdown after 800ms
+    const timeout = window.setTimeout(() => {
+      setIsStagesDropdownOpen(false)
+    }, 800)
+    setStagesDropdownTimeout(timeout)
   }
 
   return (
@@ -39,7 +59,7 @@ export default function Navbar() {
               <svg className="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
               </svg>
-              <span>01 42 50 00 44</span>
+              <span>06 22 24 49 94</span>
             </div>
             <div className="navbar-item navbar-account">
               <svg className="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -76,9 +96,9 @@ export default function Navbar() {
                     <div className="dropdown-section">
                       <h3>Cours particuliers</h3>
                       <ul>
-                        <li><a href="#">En primaire</a></li>
+                        <li><a href="/en-primaire">En primaire</a></li>
                         <li><a href="#">Au collège</a></li>
-                        <li><a href="#">Au lycée</a></li>
+                        <li><a href= "#">Au lycée</a></li>
                         <li><a href="#">Dans le supérieur</a></li>
                         <li><a href="#">Pour adultes</a></li>
                       </ul>
