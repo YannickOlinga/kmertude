@@ -168,26 +168,91 @@
     width: 100%;
 }
 
-/* Dropdown menu */
-.dropdown-menu {
+.nav-item.dropdown {
+    position: relative;
+}
+
+.nav-item.dropdown .dropdown-menu {
     position: absolute;
     top: 100%;
-    left: 0;
-    right: 0;
+    left: 50%;
+    transform: translateX(-50%);
     background: white;
     width: 100vw;
+    max-width: 1200px;
+    padding: 40px 20px;
+    margin-top: 10px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
     border-radius: 12px;
-    padding: 30px;
-    margin-top: 10px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 350px 1fr 1fr;
     gap: 30px;
     z-index: 1000;
 }
 
-.stages-dropdown {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+.nav-item.dropdown .dropdown-menu.stages-dropdown {
+    grid-template-columns: 350px 1fr 1fr 1fr;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.dropdown-image-section {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dropdown-image-section img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+    visibility: visible;
+    opacity: 1;
+}
+
+.dropdown-image-content h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+    margin: 0 0 10px 0;
+}
+
+.dropdown-image-content p {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #666;
+    margin: 0 0 15px 0;
+    line-height: 1.5;
+}
+
+.dropdown-image-content .btn-tarif {
+    margin-top: 0;
+}
+
+.btn-tarif {
+    background: #6b46c1;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.btn-tarif:hover {
+    background: #5a3aa0;
+    transform: translateY(-2px);
 }
 
 .dropdown-section h3 {

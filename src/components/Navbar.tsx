@@ -9,7 +9,9 @@ export default function Navbar() {
   const [stagesDropdownTimeout, setStagesDropdownTimeout] = useState<number | null>(null)
 
   const handleMouseEnter = () => {
-    // Clear any existing timeout
+    if (isStagesDropdownOpen) {
+      setIsStagesDropdownOpen(false)
+    }
     if (dropdownTimeout) {
       clearTimeout(dropdownTimeout)
       setDropdownTimeout(null)
@@ -18,15 +20,16 @@ export default function Navbar() {
   }
 
   const handleMouseLeave = () => {
-    // Set timeout to close dropdown after 800ms
     const timeout = window.setTimeout(() => {
       setIsDropdownOpen(false)
     }, 800)
     setDropdownTimeout(timeout)
   }
 
-  const handleStagesMouseEnter = () => {
-    // Clear any existing timeout
+    const handleStagesMouseEnter = () => {
+    if (isDropdownOpen) {
+      setIsDropdownOpen(false)
+    }
     if (stagesDropdownTimeout) {
       clearTimeout(stagesDropdownTimeout)
       setStagesDropdownTimeout(null)
@@ -35,7 +38,6 @@ export default function Navbar() {
   }
 
   const handleStagesMouseLeave = () => {
-    // Set timeout to close dropdown after 800ms
     const timeout = window.setTimeout(() => {
       setIsStagesDropdownOpen(false)
     }, 800)
@@ -45,7 +47,6 @@ export default function Navbar() {
   return (
     <header className="navbar">
       <div className="navbar-container">
-        {/* Top bar with agency, phone and account */}
         <div className="navbar-top">
           <div className="navbar-top-right">
             <div className="navbar-item navbar-agency">
@@ -71,7 +72,6 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Main navigation */}
         <nav className="navbar-main">
           <div className="navbar-logo">
             <div className="logo-content">
@@ -93,14 +93,22 @@ export default function Navbar() {
                 <a href="#" className="nav-link">COURS PARTICULIERS</a>
                 {isDropdownOpen && (
                   <div className="dropdown-menu">
+                    <div className="dropdown-image-section">
+                      <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&h=200&fit=crop&crop=center" alt="Cours particuliers" />
+                      <div className="dropdown-image-content">
+                        <h3>Excellence garantie</h3>
+                        <p>Nos professeurs qualifiés vous accompagnent vers la réussite</p>
+                        <button className="btn-tarif">VOIR MON TARIF</button>
+                      </div>
+                    </div>
                     <div className="dropdown-section">
                       <h3>Cours particuliers</h3>
                       <ul>
                         <li><a href="/en-primaire">En primaire</a></li>
-                        <li><a href="#">Au collège</a></li>
-                        <li><a href= "#">Au lycée</a></li>
-                        <li><a href="#">Dans le supérieur</a></li>
-                        <li><a href="#">Pour adultes</a></li>
+                        <li><a href="/au-college">Au collège</a></li>
+                        <li><a href="/au-lycee">Au lycée</a></li>
+                        <li><a href="/dans-superieur">Dans le supérieur</a></li>
+                        <li><a href="/pour-adultes">Pour adultes</a></li>
                       </ul>
                     </div>
                     <div className="dropdown-section">
@@ -111,13 +119,6 @@ export default function Navbar() {
                         <li><a href="#">Nos garanties</a></li>
                       </ul>
                       <button className="btn-tarif">VOIR MON TARIF</button>
-                    </div>
-                    <div className="dropdown-image-section">
-                      <img src="/m.jpg" alt="Crédit d'impôt immédiat" />
-                      <div className="image-text">
-                        <h4>Crédit d'impôt immédiat</h4>
-                        <p>Tout savoir sur le crédit d'impôt immédiat</p>
-                      </div>
                     </div>
                   </div>
                 )}
@@ -130,37 +131,39 @@ export default function Navbar() {
                 <a href="#" className="nav-link">STAGES EN PETITS GROUPES</a>
                 {isStagesDropdownOpen && (
                   <div className="dropdown-menu stages-dropdown">
+                    <div className="dropdown-image-section">
+                      <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=200&fit=crop&crop=center" alt="Stages" />
+                      <div className="dropdown-image-content">
+                        <h3>Stages d'excellence</h3>
+                        <p>Des stages intensifs pour booster vos compétences</p>
+                        <button className="btn-tarif">DÉCOUVRIR LES STAGES</button>
+                      </div>
+                    </div>
                     <div className="dropdown-section">
-                      <h3>Stages intensifs En visioconférence</h3>
+                      <h3>Stages scolaires</h3>
                       <ul>
-                        <li><a href="#">Hiver</a></li>
-                        <li><a href="#">Printemps</a></li>
+                        <li><a href="#">Stage primaire</a></li>
+                        <li><a href="#">Stage collège</a></li>
+                        <li><a href="#">Stage lycée</a></li>
                       </ul>
                     </div>
                     <div className="dropdown-section">
-                      <h3>Stages intensifs En présentiel</h3>
+                      <h3>Stages vacances</h3>
                       <ul>
-                        <li><a href="#">Hiver</a></li>
-                        <li><a href="#">Printemps</a></li>
+                        <li><a href="#">Stage été</a></li>
+                        <li><a href="#">Stage Toussaint</a></li>
+                        <li><a href="#">Stage Noël</a></li>
+                        <li><a href="#">Stage Hiver</a></li>
+                        <li><a href="#">Stage Printemps</a></li>
                       </ul>
                     </div>
                     <div className="dropdown-section">
-                      <h3>Journées prépa-examens En visioconférence</h3>
+                      <h3>Préparation examens</h3>
                       <ul>
-                        <li><a href="#">Prépa-Brevet</a></li>
-                        <li><a href="#">Prépa-Bac</a></li>
+                        <li><a href="#">Brevet des collèges</a></li>
+                        <li><a href="#">Baccalauréat</a></li>
+                        <li><a href="#">Concours</a></li>
                       </ul>
-                    </div>
-                    <div className="dropdown-section">
-                      <h3>Stages anglais oral En visioconférence</h3>
-                      <ul>
-                        <li><a href="#">Hiver</a></li>
-                        <li><a href="#">Printemps</a></li>
-                      </ul>
-                    </div>
-                    <div className="stages-methodo-box">
-                      <h3>Stages de méthodologie</h3>
-                      <p>Travailler efficacement, ça s'apprend !</p>
                     </div>
                   </div>
                 )}
