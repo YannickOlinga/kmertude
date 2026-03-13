@@ -20,6 +20,39 @@
   height: 70px;
 }
 
+/* Mobile menu button for user navbar */
+.user-mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1001;
+  position: relative;
+}
+
+.user-mobile-menu-btn span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  background: #333;
+  margin: 5px 0;
+  transition: 0.3s;
+  border-radius: 2px;
+}
+
+.user-mobile-menu-btn.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.user-mobile-menu-btn.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.user-mobile-menu-btn.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
 /* Left section - Logo */
 .user-navbar-left {
   flex: 0 0 auto;
@@ -184,6 +217,170 @@
   line-height: 1;
 }
 
+/* Mobile menu overlay */
+.user-menu-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.user-menu-overlay.active {
+  display: block;
+  opacity: 1;
+}
+
+/* Mobile menu panel */
+.user-mobile-menu {
+  position: fixed;
+  top: 0;
+  right: -100%;
+  width: 85%;
+  max-width: 320px;
+  height: 100vh;
+  background: white;
+  box-shadow: -2px 0 15px rgba(0, 0, 0, 0.15);
+  transition: right 0.3s ease;
+  z-index: 999;
+  overflow-y: auto;
+}
+
+.user-mobile-menu.active {
+  right: 0;
+}
+
+.user-mobile-menu-header {
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f8f9fa;
+}
+
+.user-mobile-menu-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.user-mobile-menu-logo h1 {
+  font-size: 18px;
+  margin: 0;
+  color: #6b46c1;
+}
+
+.user-mobile-menu-logo span {
+  font-size: 10px;
+  color: #22c55e;
+}
+
+.user-mobile-menu-content {
+  padding: 0;
+}
+
+.user-mobile-nav {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.user-mobile-nav li {
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.user-mobile-nav a {
+  display: block;
+  padding: 18px 20px;
+  color: #333;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  transition: background 0.3s ease;
+}
+
+.user-mobile-nav a:hover {
+  background: #f8f9fa;
+  color: #6b46c1;
+}
+
+.user-mobile-nav a.active {
+  color: #e91e63;
+  background: #fef2f7;
+}
+
+.user-mobile-user-section {
+  padding: 20px;
+  border-bottom: 1px solid #f0f0f0;
+  background: #f8f9fa;
+}
+
+.user-mobile-user-info {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.user-mobile-avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #e9ecef;
+}
+
+.user-mobile-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.user-mobile-details h4 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.user-mobile-details p {
+  margin: 0;
+  font-size: 13px;
+  color: #666;
+}
+
+.user-mobile-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.user-mobile-actions button {
+  flex: 1;
+  padding: 10px;
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 13px;
+  color: #666;
+}
+
+.user-mobile-actions button:hover {
+  background: #f8f9fa;
+  color: #6b46c1;
+  border-color: #6b46c1;
+}
+
 /* Responsive Design */
 @media (max-width: 1200px) {
   .user-nav {
@@ -226,17 +423,16 @@
     font-size: 10px;
   }
   
-  .user-nav {
-    gap: 15px;
+  .user-navbar-center {
+    display: none;
   }
   
-  .nav-link {
-    font-size: 13px;
+  .user-navbar-right {
+    display: none;
   }
   
-  .user-avatar {
-    width: 35px;
-    height: 35px;
+  .user-mobile-menu-btn {
+    display: block;
   }
 }
 
@@ -245,28 +441,11 @@
     padding: 0 10px;
   }
   
-  .user-navbar-center {
-    display: none;
+  .logo h1 {
+    font-size: 18px;
   }
   
-  .user-navbar-right {
-    gap: 15px;
-  }
-  
-  .user-actions {
-    gap: 8px;
-  }
-  
-  .btn-notifications,
-  .settings,
-  .btn-logout {
-    padding: 6px;
-  }
-  
-  .btn-notifications svg,
-  .btn-settings svg,
-  .btn-logout svg {
-    width: 18px;
-    height: 18px;
+  .user-mobile-menu {
+    width: 90%;
   }
 }

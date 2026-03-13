@@ -398,13 +398,40 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+  .hero-section {
+    height: 50vh;
+  }
+  
   .hero-content h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
+  }
+  
+  .features-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 40vh;
+  }
+  
+  .hero-content {
+    padding: 0 15px;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.2rem;
+    line-height: 1.2;
   }
   
   .hero-content p {
     font-size: 1rem;
+  }
+  
+  .blog-section {
+    padding: 60px 0;
   }
   
   .blog-content {
@@ -412,8 +439,29 @@
     gap: 30px;
   }
   
+  .blog-text {
+    text-align: center;
+  }
+  
   .blog-image {
-    height: 300px;
+    height: 250px;
+  }
+  
+  .features-section {
+    padding: 60px 0;
+  }
+  
+  .features-cards {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+  
+  .feature-card {
+    padding: 25px 20px;
+  }
+  
+  .card-image {
+    height: 180px;
   }
   
   .feature-card-row {
@@ -432,20 +480,91 @@
 }
 
 @media (max-width: 480px) {
+  .hero-section {
+    height: 35vh;
+  }
+  
   .hero-content h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
+  }
+  
+  .hero-content p {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
   }
   
   .btn-hero {
     padding: 12px 25px;
+    font-size: 0.9rem;
+  }
+  
+  .blog-section,
+  .features-section {
+    padding: 40px 0;
+  }
+  
+  .blog-container,
+  .features-container {
+    padding: 0 15px;
+  }
+  
+  .blog-text h2 {
+    font-size: 1.5rem;
+  }
+  
+  .blog-text p {
     font-size: 1rem;
   }
   
-  .features-cta {
-    padding: 30px 20px;
+  .btn-blog {
+    padding: 10px 20px;
+    font-size: 0.9rem;
   }
   
-  .features-cta h3 {
+  .blog-image {
+    height: 200px;
+  }
+  
+  .features-container h2 {
+    font-size: 1.8rem;
+  }
+  
+  .features-container p {
+    font-size: 1rem;
+  }
+  
+  .feature-card {
+    padding: 20px 15px;
+  }
+  
+  .card-image {
+    height: 150px;
+  }
+  
+  .feature-card h3 {
+    font-size: 1.1rem;
+  }
+  
+  .feature-card p {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero-content h1 {
     font-size: 1.5rem;
+  }
+  
+  .blog-text h2,
+  .features-container h2 {
+    font-size: 1.3rem;
+  }
+  
+  .feature-card {
+    padding: 15px;
+  }
+  
+  .card-image {
+    height: 120px;
   }
 }

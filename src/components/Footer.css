@@ -48,6 +48,74 @@
   max-width: 200px;
 }
 
+/* Responsive Footer */
+@media (max-width: 768px) {
+  .footer-top {
+    padding: 30px 15px;
+  }
+  
+  .footer-bottom {
+    padding: 20px 15px;
+  }
+  
+  .footer-container {
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+  }
+  
+  .footer-left,
+  .footer-right {
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .footer-left {
+    order: 2;
+  }
+  
+  .footer-right {
+    order: 1;
+  }
+  
+  .ifop-section,
+  .certification-section {
+    max-width: 150px;
+    margin: 0 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-top {
+    padding: 20px 10px;
+  }
+  
+  .footer-bottom {
+    padding: 15px 10px;
+  }
+  
+  .footer-container {
+    gap: 20px;
+  }
+  
+  .ifop-section,
+  .certification-section {
+    max-width: 120px;
+    margin: 0 5px;
+  }
+  
+  .ifop-section img,
+  .certification-section img {
+    max-width: 80px;
+    height: auto;
+  }
+  
+  .ifop-section p,
+  .certification-section p {
+    font-size: 12px;
+  }
+}
+
 .ifop-logo,
 .certification-logo {
   height: 60px;

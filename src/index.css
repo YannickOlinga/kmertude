@@ -1,3 +1,81 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Global Responsive Styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.6;
+  color: #333;
+  overflow-x: hidden;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive Typography */
+@media (max-width: 768px) {
+  html {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 13px;
+  }
+}
+
+/* Mobile-first utilities */
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+  
+  .desktop-only {
+    display: none;
+  }
+}
+
+/* Touch-friendly buttons */
+@media (max-width: 768px) {
+  button, .btn {
+    min-height: 44px;
+    min-width: 44px;
+  }
+}
+
+/* Better spacing on mobile */
+@media (max-width: 768px) {
+  section {
+    padding: 40px 0;
+  }
+  
+  .container, .container-fluid {
+    padding: 0 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  section {
+    padding: 30px 0;
+  }
+  
+  .container, .container-fluid {
+    padding: 0 10px;
+  }
+}
