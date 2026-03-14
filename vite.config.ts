@@ -10,4 +10,12 @@ export default defineConfig({
       },
     }),
   ],
+  optimizeDeps: {
+    include: ['three', '@react-three/fiber', '@react-three/drei', 'three-globe'],
+  },
+  resolve: {
+    alias: {
+      '@': '/src',
+    },
+  },
 })

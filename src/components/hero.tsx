@@ -18,7 +18,8 @@ export default function Hero() {
       
       <div className="herocontainer">
         <div className="toptext">
-          <h1>Apprenez à votre rythme avec <span>Kmertude</span> </h1> 
+          <h1>Devenez le prochain <span>Kmertude</span> qui réussit</h1>
+          <p className="hero-subtitle">Rejoignez des milliers d'élèves qui excellent grâce à notre soutien scolaire de qualité</p>
         </div>
         <div className="bottomtext">
           <div className="tab-selector">
