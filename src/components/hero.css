@@ -1,37 +1,52 @@
-.hero-section{
-  background: url(../../public/m.jpg);
-  height: 100vh;
+.main-hero.hero-section{  
+  height: 700px !important;
   background-size: cover;
   background-position: center;
   position: relative;
   background-attachment: fixed;
   display: flex;
+  overflow: hidden;
 }
 
-.hero-section::before {
-  content: '';
-  position: absolute;
+/* Video background */
+.hero-video {
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  z-index: 1;
-} 
+  min-width: 100vw;
+  min-height: 100vh;
+  transform: none;
+  z-index: -1;
+  object-fit: cover;
+}
+
+
 .toptext span{
   color: #d81b60;
 }
 .toptext {
   position: relative;
-  z-index: 2;
+  z-index: 10;
   text-align: center;
   margin-bottom: 40px;   
-  padding: 10px;
-  background-color: white;
-  width: 804px;
-  padding: 30px;
-  border-radius: 4px;
 }
+
+/* Responsive video styles - déjà géré plus bas dans les media queries principales */
+
+/* Pour les appareils plus lents, désactiver la vidéo */
+@media (prefers-reduced-motion: reduce) {
+  .hero-video {
+    display: none;
+  }
+  
+  .hero-section {
+    background-image: url('/fallback-image.jpg');
+    background-color: #1a1a1a;
+  }
+}   
+ 
 
 .toptext h1 {
   color: rgb(3, 0, 0); 
@@ -46,10 +61,12 @@
   width: 100%;
   padding-top: 10%;
   padding-left: 8%;
+  position: relative;
+  z-index: 10;
 }
 .bottomtext {
   position: relative;
-  z-index: 2; 
+  z-index: 10; 
   background: white;
   border-radius: 9px;
   padding: 40px;
@@ -154,7 +171,6 @@
 
 @media (max-width: 1024px) {
   .hero-section {
-    height: 90vh;
     background-attachment: scroll;
   }
   
@@ -179,8 +195,8 @@
 }
 
 @media (max-width: 768px) {
-  .hero-section {
-    height: 100vh;
+  .main-hero.hero-section {
+    height: 600px !important; /* Même hauteur que desktop */
     background-attachment: scroll;
     align-items: flex-start;
     padding-top: 80px;
