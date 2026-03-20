@@ -18,8 +18,8 @@ export default function Hero() {
       
       <div className="herocontainer">
         <div className="toptext">
-          <h1>Devenez le prochain <span>Kmertude</span> qui réussit</h1>
-          <p className="hero-subtitle">Rejoignez des milliers d'élèves qui excellent grâce à notre soutien scolaire de qualité</p>
+          <h1>Devenez le prochain <span>Kmertude</span> qui excelle</h1>
+          <p className="hero-subtitle">Rejoignez des milliers d'élèves camerounais qui excellent grâce à notre soutien scolaire de qualité</p>
         </div>
         <div className="bottomtext">
           <div className="tab-selector">
@@ -27,21 +27,22 @@ export default function Hero() {
               <button className="tab-button">Stages intensifs</button>
             </div>
             <div className="form-container">
-              <input type="text" placeholder="Lieu des cours*" className="form-input" />
+              <input type="text" placeholder="Votre ville*" className="form-input" />
               <select className="form-input">
-                <option value="">Classe*</option>
+                <option value="">Niveau scolaire*</option>
                 <option value="SIL">SIL</option>
-                <option value="SIL">CP</option>
-                <option value="SIL">CE1</option>
-                <option value="SIL">CE2</option>
-                <option value="SIL">CM1</option>
-                <option value="SIL">CM2</option>
-                <option value="SIL">6e</option>
-                <option value="SIL">5e</option>
-                <option value="SIL">4e</option>
-                <option value="SIL">3e</option>
-                <option value="SIL">2ND</option>
-                <option value="SIL">1er</option>
+                <option value="CP">CP</option>
+                <option value="CE1">CE1</option>
+                <option value="CE2">CE2</option>
+                <option value="CM1">CM1</option>
+                <option value="CM2">CM2</option>
+                <option value="6e">6e</option>
+                <option value="5e">5e</option>
+                <option value="4e">4e</option>
+                <option value="3e">3e</option>
+                <option value="2nd">2nd</option>
+                <option value="1ere">1ère</option>
+                <option value="Tle">Tle</option>
               </select>
               <button className="submit-button"><p className='button_text'>VOIR MON TARIF</p></button>
             </div>

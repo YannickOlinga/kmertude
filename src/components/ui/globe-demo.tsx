@@ -27,7 +27,7 @@ export default function GlobeDemo() {
     rings: 1,
     maxRings: 3,
     // Texture 3D du globe : ton image dans /public
-    globeImageUrl: "/globe.jpg",
+    globeImageUrl: "https://as1.ftcdn.net/jpg/01/58/31/60/1000_F_158316050_Bs2kKlM2PyEj5CSmcwVp8tEqd9vnRibT.jpg",
     initialPosition: { lat: 22.3193, lng: 114.1694 },
     autoRotate: true,
     autoRotateSpeed: 0.5,

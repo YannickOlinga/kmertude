@@ -13,6 +13,13 @@
     top: 0;
     z-index: 1001;
     font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+    background: transparent;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.15);
 }
 
 .navbar-container {
@@ -146,15 +153,23 @@
 
 .nav-link {
     text-decoration: none;
-    color: rgba(255, 255, 255, 0.8);
+    color: #000000;
     font-weight: 500;
     font-size: 15px;
     transition: color 0.3s ease;
     position: relative;
 }
 
+.navbar.scrolled .nav-link {
+    color: #22c55e;
+}
+
 .nav-link:hover {
-    color: #6b46c1;
+    color: #16a34a;
+}
+
+.navbar.scrolled .nav-link:hover {
+    color: #16a34a;
 }
 
 .nav-link::after {
@@ -280,13 +295,13 @@
 .dropdown-section a {
     font-family: 'Poppins', sans-serif;
     font-size: 14px;
-    color: white;
+    color: #000000;
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .dropdown-section a:hover {
-    color: #6b46c1;
+    color: #22c55e;
 }
 
 .btn-tarif {
@@ -435,7 +450,7 @@
     
     .mobile-menu-header {
         padding: 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        border-bottom: 1px solid #e9ecef;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -451,10 +466,12 @@
     .mobile-menu-logo .logo-title {
         font-size: 20px;
         margin: 0;
+        color: #333;
     }
     
     .mobile-menu-logo .logo-subtitle {
         font-size: 12px;
+        color: #666;
     }
     
     .nav-links {
@@ -468,14 +485,14 @@
     
     .nav-item {
         width: 100%;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        border-bottom: 1px solid #e9ecef;
     }
     
     .nav-link {
         font-size: 16px;
         padding: 18px 20px;
         display: block;
-        color: rgba(255, 255, 255, 0.8);
+        color: #333;
         font-weight: 500;
         transition: background 0.3s ease;
     }
@@ -483,6 +500,12 @@
     .nav-link:hover {
         background: #f8f9fa;
         color: #6b46c1;
+    }
+    
+    .mobile-submenu {
+        display: block;
+        background: #f8f9fa;
+        border-top: 1px solid #e9ecef;
     }
     
     .nav-item.dropdown .dropdown-menu {
@@ -504,8 +527,9 @@
     }
     
     .dropdown-section {
-        padding: 20px;
+        padding: 15px 20px;
         border-bottom: 1px solid #e9ecef;
+        text-align: center;
     }
     
     .dropdown-section:last-child {
@@ -527,21 +551,21 @@
     
     .dropdown-section a {
         font-size: 14px;
-        color: white;
+        color: #333;
         text-decoration: none;
         display: block;
-        padding: 8px 0;
+        padding: 10px 0;
         transition: color 0.3s ease;
+        text-align: center;
     }
     
     .dropdown-section a:hover {
         color: #6b46c1;
+        background: #f8f9fa;
     }
     
     .dropdown-image-section {
-        padding: 20px;
-        text-align: center;
-        border-bottom: 1px solid #e9ecef;
+        display: none;
     }
     
     .dropdown-image-section img {
@@ -553,24 +577,27 @@
     .dropdown-image-content h3 {
         font-size: 16px;
         margin-bottom: 10px;
-        color: rgba(255, 255, 255, 0.8);
+        color: #333;
     }
     
     .dropdown-image-content p {
         font-size: 13px;
-        color: white;
+        color: #666;
         margin-bottom: 15px;
         line-height: 1.4;
     }
     
     .btn-tarif {
+        display: block;
+        width: 100%;
+        margin: 15px 0 0 0;
         font-size: 14px;
-        padding: 10px 20px;
+        padding: 12px 20px;
         background: #6b46c1;
         color: white;
         text-decoration: none;
         border-radius: 6px;
-        display: inline-block;
+        text-align: center;
         transition: background 0.3s ease;
     }
     
@@ -802,6 +829,9 @@
         width: 100%;
         text-align: center;
     }
+}
+.text-black{
+    color: #000000;
 }
 
 @media (max-width: 480px) {

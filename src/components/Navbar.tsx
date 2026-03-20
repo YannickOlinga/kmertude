@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './navbar.css'
 import Button from './Button.tsx'
 
@@ -7,6 +7,16 @@ export default function Navbar() {
   const [isStagesDropdownOpen, setIsStagesDropdownOpen] = useState(false)
   const [dropdownTimeout, setDropdownTimeout] = useState<number | null>(null)
   const [stagesDropdownTimeout, setStagesDropdownTimeout] = useState<number | null>(null)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50)
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const handleMouseEnter = () => {
     if (isStagesDropdownOpen) {
@@ -45,22 +55,22 @@ export default function Navbar() {
   }
 
   return (
-    <header className="navbar">
+    <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
       <div className="navbar-container">
         <div className="navbar-top">
           <div className="navbar-top-right">
             <div className="navbar-item navbar-agency">
-              <svg className="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <svg className="icon text-black" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
                 <circle cx="12" cy="10" r="3"></circle>
               </svg>
-              <span>Choisir mon agence</span>
+              <span className='text-black'>Choisir ma ville</span>
             </div>
             <div className="navbar-item navbar-phone">
               <svg className="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
               </svg>
-              <span>06 22 24 49 94</span>
+              <span>+237 622 244 994</span>
             </div>
             <div className="navbar-item navbar-account">
               <svg className="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -96,27 +106,26 @@ export default function Navbar() {
                     <div className="dropdown-image-section">
                       <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&h=200&fit=crop&crop=center" alt="Cours particuliers" />
                       <div className="dropdown-image-content">
-                        <h3>Excellence garantie</h3>
-                        <p>Nos professeurs qualifiés vous accompagnent vers la réussite</p>
+                        <h3>Excellence académique</h3>
+                        <p>Nos professeurs qualifiés vous accompagnent vers la réussite scolaire</p>
                         <button className="btn-tarif">VOIR MON TARIF</button>
                       </div>
                     </div>
                     <div className="dropdown-section">
-                      <h3>Cours particuliers</h3>
+                      <h3>Cours de soutien</h3>
                       <ul>
                         <li><a href="/en-primaire">En primaire</a></li>
                         <li><a href="/au-college">Au collège</a></li>
                         <li><a href="/au-lycee">Au lycée</a></li>
                         <li><a href="/dans-superieur">Dans le supérieur</a></li>
-                        <li><a href="/pour-adultes">Pour adultes</a></li>
                       </ul>
                     </div>
                     <div className="dropdown-section">
                       <h3>Tarif</h3>
                       <ul>
-                        <li><a href="#">Nos tarifs</a></li>
-                        <li><a href="#">Crédit d'impôt immédiat</a></li>
-                        <li><a href="#">Nos garanties</a></li>
+                        <li><a href="#">Nos tarifs adaptés</a></li>
+                        <li><a href="#">Réduction familiale</a></li>
+                        <li><a href="#">Nos garanties de succès</a></li>
                       </ul>
                       <button className="btn-tarif">VOIR MON TARIF</button>
                     </div>
@@ -134,13 +143,13 @@ export default function Navbar() {
                     <div className="dropdown-image-section">
                       <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=400&h=200&fit=crop&crop=center" alt="Stages" />
                       <div className="dropdown-image-content">
-                        <h3>Stages d'excellence</h3>
-                        <p>Des stages intensifs pour booster vos compétences</p>
+                        <h3>Stages de perfectionnement</h3>
+                        <p>Des stages intensifs pour booster vos connaissances et compétences</p>
                         <button className="btn-tarif">DÉCOUVRIR LES STAGES</button>
                       </div>
                     </div>
                     <div className="dropdown-section">
-                      <h3>Stages scolaires</h3>
+                      <h3>Stages scolaires camerounais</h3>
                       <ul>
                         <li><a href="#">Stage primaire</a></li>
                         <li><a href="#">Stage collège</a></li>
@@ -153,16 +162,17 @@ export default function Navbar() {
                         <li><a href="#">Stage été</a></li>
                         <li><a href="#">Stage Toussaint</a></li>
                         <li><a href="#">Stage Noël</a></li>
-                        <li><a href="#">Stage Hiver</a></li>
-                        <li><a href="#">Stage Printemps</a></li>
+                        <li><a href="#">Stage Pâques</a></li>
+                        <li><a href="#">Stage Grandes Vacances</a></li>
                       </ul>
                     </div>
                     <div className="dropdown-section">
                       <h3>Préparation examens</h3>
                       <ul>
-                        <li><a href="#">Brevet des collèges</a></li>
+                        <li><a href="#">BEPC</a></li>
+                        <li><a href="#">Probatoire</a></li>
                         <li><a href="#">Baccalauréat</a></li>
-                        <li><a href="#">Concours</a></li>
+                        <li><a href="#">Concours d'entrée</a></li>
                       </ul>
                     </div>
                   </div>
