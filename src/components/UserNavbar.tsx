@@ -6,8 +6,10 @@ export default function UserNavbar() {
       <div className="user-navbar-container">
         <div className="user-navbar-left">
           <div className="logo">
-            <h1>Kmertude</h1>
-            <span>soutien scolaire</span>
+            <a href="/" className="logo-link">
+              <h1>Kmertude</h1>
+              <span>soutien scolaire</span>
+            </a>
           </div>
         </div>
 

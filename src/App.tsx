@@ -13,6 +13,7 @@ import AuCollege from './pages/AuCollege.tsx'
 import AuLycee from './pages/AuLycee.tsx'
 import DansSuperieur from './pages/DansSuperieur.tsx'
 import PourAdultes from './pages/PourAdultes.tsx'
+import AuthPage from './pages/auth.tsx'
 import './App.css'
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/auth" element={<AuthPage />} />
         <Route path="/user-home" element={<UserHome />} />
         <Route path="/user-students" element={<UserStudents />} />
         <Route path="/user-accounts" element={<UserAccounts />} />

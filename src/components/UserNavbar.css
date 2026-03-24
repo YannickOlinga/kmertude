@@ -64,6 +64,19 @@
   align-items: flex-start;
 }
 
+.logo-link {
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.logo-link:hover {
+  text-decoration: none;
+  color: inherit;
+}
+
 .logo h1 {
   font-size: 24px;
   font-weight: 700;

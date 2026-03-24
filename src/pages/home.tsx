@@ -1,5 +1,6 @@
 import Navbar from '../components/Navbar'
 import Hero from '../components/hero'
+import AuthCTA from '../components/AuthCTA'
 import GlobeDemo from '../components/ui/globe-demo'
 import FormSection from '../components/FormSection' 
 import TestimonialSection from '../components/TestimonialSection'
@@ -11,6 +12,7 @@ export default function home() {
     <div>
       <Navbar />
       <Hero />
+      <AuthCTA />
       <FormSection /> 
       <GlobeDemo /> 
       <TestimonialSection/>

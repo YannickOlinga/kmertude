@@ -77,20 +77,20 @@ export default function Navbar() {
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
-              <a href="/user-home" style={{textDecoration: 'none', color: 'inherit'}}>Mon compte</a>
+              <a href="/user-home" style={{textDecoration: 'none', color: 'black'}}>Mon compte</a>
             </div>
           </div>
         </div>
 
         <nav className="navbar-main">
           <div className="navbar-logo">
-            <div className="logo-content">
+            <a href="/" className="logo-content" style={{textDecoration: 'none', color: 'yellow'}}>
               <h1 className="logo-title">Kmertude</h1>
               <div className="logo-subtitle">
                 <div className="logo-icon"></div>
                 <span>soutien scolaire</span>
               </div>
-            </div>
+            </a>
           </div>
 
           <div className="navbar-menu">
@@ -106,13 +106,13 @@ export default function Navbar() {
                     <div className="dropdown-image-section">
                       <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&h=200&fit=crop&crop=center" alt="Cours particuliers" />
                       <div className="dropdown-image-content">
-                        <h3>Excellence académique</h3>
-                        <p>Nos professeurs qualifiés vous accompagnent vers la réussite scolaire</p>
+                        <h3 className='text-black'>Excellence académique</h3>
+                        <p className='text-black'>Nos professeurs qualifiés vous accompagnent vers la réussite scolaire</p>
                         <button className="btn-tarif">VOIR MON TARIF</button>
                       </div>
                     </div>
                     <div className="dropdown-section">
-                      <h3>Cours de soutien</h3>
+                      <h3 className='text-black'>Cours de soutien</h3>
                       <ul>
                         <li><a href="/en-primaire">En primaire</a></li>
                         <li><a href="/au-college">Au collège</a></li>

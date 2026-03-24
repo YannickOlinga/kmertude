@@ -1,0 +1,257 @@
+/* Auth CTA Section */
+.auth-cta-section {
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: 'Poppins', sans-serif;
+}
+
+.auth-cta-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.auth-cta-header {
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.auth-cta-header h2 {
+  font-size: 48px;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.auth-cta-header p {
+  font-size: 20px;
+  color: #718096;
+  max-width: 600px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.auth-cta-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  gap: 40px;
+  margin-bottom: 50px;
+}
+
+/* Parent Card */
+.auth-card-parent {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.auth-card-parent::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px; 
+}
+
+.auth-card-parent:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+}
+
+/* Teacher Card */
+.auth-card-teacher {
+  background: white;
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.auth-card-teacher::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px; 
+}
+
+.auth-card-teacher:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+}
+
+.card-icon {
+  margin-bottom: 30px;
+  color: #f5576c;
+  display: flex;
+  justify-content: center;
+}
+
+.auth-card-teacher .card-icon {
+  color: #f5576c;
+}
+
+.auth-cta-cards h3 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 15px;
+}
+
+.auth-cta-cards p {
+  font-size: 16px;
+  color: #718096;
+  margin-bottom: 30px;
+  line-height: 1.6;
+}
+
+.card-features {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 35px;
+  text-align: left;
+}
+
+.card-features li {
+  font-size: 15px;
+  color: #4a5568;
+  margin-bottom: 12px;
+  padding-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.cta-btn {
+  width: 100%;
+  padding: 16px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.parent-btn {
+  background: #01bd82;
+  color: white;
+}
+
+.parent-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+}
+
+.teacher-btn {
+  background: #01bd82;
+  color: white;
+}
+
+
+
+/* Bottom Section */
+.auth-cta-bottom {
+  text-align: center;
+  padding: 30px;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+}
+
+.auth-cta-bottom p {
+  font-size: 16px;
+  color: #718096;
+  margin-bottom: 20px;
+}
+
+.login-link-btn {
+  padding: 12px 30px;
+  background: transparent;
+  color: #01bd82;
+  border: 2px solid #01bd82;
+  border-radius: 25px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-link-btn:hover {
+  background: #01bd82;
+  color: white;
+  transform: translateY(-2px);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .auth-cta-section {
+    padding: 60px 15px;
+  }
+  
+  .auth-cta-header h2 {
+    font-size: 36px;
+  }
+  
+  .auth-cta-header p {
+    font-size: 18px;
+  }
+  
+  .auth-cta-cards {
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+  
+  .auth-card-parent,
+  .auth-card-teacher {
+    padding: 30px 20px;
+  }
+  
+  .auth-cta-cards h3 {
+    font-size: 24px;
+  }
+  
+  .card-features {
+    text-align: center;
+  }
+  
+  .card-features li {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-cta-header h2 {
+    font-size: 28px;
+  }
+  
+  .auth-cta-header p {
+    font-size: 16px;
+  }
+  
+  .auth-card-parent,
+  .auth-card-teacher {
+    padding: 25px 15px;
+  }
+  
+  .card-icon svg {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .cta-btn {
+    font-size: 14px;
+    padding: 14px 20px;
+  }
+}
