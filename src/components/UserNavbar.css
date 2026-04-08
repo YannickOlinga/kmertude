@@ -318,6 +318,10 @@
   transition: background 0.3s ease;
 }
 
+.user-mobile-nav a:active {
+  background: #eef2ff;
+}
+
 .user-mobile-nav a:hover {
   background: #f8f9fa;
   color: #6b46c1;
@@ -446,6 +450,10 @@
   
   .user-mobile-menu-btn {
     display: block;
+  }
+
+  .user-mobile-menu {
+    width: min(88vw, 340px);
   }
 }
 

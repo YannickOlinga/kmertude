@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 export default function AuthCTA() {
   const navigate = useNavigate()
 
-  const handleAuthClick = () => {
-    navigate('/auth')
+  const handleAuthClick = (role: 'parent' | 'teacher') => {
+    navigate(`/auth?role=${role}`)
   }
 
   return (
@@ -30,14 +30,14 @@ export default function AuthCTA() {
             <h3 >Je suis Parent</h3>
             <p>Trouvez le professeur idéal pour vos enfants et suivez leur progression académique</p>
             <ul className="card-features">
-              <li>👨‍👩‍👧‍👦 Accès aux meilleurs professeurs</li>
-              <li>📊 Suivi personnalisé de la progression</li>
-              <li>🔒 Sécurité et confiance garanties</li>
-              <li>💬 Communication directe avec les enseignants</li>
+              <li>Accès aux meilleurs professeurs</li>
+              <li>Suivi personnalisé de la progression</li>
+              <li>Sécurité et confiance garanties</li>
+              <li>Communication directe avec les enseignants</li>
             </ul>
             <button 
               className="cta-btn parent-btn"
-              onClick={handleAuthClick}
+              onClick={() => handleAuthClick('parent')}
             >
               Se connecter en tant que Parent
             </button>
@@ -54,14 +54,14 @@ export default function AuthCTA() {
             <h3>Je suis Enseignant</h3>
             <p>Partagez votre expertise et développez votre activité d'enseignement</p>
             <ul className="card-features">
-              <li>🎯 Accès à des opportunités variées</li>
-              <li>💰 Rémunération attractive et flexible</li>
-              <li>📈 Développement professionnel continu</li>
-              <li>🌐 Flexibilité de travail (présentiel/online)</li>
+              <li>Accès à des opportunités variées</li>
+              <li>Rémunération attractive et flexible</li>
+              <li>Développement professionnel continu</li>
+              <li>Flexibilité de travail (présentiel/online)</li>
             </ul>
             <button 
               className="cta-btn teacher-btn"
-              onClick={handleAuthClick}
+              onClick={() => handleAuthClick('teacher')}
             >
               Se connecter en tant qu'Enseignant
             </button>

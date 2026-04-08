@@ -14,6 +14,11 @@ import AuLycee from './pages/AuLycee.tsx'
 import DansSuperieur from './pages/DansSuperieur.tsx'
 import PourAdultes from './pages/PourAdultes.tsx'
 import AuthPage from './pages/auth.tsx'
+import UserParentDashboard from './pages/userparent/UserParentDashboard.tsx'
+import UserParentOffers from './pages/userparent/UserParentOffers.tsx'
+import UserParentTeachers from './pages/userparent/UserParentTeachers.tsx'
+import UserParentApplications from './pages/userparent/UserParentApplications.tsx'
+import UserParentPayments from './pages/userparent/UserParentPayments.tsx'
 import './App.css'
 
 function App() {
@@ -23,6 +28,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/user-home" element={<UserHome />} />
+        <Route path="/user-parent" element={<UserParentDashboard />} />
+        <Route path="/user-parent/offers" element={<UserParentOffers />} />
+        <Route path="/user-parent/teachers" element={<UserParentTeachers />} />
+        <Route path="/user-parent/applications" element={<UserParentApplications />} />
+        <Route path="/user-parent/payments" element={<UserParentPayments />} />
         <Route path="/user-students" element={<UserStudents />} />
         <Route path="/user-accounts" element={<UserAccounts />} />
         <Route path="/user-courses" element={<UserCourses />} />

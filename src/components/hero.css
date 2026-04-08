@@ -1,5 +1,6 @@
 .main-hero.hero-section{  
-  height: 700px !important;
+  min-height: 700px;
+  height: auto !important;
   background-size: cover;
   background-position: center;
   position: relative;
@@ -72,8 +73,9 @@
 }
 .herocontainer{ 
   width: 100%;
-  padding-top: 15%;
-  padding-left: 8%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 150px 20px 60px;
   position: relative;
   z-index: 10;
 }
@@ -84,7 +86,7 @@
   backdrop-filter: blur(10px);
   border-radius: 12px;
   padding: 40px;
-  width:804px;
+  width: min(804px, 100%);
   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
 }
 
@@ -123,7 +125,8 @@
 
 .form-container {
   display: flex;
-  gap: 18px; 
+  gap: 18px;
+  flex-wrap: wrap;
 }
 
 .form-input {
@@ -133,7 +136,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: 16px;
   color: #333;
-  width: 300px;
+  width: min(300px, 100%);
   background: white;
   transition: border-color 0.3s ease;
 }
@@ -161,6 +164,8 @@
   cursor: pointer;
   transition: all 0.3s ease;
   margin-top: 12px;
+  min-height: 52px;
+  padding: 0 20px;
 }
 
 .submit-button:hover {
@@ -210,7 +215,7 @@
 
 @media (max-width: 768px) {
   .main-hero.hero-section {
-    height: 600px !important; /* Même hauteur que desktop */
+    min-height: 620px;
     background-attachment: scroll;
     align-items: flex-start;
     padding-top: 80px;
@@ -224,7 +229,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: calc(100vh - 80px);
+    min-height: auto;
   }
   
   .toptext {
@@ -269,9 +274,10 @@
   }
   
   .submit-button {
-    padding: 15px 28px;
+    padding: 12px 20px;
     font-size: 16px;
     width: 100%;
+    margin-top: 0;
   }
 }
 

@@ -1,7 +1,10 @@
 
 import './hero.css'
+import { useNavigate } from 'react-router-dom'
 
 export default function Hero() {
+  const navigate = useNavigate()
+
   return (
     <section className="hero-section main-hero">
       {/* Vidéo en background */}
@@ -44,7 +47,13 @@ export default function Hero() {
                 <option value="1ere">1ère</option>
                 <option value="Tle">Tle</option>
               </select>
-              <button className="submit-button"><p className='button_text'>VOIR MON TARIF</p></button>
+              <button
+                className="submit-button"
+                type="button"
+                onClick={() => navigate('/auth?role=parent')}
+              >
+                <p className='button_text'>VOIR MON TARIF</p>
+              </button>
             </div>
         </div>
       </div>

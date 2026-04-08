@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './navbar.css'
 import Button from './Button.tsx'
 
 export default function Navbar() {
+  const navigate = useNavigate()
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isStagesDropdownOpen, setIsStagesDropdownOpen] = useState(false)
   const [dropdownTimeout, setDropdownTimeout] = useState<number | null>(null)
@@ -17,6 +20,13 @@ export default function Navbar() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [isMobileMenuOpen])
 
   const handleMouseEnter = () => {
     if (isStagesDropdownOpen) {
@@ -53,6 +63,8 @@ export default function Navbar() {
     }, 800)
     setStagesDropdownTimeout(timeout)
   }
+
+  const closeMobileMenu = () => setIsMobileMenuOpen(false)
 
   return (
     <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
@@ -108,7 +120,7 @@ export default function Navbar() {
                       <div className="dropdown-image-content">
                         <h3 className='text-black'>Excellence académique</h3>
                         <p className='text-black'>Nos professeurs qualifiés vous accompagnent vers la réussite scolaire</p>
-                        <button className="btn-tarif">VOIR MON TARIF</button>
+                        <button className="btn-tarif" type="button" onClick={() => navigate('/auth?role=parent')}>VOIR MON TARIF</button>
                       </div>
                     </div>
                     <div className="dropdown-section">
@@ -127,7 +139,7 @@ export default function Navbar() {
                         <li><a href="#">Réduction familiale</a></li>
                         <li><a href="#">Nos garanties de succès</a></li>
                       </ul>
-                      <button className="btn-tarif">VOIR MON TARIF</button>
+                      <button className="btn-tarif" type="button" onClick={() => navigate('/auth?role=parent')}>VOIR MON TARIF</button>
                     </div>
                   </div>
                 )}
@@ -181,8 +193,50 @@ export default function Navbar() {
             </ul>
             <Button />
           </div>
+
+          <button
+            className={`mobile-menu-btn ${isMobileMenuOpen ? 'active' : ''}`}
+            type="button"
+            onClick={() => setIsMobileMenuOpen((prev) => !prev)}
+            aria-label="Ouvrir le menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </nav>
       </div>
+
+      <div className={`overlay ${isMobileMenuOpen ? 'active' : ''}`} onClick={closeMobileMenu}></div>
+      <aside className={`navbar-mobile-panel ${isMobileMenuOpen ? 'active' : ''}`}>
+        <div className="mobile-panel-header">
+          <strong>Menu</strong>
+          <button type="button" className="mobile-close-btn" onClick={closeMobileMenu} aria-label="Fermer le menu">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <nav className="mobile-panel-links">
+          <a href="/en-primaire" onClick={closeMobileMenu}>Cours en primaire</a>
+          <a href="/au-college" onClick={closeMobileMenu}>Cours au college</a>
+          <a href="/au-lycee" onClick={closeMobileMenu}>Cours au lycee</a>
+          <a href="/dans-superieur" onClick={closeMobileMenu}>Cours dans le superieur</a>
+          <a href="/pour-adultes" onClick={closeMobileMenu}>Pour adultes</a>
+          <a href="/user-parent" onClick={closeMobileMenu}>Espace parent</a>
+        </nav>
+        <button
+          className="btn-tarif mobile-tarif-btn"
+          type="button"
+          onClick={() => {
+            closeMobileMenu()
+            navigate('/auth?role=parent')
+          }}
+        >
+          VOIR MON TARIF
+        </button>
+      </aside>
     </header>
   )
 }

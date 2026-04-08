@@ -23,7 +23,7 @@ export default function UserHome() {
               <div className="offer-card">
                 <div className="offer-image">
                   <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&h=200&fit=crop&crop=center" alt="Professeur de Mathématiques" />
-                  <div className="offer-badge">Urgent</div>
+                  
                 </div>
                 <div className="offer-content">
                   <h3>Professeur de Mathématiques</h3>
@@ -53,8 +53,7 @@ export default function UserHome() {
               <div className="offer-card">
                 <div className="offer-image">
                   <img src="https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=400&h=200&fit=crop&crop=center" alt="Professeur de Physique-Chimie" />
-                  <div className="offer-badge featured">Premium</div>
-                </div>
+                   </div>
                 <div className="offer-content">
                   <h3>Professeur de Physique-Chimie</h3>
                   <p className="offer-company">Demande parent - Yaoundé</p>
@@ -83,7 +82,7 @@ export default function UserHome() {
               <div className="offer-card">
                 <div className="offer-image">
                   <img src="https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=400&h=200&fit=crop&crop=center" alt="Tuteur en Anglais" />
-                  <div className="offer-badge">Nouveau</div>
+                  
                 </div>
                 <div className="offer-content">
                   <h3>Tuteur en Ligne - Anglais</h3>

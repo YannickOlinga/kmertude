@@ -1,6 +1,9 @@
 import './FormSection.css'
+import { useNavigate } from 'react-router-dom'
 
 export default function FormSection() {
+  const navigate = useNavigate()
+
   return (
     <section className="form-section">
       <div className="form-section-header">
@@ -11,7 +14,7 @@ export default function FormSection() {
           <img src="../../public/d.jpg" alt="Cours Particuliers" />
           <h3>COURS PARTICULIERS</h3>
           <p>Avancer en confiance et à son rythme avec son prof particulier dès la rentrée, ça fait toute la différence pour réussir son année scolaire au Cameroun. En avant pour les progrès !</p>
-          <button className="button primary">VOIR MON TARIF</button>
+          <button className="button primary" type="button" onClick={() => navigate('/auth?role=parent')}>VOIR MON TARIF</button>
         </div>
 
         <div className="service-card">
@@ -19,7 +22,7 @@ export default function FormSection() {
           <h3>STAGES DE VACANCES</h3>
           <p>Réviser pendant les vacances avec un prof, en voilà une bonne idée pour se remettre à niveau ou réussir ses contrôles continus et préparer les examens camerounais !</p>
           <div className="button-group">
-              <button className="button primary">VOIR MON TARIF</button>
+              <button className="button primary" type="button" onClick={() => navigate('/auth?role=parent')}>VOIR MON TARIF</button>
       </div>
         </div>
 
@@ -28,7 +31,7 @@ export default function FormSection() {
           <h3>STAGES INTENSIFS</h3>
           <p>Entre 3 et 5 jours pour désamorcer les sujets difficiles et poser toutes ses questions, c'est efficace pour réussir les épreuves finales du BEPC, Probatoire et Baccalauréat !</p>
           <div className="button-group">
-             <button className="button primary">VOIR MON TARIF</button>
+             <button className="button primary" type="button" onClick={() => navigate('/auth?role=parent')}>VOIR MON TARIF</button>
       </div>
         </div>
       </div>
