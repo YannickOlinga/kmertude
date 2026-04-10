@@ -42,6 +42,7 @@ export default function ThreeDMarqueeDemo() {
   return (<>  
   <div className="confiance_texte w-full text-align-center color-red">
     <h1>Nos Partenaires</h1>
+    <data value=""></data>
   </div>
     <section className="w-full overflow-hidden bg-transparent py-10">
       {/* Le marquee occupe toute la largeur de la section */}
