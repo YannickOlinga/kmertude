@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import './AuthForms.css'
 
@@ -9,13 +9,11 @@ export default function AuthForms() {
   const initialRole = roleFromQuery === 'teacher' ? 'teacher' : 'parent'
   const [isLogin, setIsLogin] = useState(true)
   const [userType, setUserType] = useState<'parent' | 'teacher'>(initialRole)
-
-  useEffect(() => {
-    const role = searchParams.get('role')
-    if (role === 'parent' || role === 'teacher') {
-      setUserType(role)
-    }
-  }, [searchParams])
+  // If a role is provided via the query params we treat that as the source
+  // of truth (locked). Otherwise the local `userType` state is used.
+  const effectiveUserType: 'parent' | 'teacher' = isRoleLocked
+    ? (roleFromQuery as 'parent' | 'teacher')
+    : userType
 
   return (
     <div className="auth-container">
@@ -66,7 +64,7 @@ export default function AuthForms() {
           </button>
         </div>
 
-        {userType === 'parent' ? (
+        {effectiveUserType === 'parent' ? (
           isLogin ? <ParentLoginForm /> : <ParentRegisterForm />
         ) : (
           isLogin ? <TeacherLoginForm /> : <TeacherRegisterForm />
