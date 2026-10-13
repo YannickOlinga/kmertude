@@ -30,8 +30,8 @@ export default function Hero() {
               <button className="tab-button">Stages intensifs</button>
             </div>
             <div className="form-container">
-              <input type="text" placeholder="Votre ville*" className="form-input" />
-              <select className="form-input">
+              <input name="city" type="text" placeholder="Votre ville*" className="form-input" autoComplete="address-level2" minLength={2} maxLength={100} required />
+              <select name="schoolLevel" className="form-input" required>
                 <option value="">Niveau scolaire*</option>
                 <option value="SIL">SIL</option>
                 <option value="CP">CP</option>
