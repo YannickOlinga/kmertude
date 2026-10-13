@@ -85,7 +85,7 @@ function ParentLoginForm() {
 
       <div className="form-group">
         <label>Mot de passe</label>
-        <input name="password" type="password" placeholder="•••••••••" autoComplete="current-password" minLength={12} maxLength={128} required />
+        <input name="password" type="password" placeholder="•••••••••" autoComplete="current-password" maxLength={128} required />
       </div>
 
       <div className="form-options">
