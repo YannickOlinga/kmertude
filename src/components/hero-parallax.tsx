@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import type { Product } from "./types.js";
 import "./hero-parallax.css";
 
