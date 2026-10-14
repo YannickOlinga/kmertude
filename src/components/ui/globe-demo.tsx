@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/purity */
 "use client";
-import React, { Suspense, useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { motion } from "framer-motion";
 import { World } from "./globe";
 import "./globe-demo.css";
