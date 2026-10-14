@@ -79,3 +79,201 @@ img {
     padding: 0 10px;
   }
 }
+
+/* Responsive layout safeguards */
+html,
+body,
+#root {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  overflow-x: clip;
+}
+
+button,
+input,
+select,
+textarea {
+  max-width: 100%;
+  font: inherit;
+}
+
+input,
+select,
+textarea {
+  min-width: 0;
+}
+
+img,
+video,
+iframe,
+svg {
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+a,
+button,
+label {
+  overflow-wrap: anywhere;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+@media (max-width: 1024px) {
+  .container,
+  .container-fluid,
+  .blog-container,
+  .features-container,
+  .grid-container,
+  .navbar-container {
+    max-width: 100%;
+  }
+
+  .blog-content,
+  .grid-container {
+    gap: 28px;
+  }
+
+  .features-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  section {
+    scroll-margin-top: 72px;
+  }
+
+  .container,
+  .container-fluid,
+  .blog-container,
+  .features-container,
+  .grid-container {
+    width: 100%;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .blog-content,
+  .grid-container {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .features-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-content,
+  .toptext,
+  .bottomtext {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .hero-content h1,
+  .toptext h1 {
+    font-size: clamp(1.6rem, 6vw, 2.5rem);
+    overflow-wrap: anywhere;
+  }
+
+  .form-container {
+    width: 100%;
+  }
+
+  .form-container > *,
+  .form-input,
+  .submit-button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .features-cta {
+    padding: 28px 18px;
+  }
+
+  .navbar-container {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .table-responsive,
+  .overflow-x-auto {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 480px) {
+  section {
+    padding-top: 28px;
+    padding-bottom: 28px;
+  }
+
+  .container,
+  .container-fluid,
+  .blog-container,
+  .features-container,
+  .grid-container {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .feature-card,
+  .level-card,
+  .price-card,
+  .bottomtext {
+    padding: 20px 14px;
+  }
+
+  .tab-selector {
+    width: 100%;
+  }
+
+  .tab-button {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .levels-grid,
+  .pricing-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  .features-cta h3 {
+    font-size: 1.35rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
