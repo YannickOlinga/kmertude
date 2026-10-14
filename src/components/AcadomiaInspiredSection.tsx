@@ -38,8 +38,8 @@ export default function AcadomiaInspiredSection() {
             </div>
           </div>
           <div className="km-academia-images">
-            <img src="/d.jpg" alt="Un environnement d’apprentissage" loading="lazy" />
-            <img src="/a.jpg" alt="Des élèves qui apprennent ensemble" loading="lazy" />
+            <img src="/d.jpg" alt="Un environnement d’apprentissage" loading="lazy" decoding="async" />
+            <img src="/a.jpg" alt="Des élèves qui apprennent ensemble" loading="lazy" decoding="async" />
           </div>
         </div>
 
