@@ -1,6 +1,7 @@
 import { Suspense } from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/hero'
+import StatsStrip from '../components/StatsStrip'
 import AcadomiaInspiredSection from '../components/AcadomiaInspiredSection'
 import AuthCTA from '../components/AuthCTA'
 import FormSection from '../components/FormSection'
@@ -18,6 +19,7 @@ export default function home() {
     <div>
       <Navbar />
       <Hero />
+      <StatsStrip />
       <AcadomiaInspiredSection />
       <AuthCTA />
       <FormSection />
