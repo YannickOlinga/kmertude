@@ -13,10 +13,10 @@ export default function Hero() {
         loop
         playsInline
         preload="none"
-        poster="/d.jpg"
+        poster={`${import.meta.env.BASE_URL}public/d.jpg`}
         aria-hidden="true"
       >
-        <source src="/12724010-uhd_4096_2160_60fps.mp4" type="video/mp4" />
+        <source src={`${import.meta.env.BASE_URL}public/12724010-uhd_4096_2160_60fps.mp4`} type="video/mp4" />
       </video>
 
       <div className="herocontainer">
