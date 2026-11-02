@@ -1,0 +1,108 @@
+.km-teacher {
+  padding: clamp(48px, 7vw, 90px) 24px;
+  background: #fff;
+  color: #111;
+  font-family: 'Montserrat', 'Poppins', sans-serif;
+}
+
+.km-teacher-inner {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.km-teacher-header { margin-bottom: clamp(28px, 4vw, 48px); }
+.km-teacher-header h2 {
+  margin: 0;
+  font-family: 'Anton', 'Bebas Neue', 'Oswald', Impact, 'Arial Narrow', sans-serif;
+  font-size: clamp(1.9rem, 4vw, 2.6rem);
+  font-weight: 700;
+  letter-spacing: .02em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  color: #111;
+}
+.km-teacher-underline {
+  display: block;
+  width: 56px;
+  height: 4px;
+  margin-top: 14px;
+  background: #111;
+}
+
+.km-teacher-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(300px, .95fr);
+  align-items: center;
+  gap: clamp(32px, 6vw, 90px);
+}
+
+.km-teacher-copy { min-width: 0; }
+.km-teacher-copy h3 {
+  margin: 0 0 18px;
+  font-size: clamp(1.15rem, 2vw, 1.4rem);
+  font-weight: 600;
+  line-height: 1.4;
+  color: #222;
+}
+.km-teacher-copy mark {
+  padding: 2px 4px;
+  background: #fff44f;
+  color: inherit;
+  font-weight: 700;
+}
+.km-teacher-copy p {
+  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #222;
+}
+
+.km-teacher-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0 0 26px;
+  padding: 0;
+  list-style: none;
+}
+.km-teacher-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  line-height: 1.7;
+  color: #222;
+}
+.km-teacher-list svg { flex: 0 0 auto; margin-top: 3px; }
+.km-teacher-list strong { font-weight: 700; }
+
+.km-teacher-link {
+  display: inline-block;
+  padding-bottom: 3px;
+  border-bottom: 2px solid #111;
+  color: #111;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity .15s ease;
+}
+.km-teacher-link:hover { opacity: .7; }
+
+.km-teacher-photo {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+@media (max-width: 860px) {
+  .km-teacher-grid { grid-template-columns: 1fr; }
+  .km-teacher-photo { order: -1; aspect-ratio: 16 / 10; }
+}
+@media (max-width: 520px) {
+  .km-teacher { padding: 40px 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .km-teacher-link { transition: none; }
+}

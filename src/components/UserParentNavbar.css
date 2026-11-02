@@ -45,11 +45,13 @@
 
 @media (max-width: 768px) {
   .parent-navbar-inner {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: wrap;
     gap: 10px;
     padding: 12px 14px;
   }
+
+  .parent-navbar-inner .ssm { order: 1; margin-left: auto; }
+  .parent-navbar-inner .parent-links { order: 2; }
 
   .parent-brand {
     font-size: 16px;

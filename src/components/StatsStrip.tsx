@@ -1,25 +1,19 @@
 import './StatsStrip.css'
 
-const STATS = [
-  { value: '+2 000', label: 'élèves accompagnés' },
-  { value: '+350', label: 'enseignants qualifiés' },
-  { value: '96 %', label: 'de familles satisfaites' },
-  { value: '10', label: 'villes au Cameroun' },
-]
-
 export default function StatsStrip() {
   return (
-    <section className="km-stats" aria-label="Kmertude en chiffres">
+    <section className="km-stats" aria-label="Conseil pour réussir">
       <div className="km-stats-inner">
-        <p className="km-stats-title">Le soutien scolaire qui fait progresser, partout au Cameroun</p>
-        <ul className="km-stats-list">
-          {STATS.map((s) => (
-            <li key={s.label}>
-              <strong>{s.value}</strong>
-              <span>{s.label}</span>
-            </li>
-          ))}
-        </ul>
+        <div className="km-stats-card">
+          <span className="km-stats-eyebrow">Pour réussir vos études</span>
+          <p className="km-stats-text">
+            La clé du succès, c'est la <strong>régularité</strong> : révisez chaque jour plutôt que de tout faire la veille des examens, et n'hésitez pas à demander de l'aide quand vous bloquez.
+          </p>
+          <div className="km-stats-footer">
+            <span className="km-stats-icon">💡</span>
+            <span className="km-stats-sub">Un accompagnement adapté change tout</span>
+          </div>
+        </div>
       </div>
     </section>
   )

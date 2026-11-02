@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import SavedSearchesMenu from './SavedSearchesMenu'
 import './UserParentNavbar.css'
 
 const links = [
@@ -26,6 +27,7 @@ export default function UserParentNavbar() {
             </NavLink>
           ))}
         </nav>
+        <SavedSearchesMenu />
       </div>
     </header>
   )

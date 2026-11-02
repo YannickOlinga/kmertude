@@ -1,3 +1,4 @@
+import { asset } from '../lib/asset'
 import './Footer.css'
 
 export default function Footer() {
@@ -7,7 +8,7 @@ export default function Footer() {
         <div className="footer-container">
           <div className="footer-left">
             <div className="ifop-section">
-              <img src="/ifop-logo.png" alt="IFOP" className="ifop-logo" />
+              <img src={asset('/ifop-logo.png')} alt="IFOP" className="ifop-logo" />
               <p className="ifop-text">Enquête IFOP 2025</p>
               <a href="#" className="footer-link">Voir tous les résultats</a>
             </div>
@@ -15,7 +16,7 @@ export default function Footer() {
           
           <div className="footer-right">
             <div className="certification-section">
-              <img src="/qualicert-logo.png" alt="Qualicert SGS" className="certification-logo" />
+              <img src={asset('/qualicert-logo.png')} alt="Qualicert SGS" className="certification-logo" />
               <p className="certification-text">Certification Qualicert</p>
               <a href="#" className="footer-link">En savoir plus</a>
             </div>
