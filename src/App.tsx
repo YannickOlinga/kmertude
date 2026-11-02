@@ -23,7 +23,7 @@ import './App.css'
 
 function App() {
   return (
-    <Router>
+    <Router basename="/kmertude">
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/auth" element={<AuthPage />} />
