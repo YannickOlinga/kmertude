@@ -29,6 +29,10 @@
 
 .km-academia-inner {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 560px;
   width: min(1180px, 100%);
   margin: 0 auto;
   padding: 28px 24px 56px;
@@ -167,7 +171,7 @@
 
 @media (max-width: 900px) {
   .km-academia-section { min-height: auto; }
-  .km-academia-inner { padding-bottom: 80px; }
+  .km-academia-inner { min-height: auto; padding-bottom: 80px; }
   .km-academia-overlay { background: linear-gradient(180deg, rgba(10, 10, 12, .9) 0%, rgba(10, 10, 12, .7) 100%); }
   .km-academia-chevron { left: 50%; transform: translateX(-50%); }
   .km-academia-chevron:hover { transform: translateX(-50%) translateY(2px); }
