@@ -21,7 +21,7 @@ export default function AcadomiaInspiredSection() {
   return (
     <section className="km-academia-section" aria-labelledby="km-academia-title">
       {open && profile && <ProfileFormModal profile={profile} onClose={() => setOpen(false)} />}
-      <img className="km-academia-bg" src="/h.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      <img className="km-academia-bg" src={`${import.meta.env.BASE_URL}public/h.jpg`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <div className="km-academia-overlay" aria-hidden="true" />
 
       <div className="km-academia-inner">
