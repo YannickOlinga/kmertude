@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import './navbar.css'
 import Button from './Button.tsx'
 
@@ -89,20 +89,20 @@ export default function Navbar() {
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
-              <a href="/user-home" style={{textDecoration: 'none', color: 'black'}}>Mon compte</a>
+              <Link to="/user-home" style={{textDecoration: 'none', color: 'black'}}>Mon compte</Link>
             </div>
           </div>
         </div>
 
         <nav className="navbar-main">
           <div className="navbar-logo">
-            <a href="/" className="logo-content" style={{textDecoration: 'none', color: 'yellow'}}>
+            <Link to="/" className="logo-content" style={{textDecoration: 'none', color: 'yellow'}}>
               <h1 className="logo-title">Kmertude</h1>
               <div className="logo-subtitle">
                 <div className="logo-icon"></div>
                 <span>soutien scolaire</span>
               </div>
-            </a>
+            </Link>
           </div>
 
           <div className="navbar-menu">
@@ -126,10 +126,11 @@ export default function Navbar() {
                     <div className="dropdown-section">
                       <h3 className='text-black'>Cours de soutien</h3>
                       <ul>
-                        <li><a href="/en-primaire">En primaire</a></li>
-                        <li><a href="/au-college">Au collège</a></li>
-                        <li><a href="/au-lycee">Au lycée</a></li>
-                        <li><a href="/dans-superieur">Dans le supérieur</a></li>
+                        <li><Link to="/en-primaire">En primaire</Link></li>
+                        <li><Link to="/au-college">Au collège</Link></li>
+                        <li><Link to="/au-lycee">Au lycée</Link></li>
+                        <li><Link to="/dans-superieur">Dans le supérieur</Link></li>
+                        <li><Link to="/pour-adultes">Pour adultes</Link></li>
                       </ul>
                     </div>
                     <div className="dropdown-section">
@@ -219,12 +220,12 @@ export default function Navbar() {
           </button>
         </div>
         <nav className="mobile-panel-links">
-          <a href="/en-primaire" onClick={closeMobileMenu}>Cours en primaire</a>
-          <a href="/au-college" onClick={closeMobileMenu}>Cours au college</a>
-          <a href="/au-lycee" onClick={closeMobileMenu}>Cours au lycee</a>
-          <a href="/dans-superieur" onClick={closeMobileMenu}>Cours dans le superieur</a>
-          <a href="/pour-adultes" onClick={closeMobileMenu}>Pour adultes</a>
-          <a href="/user-parent" onClick={closeMobileMenu}>Espace parent</a>
+          <Link to="/en-primaire" onClick={closeMobileMenu}>Cours en primaire</Link>
+          <Link to="/au-college" onClick={closeMobileMenu}>Cours au college</Link>
+          <Link to="/au-lycee" onClick={closeMobileMenu}>Cours au lycee</Link>
+          <Link to="/dans-superieur" onClick={closeMobileMenu}>Cours dans le superieur</Link>
+          <Link to="/pour-adultes" onClick={closeMobileMenu}>Pour adultes</Link>
+          <Link to="/user-parent" onClick={closeMobileMenu}>Espace parent</Link>
         </nav>
         <button
           className="btn-tarif mobile-tarif-btn"

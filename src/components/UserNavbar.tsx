@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import SavedSearchesMenu from './SavedSearchesMenu'
 import { asset } from '../lib/asset'
 import './UserNavbar.css'
@@ -20,22 +21,22 @@ export default function UserNavbar() {
       <div className="user-navbar-container">
         <div className="user-navbar-left">
           <div className="logo">
-            <a href="/" className="logo-link">
+            <Link to="/" className="logo-link">
               <h1>Kmertude</h1>
               <span>soutien scolaire</span>
-            </a>
+            </Link>
           </div>
         </div>
 
         <div className="user-navbar-center">
           <nav className="user-nav">
-            {/* <a href="/user-home" className="nav-link">Accueil</a> */}
-            <a href="/user-students" className="nav-link">Mes élèves</a>
-            <a href="/user-accounts" className="nav-link">Mes acomptes</a>
-            {/* <a href="/user-courses" className="nav-link">Mes bulletins de paie</a> */}
+            {/* <Link to="/user-home" className="nav-link">Accueil</Link> */}
+            <Link to="/user-students" className="nav-link">Mes élèves</Link>
+            <Link to="/user-accounts" className="nav-link">Mes acomptes</Link>
+            {/* <Link to="/user-courses" className="nav-link">Mes bulletins de paie</Link> */}
             <a href="#" className="nav-link">Mes récapitulatifs annuels</a>
-            <a href="/user-videos" className="nav-link">Mes vidéos</a>
-            <a href="/user-documents" className="nav-link">Mes documents utiles</a>
+            <Link to="/user-videos" className="nav-link">Mes vidéos</Link>
+            <Link to="/user-documents" className="nav-link">Mes documents utiles</Link>
           </nav>
         </div>
 
@@ -46,7 +47,7 @@ export default function UserNavbar() {
               <img src={asset('/yannick.jpg')} alt="Avatar" />
             </div>
             <div className="user-details">
-              <a href="/user-profile" className="user-name">Yannick olinga</a>
+              <Link to="/user-profile" className="user-name">Yannick olinga</Link>
               <span className="user-role">Parent</span>
             </div>
           </div>
@@ -110,11 +111,11 @@ export default function UserNavbar() {
           </div>
 
           <ul className="user-mobile-nav">
-            <li><a href="/user-students" onClick={closeMenu}>Mes eleves</a></li>
-            <li><a href="/user-accounts" onClick={closeMenu}>Mes acomptes</a></li>
-            <li><a href="/user-videos" onClick={closeMenu}>Mes videos</a></li>
-            <li><a href="/user-documents" onClick={closeMenu}>Mes documents utiles</a></li>
-            <li><a href="/user-profile" onClick={closeMenu}>Mon profil</a></li>
+            <li><Link to="/user-students" onClick={closeMenu}>Mes eleves</Link></li>
+            <li><Link to="/user-accounts" onClick={closeMenu}>Mes acomptes</Link></li>
+            <li><Link to="/user-videos" onClick={closeMenu}>Mes videos</Link></li>
+            <li><Link to="/user-documents" onClick={closeMenu}>Mes documents utiles</Link></li>
+            <li><Link to="/user-profile" onClick={closeMenu}>Mon profil</Link></li>
           </ul>
         </div>
       </aside>

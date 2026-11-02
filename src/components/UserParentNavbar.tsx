@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import SavedSearchesMenu from './SavedSearchesMenu'
 import './UserParentNavbar.css'
 
@@ -14,7 +14,7 @@ export default function UserParentNavbar() {
   return (
     <header className="parent-navbar">
       <div className="parent-navbar-inner">
-        <a href="/" className="parent-brand">Kmertude Parent</a>
+        <Link to="/" className="parent-brand">Kmertude Parent</Link>
         <nav className="parent-links">
           {links.map((link) => (
             <NavLink
