@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { saveSearch, type SearchFilters } from '../lib/savedSearches'
+import { asset } from '../lib/asset'
 import './ProfileFormModal.css'
 
 export type Profile = 'parent' | 'eleve' | 'etudiant' | 'adulte'
 
 type Props = {
   profile: Profile
+  initial?: Pick<SearchFilters, 'city' | 'level' | 'subjects'>
   onClose: () => void
 }
 
@@ -27,12 +30,12 @@ const SUBJECTS = ['Mathématiques', 'Physique-Chimie', 'Français', 'Anglais', '
 
 const STEPS = ['Profil', 'Besoin', 'Contact'] as const
 
-export default function ProfileFormModal({ profile, onClose }: Props) {
+export default function ProfileFormModal({ profile, initial, onClose }: Props) {
   const navigate = useNavigate()
   const [step, setStep] = useState(0)
-  const [city, setCity] = useState('')
-  const [level, setLevel] = useState('')
-  const [subjects, setSubjects] = useState<string[]>([])
+  const [city, setCity] = useState(initial?.city ?? '')
+  const [level, setLevel] = useState(initial?.level ?? '')
+  const [subjects, setSubjects] = useState<string[]>(initial?.subjects ?? [])
   const [contact, setContact] = useState({ firstName: '', lastName: '', phone: '', email: '' })
 
   useEffect(() => {
@@ -54,6 +57,7 @@ export default function ProfileFormModal({ profile, onClose }: Props) {
   const next = () => {
     if (!canContinue) return
     if (step < STEPS.length - 1) { setStep(step + 1); return }
+    saveSearch({ profile, city, level, subjects })
     const params = new URLSearchParams({
       role: profile === 'parent' ? 'parent' : 'student',
       profile, city: city.trim(), level, subjects: subjects.join(','),
@@ -77,7 +81,7 @@ export default function ProfileFormModal({ profile, onClose }: Props) {
           <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
         </button>
 
-        <img className="pfm-photo" src="/h.jpg" alt="" loading="lazy" decoding="async" />
+        <img className="pfm-photo" src={asset('/h.jpg')} alt="" loading="lazy" decoding="async" />
 
         <div className="pfm-content">
           <h2 id="pfm-title">{TITLES[profile]}</h2>

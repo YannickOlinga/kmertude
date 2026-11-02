@@ -1,4 +1,5 @@
 import UserNavbar from '../components/UserNavbar'
+import { asset } from '../lib/asset'
 import './UserCourses.css'
 
 export default function UserCourses() {
@@ -83,7 +84,7 @@ export default function UserCourses() {
               </div>
               <div className="course-info">
                 <div className="teacher-info">
-                  <img src="/teacher1.jpg" alt="Professeur" className="teacher-avatar" />
+                  <img src={asset('/teacher1.jpg')} alt="Professeur" className="teacher-avatar" />
                   <div>
                     <div className="teacher-name">Prof. Martin</div>
                     <div className="subject">Algèbre et géométrie</div>
@@ -113,7 +114,7 @@ export default function UserCourses() {
               </div>
               <div className="course-info">
                 <div className="teacher-info">
-                  <img src="/teacher2.jpg" alt="Professeur" className="teacher-avatar" />
+                  <img src={asset('/teacher2.jpg')} alt="Professeur" className="teacher-avatar" />
                   <div>
                     <div className="teacher-name">Prof. Bernard</div>
                     <div className="subject">Mécanique et électricité</div>
@@ -143,7 +144,7 @@ export default function UserCourses() {
               </div>
               <div className="course-info">
                 <div className="teacher-info">
-                  <img src="/teacher3.jpg" alt="Professeur" className="teacher-avatar" />
+                  <img src={asset('/teacher3.jpg')} alt="Professeur" className="teacher-avatar" />
                   <div>
                     <div className="teacher-name">Prof. Dubois</div>
                     <div className="subject">Analyse de texte</div>
@@ -173,7 +174,7 @@ export default function UserCourses() {
               </div>
               <div className="course-info">
                 <div className="teacher-info">
-                  <img src="/teacher4.jpg" alt="Professeur" className="teacher-avatar" />
+                  <img src={asset('/teacher4.jpg')} alt="Professeur" className="teacher-avatar" />
                   <div>
                     <div className="teacher-name">Prof. Leroy</div>
                     <div className="subject">Géographie européenne</div>

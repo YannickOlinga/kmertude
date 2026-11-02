@@ -1,5 +1,8 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import ProfileFormModal, { type Profile } from './ProfileFormModal'
+import { getSearch, type SavedSearch } from '../lib/savedSearches'
+import { asset } from '../lib/asset'
 import './AcadomiaInspiredSection.css'
 
 const PROFILES: { id: Profile; title: string; titleSuffix?: string; subtitle: string }[] = [
@@ -11,17 +14,33 @@ const PROFILES: { id: Profile; title: string; titleSuffix?: string; subtitle: st
 
 export default function AcadomiaInspiredSection() {
   const [profile, setProfile] = useState<Profile | null>(null)
+  const [initial, setInitial] = useState<SavedSearch | undefined>()
   const [open, setOpen] = useState(false)
+  const [searchParams, setSearchParams] = useSearchParams()
+  const relaunchId = searchParams.get('relaunch')
+
+  useEffect(() => {
+    if (!relaunchId) return
+    const saved = getSearch(relaunchId)
+    if (saved) {
+      setProfile(saved.profile ?? 'parent')
+      setInitial(saved)
+      setOpen(true)
+      document.getElementById('km-academia-title')?.scrollIntoView({ block: 'start' })
+    }
+    setSearchParams((prev) => { prev.delete('relaunch'); return prev }, { replace: true })
+  }, [relaunchId, setSearchParams])
 
   const selectProfile = (item: (typeof PROFILES)[number]) => {
     setProfile(item.id)
+    setInitial(undefined)
     setOpen(true)
   }
 
   return (
     <section className="km-academia-section" aria-labelledby="km-academia-title">
-      {open && profile && <ProfileFormModal profile={profile} onClose={() => setOpen(false)} />}
-      <img className="km-academia-bg" src={`${import.meta.env.BASE_URL}public/h.jpg`} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      {open && profile && <ProfileFormModal profile={profile} initial={initial} onClose={() => setOpen(false)} />}
+      <img className="km-academia-bg" src={asset('/h.jpg')} alt="" aria-hidden="true" loading="lazy" decoding="async" />
       <div className="km-academia-overlay" aria-hidden="true" />
 
       <div className="km-academia-inner">

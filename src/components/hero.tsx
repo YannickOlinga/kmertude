@@ -1,8 +1,22 @@
 import './hero.css'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { saveSearch } from '../lib/savedSearches'
+import { asset } from '../lib/asset'
 
 export default function Hero() {
   const navigate = useNavigate()
+  const [offerType, setOfferType] = useState<'individual' | 'group'>('individual')
+  const [city, setCity] = useState('')
+  const [level, setLevel] = useState('')
+
+  const submit = () => {
+    saveSearch({ profile: 'parent', offerType, city, level })
+    const params = new URLSearchParams({ role: 'parent', offer: offerType })
+    if (city.trim()) params.set('city', city.trim())
+    if (level) params.set('level', level)
+    navigate(`/auth?${params.toString()}`)
+  }
 
   return (
     <section className="hero-section main-hero">
@@ -13,10 +27,10 @@ export default function Hero() {
         loop
         playsInline
         preload="none"
-        poster={`${import.meta.env.BASE_URL}public/d.jpg`}
+        poster={asset('/d.jpg')}
         aria-hidden="true"
       >
-        <source src={`${import.meta.env.BASE_URL}public/12724010-uhd_4096_2160_60fps.mp4`} type="video/mp4" />
+        <source src={asset('/12724010-uhd_4096_2160_60fps.mp4')} type="video/mp4" />
       </video>
 
       <div className="herocontainer">
@@ -26,12 +40,30 @@ export default function Hero() {
         </div>
         <div className="bottomtext">
           <div className="tab-selector">
-            <button className="tab-button active">Cours particuliers</button>
-            <button className="tab-button">Stages intensifs</button>
+            <button
+              type="button"
+              className={`tab-button${offerType === 'individual' ? ' active' : ''}`}
+              onClick={() => setOfferType('individual')}
+            >
+              Cours particuliers
+            </button>
+            <button
+              type="button"
+              className={`tab-button${offerType === 'group' ? ' active' : ''}`}
+              onClick={() => setOfferType('group')}
+            >
+              Stages intensifs
+            </button>
           </div>
           <div className="form-container">
-            <input type="text" placeholder="Votre ville*" className="form-input" />
-            <select className="form-input">
+            <input
+              type="text"
+              placeholder="Votre ville*"
+              className="form-input"
+              value={city}
+              onChange={(e) => setCity(e.target.value)}
+            />
+            <select className="form-input" value={level} onChange={(e) => setLevel(e.target.value)}>
               <option value="">Niveau scolaire*</option>
               <option value="SIL">SIL</option>
               <option value="CP">CP</option>
@@ -50,7 +82,7 @@ export default function Hero() {
             <button
               className="submit-button"
               type="button"
-              onClick={() => navigate('/auth?role=parent')}
+              onClick={submit}
             >
               <p className="button_text">VOIR MON TARIF</p>
             </button>

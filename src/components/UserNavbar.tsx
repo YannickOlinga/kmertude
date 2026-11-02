@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import SavedSearchesMenu from './SavedSearchesMenu'
+import { asset } from '../lib/asset'
 import './UserNavbar.css'
 
 export default function UserNavbar() {
@@ -38,9 +40,10 @@ export default function UserNavbar() {
         </div>
 
         <div className="user-navbar-right">
+          <SavedSearchesMenu />
           <div className="user-info">
             <div className="user-avatar">
-              <img src="/yannick.jpg" alt="Avatar" />
+              <img src={asset('/yannick.jpg')} alt="Avatar" />
             </div>
             <div className="user-details">
               <a href="/user-profile" className="user-name">Yannick olinga</a>
@@ -93,13 +96,17 @@ export default function UserNavbar() {
           <div className="user-mobile-user-section">
             <div className="user-mobile-user-info">
               <div className="user-mobile-avatar">
-                <img src="/yannick.jpg" alt="Avatar" />
+                <img src={asset('/yannick.jpg')} alt="Avatar" />
               </div>
               <div className="user-mobile-details">
                 <h4>Yannick olinga</h4>
                 <p>Parent</p>
               </div>
             </div>
+          </div>
+
+          <div className="user-mobile-searches">
+            <SavedSearchesMenu />
           </div>
 
           <ul className="user-mobile-nav">

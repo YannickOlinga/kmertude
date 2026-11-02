@@ -2,6 +2,6 @@ import './button.css'
 
 export default function Button() {
   return (
-    <button>Donner des cours</button>
+    <button>Devenir Enseignant </button>
   )
 }
