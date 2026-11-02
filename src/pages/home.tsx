@@ -1,16 +1,10 @@
 import { Suspense } from 'react'
 import Navbar from '../components/Navbar'
 import Hero from '../components/hero'
-import StatsStrip from '../components/StatsStrip'
 import AcadomiaInspiredSection from '../components/AcadomiaInspiredSection'
-import SubjectsSection from '../components/SubjectsSection'
-import LevelSelector from '../components/LevelSelector'
-import ProcessSteps from '../components/ProcessSteps'
 import TeacherSelectionSection from '../components/TeacherSelectionSection'
 import NearYouSection from '../components/NearYouSection'
-import AuthCTA from '../components/AuthCTA'
 import FormSection from '../components/FormSection'
-import FaqSection from '../components/FaqSection'
 import TestimonialSection from '../components/TestimonialSection'
 import Footer from '../components/Footer'
 import LazyOnView from '../components/LazyOnView'
@@ -25,16 +19,11 @@ export default function home() {
     <div>
       <Navbar />
       <Hero />
-      <StatsStrip />
-      <AcadomiaInspiredSection />
-      <SubjectsSection />
-      <LevelSelector />
-      <ProcessSteps />
       <TeacherSelectionSection />
+      <AcadomiaInspiredSection />
       <NearYouSection />
-      <AuthCTA />
-      <FormSection />
-      <FaqSection />
+     
+      <FormSection /> 
       <LazyOnView fallback={<SectionPlaceholder height={620} />}>
         <Suspense fallback={<SectionPlaceholder height={620} />}>
           

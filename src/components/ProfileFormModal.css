@@ -2,9 +2,11 @@
   position: fixed;
   inset: 0;
   z-index: 1000;
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 16px;
+  overflow: hidden;
   background: rgba(0, 0, 0, .55);
   animation: pfm-fade .2s ease;
 }
@@ -15,7 +17,7 @@
   grid-template-columns: 310px minmax(0, 1fr);
   gap: 36px;
   width: min(1020px, 100%);
-  max-height: calc(100vh - 32px);
+  max-height: 100%;
   padding: 36px 40px 36px 40px;
   border-radius: 22px;
   background: #f7f3eb;

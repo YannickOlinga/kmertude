@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { saveSearch, type SearchFilters } from '../lib/savedSearches'
 import { asset } from '../lib/asset'
@@ -37,6 +37,19 @@ export default function ProfileFormModal({ profile, initial, onClose }: Props) {
   const [level, setLevel] = useState(initial?.level ?? '')
   const [subjects, setSubjects] = useState<string[]>(initial?.subjects ?? [])
   const [contact, setContact] = useState({ firstName: '', lastName: '', phone: '', email: '' })
+  const [navOffset, setNavOffset] = useState(0)
+
+  // La popup démarre sous la navbar (sticky) pour ne pas la masquer ni être masquée par elle
+  useLayoutEffect(() => {
+    const nav = document.querySelector<HTMLElement>('.navbar')
+    if (!nav) return
+    const update = () => setNavOffset(Math.max(0, nav.getBoundingClientRect().bottom))
+    update()
+    const observer = new ResizeObserver(update)
+    observer.observe(nav)
+    window.addEventListener('resize', update)
+    return () => { observer.disconnect(); window.removeEventListener('resize', update) }
+  }, [])
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose() }
@@ -69,7 +82,7 @@ export default function ProfileFormModal({ profile, initial, onClose }: Props) {
   }
 
   return (
-    <div className="pfm-backdrop" onClick={onClose} role="presentation">
+    <div className="pfm-backdrop" style={{ top: navOffset }} onClick={onClose} role="presentation">
       <div
         className="pfm-dialog"
         role="dialog"
