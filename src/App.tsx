@@ -1,50 +1,55 @@
-
+import { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Home from './pages/home.tsx'
-import UserHome from './pages/UserHome.tsx'
-import UserStudents from './pages/UserStudents.tsx'
-import UserAccounts from './pages/UserAccounts.tsx'
-import UserCourses from './pages/UserCourses.tsx'
-import UserVideos from './pages/UserVideos.tsx'
-import UserDocuments from './pages/UserDocuments.tsx'
-import UserProfile from './pages/UserProfile.tsx'
-import EnPrimaire from './pages/EnPrimaire.tsx'
-import AuCollege from './pages/AuCollege.tsx'
-import AuLycee from './pages/AuLycee.tsx'
-import DansSuperieur from './pages/DansSuperieur.tsx'
-import PourAdultes from './pages/PourAdultes.tsx'
-import AuthPage from './pages/auth.tsx'
-import UserParentDashboard from './pages/userparent/UserParentDashboard.tsx'
-import UserParentOffers from './pages/userparent/UserParentOffers.tsx'
-import UserParentTeachers from './pages/userparent/UserParentTeachers.tsx'
-import UserParentApplications from './pages/userparent/UserParentApplications.tsx'
-import UserParentPayments from './pages/userparent/UserParentPayments.tsx'
 import './App.css'
+
+// Chargement à la demande : chaque page devient un chunk séparé pour
+// alléger le bundle initial (seule la page d'accueil est en eager).
+const AuthPage = lazy(() => import('./pages/auth.tsx'))
+const UserHome = lazy(() => import('./pages/UserHome.tsx'))
+const UserStudents = lazy(() => import('./pages/UserStudents.tsx'))
+const UserAccounts = lazy(() => import('./pages/UserAccounts.tsx'))
+const UserCourses = lazy(() => import('./pages/UserCourses.tsx'))
+const UserVideos = lazy(() => import('./pages/UserVideos.tsx'))
+const UserDocuments = lazy(() => import('./pages/UserDocuments.tsx'))
+const UserProfile = lazy(() => import('./pages/UserProfile.tsx'))
+const EnPrimaire = lazy(() => import('./pages/EnPrimaire.tsx'))
+const AuCollege = lazy(() => import('./pages/AuCollege.tsx'))
+const AuLycee = lazy(() => import('./pages/AuLycee.tsx'))
+const DansSuperieur = lazy(() => import('./pages/DansSuperieur.tsx'))
+const PourAdultes = lazy(() => import('./pages/PourAdultes.tsx'))
+const UserParentDashboard = lazy(() => import('./pages/userparent/UserParentDashboard.tsx'))
+const UserParentOffers = lazy(() => import('./pages/userparent/UserParentOffers.tsx'))
+const UserParentTeachers = lazy(() => import('./pages/userparent/UserParentTeachers.tsx'))
+const UserParentApplications = lazy(() => import('./pages/userparent/UserParentApplications.tsx'))
+const UserParentPayments = lazy(() => import('./pages/userparent/UserParentPayments.tsx'))
 
 function App() {
   return (
     <Router basename={import.meta.env.BASE_URL}>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/user-home" element={<UserHome />} />
-        <Route path="/user-parent" element={<UserParentDashboard />} />
-        <Route path="/user-parent/offers" element={<UserParentOffers />} />
-        <Route path="/user-parent/teachers" element={<UserParentTeachers />} />
-        <Route path="/user-parent/applications" element={<UserParentApplications />} />
-        <Route path="/user-parent/payments" element={<UserParentPayments />} />
-        <Route path="/user-students" element={<UserStudents />} />
-        <Route path="/user-accounts" element={<UserAccounts />} />
-        <Route path="/user-courses" element={<UserCourses />} />
-        <Route path="/user-videos" element={<UserVideos />} />
-        <Route path="/user-documents" element={<UserDocuments />} />
-        <Route path="/user-profile" element={<UserProfile />} />
-        <Route path="/en-primaire" element={<EnPrimaire />} />
-        <Route path="/au-college" element={<AuCollege />} />
-        <Route path="/au-lycee" element={<AuLycee />} />
-        <Route path="/dans-superieur" element={<DansSuperieur />} />
-        <Route path="/pour-adultes" element={<PourAdultes />} />
-      </Routes>
+      <Suspense fallback={<div aria-hidden="true" style={{ minHeight: '100vh' }} />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/user-home" element={<UserHome />} />
+          <Route path="/user-parent" element={<UserParentDashboard />} />
+          <Route path="/user-parent/offers" element={<UserParentOffers />} />
+          <Route path="/user-parent/teachers" element={<UserParentTeachers />} />
+          <Route path="/user-parent/applications" element={<UserParentApplications />} />
+          <Route path="/user-parent/payments" element={<UserParentPayments />} />
+          <Route path="/user-students" element={<UserStudents />} />
+          <Route path="/user-accounts" element={<UserAccounts />} />
+          <Route path="/user-courses" element={<UserCourses />} />
+          <Route path="/user-videos" element={<UserVideos />} />
+          <Route path="/user-documents" element={<UserDocuments />} />
+          <Route path="/user-profile" element={<UserProfile />} />
+          <Route path="/en-primaire" element={<EnPrimaire />} />
+          <Route path="/au-college" element={<AuCollege />} />
+          <Route path="/au-lycee" element={<AuLycee />} />
+          <Route path="/dans-superieur" element={<DansSuperieur />} />
+          <Route path="/pour-adultes" element={<PourAdultes />} />
+        </Routes>
+      </Suspense>
     </Router>
   )
 }

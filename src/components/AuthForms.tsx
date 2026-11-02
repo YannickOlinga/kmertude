@@ -76,7 +76,7 @@ export default function AuthForms() {
 
 function ParentLoginForm() {
   return (
-    <form className="auth-form">
+    <form className="auth-form" onSubmit={(e) => e.preventDefault()}>
       <h2>Connexion Parent</h2>
       <div className="form-group">
         <label>Email</label>
@@ -103,7 +103,7 @@ function ParentLoginForm() {
 
 function ParentRegisterForm() {
   return (
-    <form className="auth-form">
+    <form className="auth-form" onSubmit={(e) => e.preventDefault()}>
       <h2>Inscription Parent</h2>
       <div className="form-row">
         <div className="form-group">
@@ -160,7 +160,7 @@ function ParentRegisterForm() {
 
 function TeacherLoginForm() {
   return (
-    <form className="auth-form">
+    <form className="auth-form" onSubmit={(e) => e.preventDefault()}>
       <h2>Connexion Enseignant</h2>
       <div className="form-group">
         <label>Email professionnel</label>
@@ -187,7 +187,7 @@ function TeacherLoginForm() {
 
 function TeacherRegisterForm() {
   return (
-    <form className="auth-form">
+    <form className="auth-form" onSubmit={(e) => e.preventDefault()}>
       <h2>Inscription Enseignant</h2>
       <div className="form-group">
         <label>Type d'enseignant</label>
