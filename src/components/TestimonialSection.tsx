@@ -15,7 +15,7 @@ export default function TestimonialSection() {
               <span className="review-date">il y a 2 jours</span>
             </div>
             <div className="trustpilot-info">
-              <img src="/trustpilot-logo.png" alt="Trustpilot" className="trustpilot-logo" />
+              <img src={`${import.meta.env.BASE_URL}public/trustpilot-logo.png`} alt="Trustpilot" className="trustpilot-logo" />
               <div className="stars">
                 <span className="star">★</span>
                 <span className="star">★</span>
@@ -38,7 +38,7 @@ export default function TestimonialSection() {
               <span className="review-date">il y a 1 semaine</span>
             </div>
             <div className="trustpilot-info">
-              <img src="/trustpilot-logo.png" alt="Trustpilot" className="trustpilot-logo" />
+              <img src={`${import.meta.env.BASE_URL}public/trustpilot-logo.png`} alt="Trustpilot" className="trustpilot-logo" />
               <div className="stars">
                 <span className="star">★</span>
                 <span className="star">★</span>
@@ -61,7 +61,7 @@ export default function TestimonialSection() {
               <span className="review-date">il y a 2 semaines</span>
             </div>
             <div className="trustpilot-info">
-              <img src="/trustpilot-logo.png" alt="Trustpilot" className="trustpilot-logo" />
+              <img src={`${import.meta.env.BASE_URL}public/trustpilot-logo.png`} alt="Trustpilot" className="trustpilot-logo" />
               <div className="stars">
                 <span className="star">★</span>
                 <span className="star">★</span>
