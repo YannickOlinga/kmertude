@@ -1,11 +1,11 @@
 import { lazy, Suspense } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom'
 import Home from './pages/home.tsx'
 import './App.css'
 
 // Chargement à la demande : chaque page devient un chunk séparé pour
 // alléger le bundle initial (seule la page d'accueil est en eager).
-const AuthPage = lazy(() => import('./pages/auth.tsx'))
+const DemandePage = lazy(() => import('./pages/DemandePage.tsx'))
 const UserHome = lazy(() => import('./pages/UserHome.tsx'))
 const UserStudents = lazy(() => import('./pages/UserStudents.tsx'))
 const UserAccounts = lazy(() => import('./pages/UserAccounts.tsx'))
@@ -24,13 +24,20 @@ const UserParentTeachers = lazy(() => import('./pages/userparent/UserParentTeach
 const UserParentApplications = lazy(() => import('./pages/userparent/UserParentApplications.tsx'))
 const UserParentPayments = lazy(() => import('./pages/userparent/UserParentPayments.tsx'))
 
+// L'ancienne page de connexion/inscription a été supprimée : ses liens mènent à la demande d'enseignant
+function LegacyAuthRedirect() {
+  const { search } = useLocation()
+  return <Navigate to={`/demande${search}`} replace />
+}
+
 function App() {
   return (
     <Router basename={import.meta.env.BASE_URL}>
       <Suspense fallback={<div aria-hidden="true" style={{ minHeight: '100vh' }} />}>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/demande" element={<DemandePage />} />
+          <Route path="/auth" element={<LegacyAuthRedirect />} />
           <Route path="/user-home" element={<UserHome />} />
           <Route path="/user-parent" element={<UserParentDashboard />} />
           <Route path="/user-parent/offers" element={<UserParentOffers />} />

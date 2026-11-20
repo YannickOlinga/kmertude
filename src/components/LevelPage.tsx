@@ -11,7 +11,7 @@ export default function LevelPage({ level }: { level: LevelData }) {
   const navigate = useNavigate()
   const [classId, setClassId] = useState(level.classes[0].id)
   const current = level.classes.find((c) => c.id === classId) ?? level.classes[0]
-  const contact = () => navigate(`/auth?role=${level.role}`)
+  const contact = () => navigate(`/demande?profile=${level.profile}`)
 
   return (
     <>

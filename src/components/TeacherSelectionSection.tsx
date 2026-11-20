@@ -40,7 +40,7 @@ export default function TeacherSelectionSection() {
                 </li>
               ))}
             </ul>
-            <Link to="/auth?role=teacher" className="km-teacher-link">Découvrir nos enseignants</Link>
+            <Link to="/demande" className="km-teacher-link">Découvrir nos enseignants</Link>
           </div>
 
           <img

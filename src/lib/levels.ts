@@ -11,7 +11,7 @@ export type LevelClass = {
 export type LevelData = {
   label: string
   inLabel: string
-  role: 'parent' | 'student'
+  profile: 'parent' | 'etudiant' | 'adulte'
   hero: { image: string; title: string; lead: string; tag: string }
   challenges: { title: string; text: string; image: string; offers: string[] }[]
   classesTitle: string
@@ -27,7 +27,7 @@ export const LEVELS: Record<'primaire' | 'college' | 'lycee' | 'superieur' | 'ad
   primaire: {
     label: 'Primaire',
     inLabel: 'en primaire',
-    role: 'parent',
+    profile: 'parent',
     hero: {
       image: '/f.jpg',
       title: 'Les enjeux en primaire',
@@ -66,7 +66,7 @@ export const LEVELS: Record<'primaire' | 'college' | 'lycee' | 'superieur' | 'ad
   college: {
     label: 'Collège',
     inLabel: 'au collège',
-    role: 'parent',
+    profile: 'parent',
     hero: {
       image: '/c.jpg',
       title: 'Les enjeux au collège',
@@ -103,7 +103,7 @@ export const LEVELS: Record<'primaire' | 'college' | 'lycee' | 'superieur' | 'ad
   lycee: {
     label: 'Lycée',
     inLabel: 'au lycée',
-    role: 'parent',
+    profile: 'parent',
     hero: {
       image: '/i.jpg',
       title: 'Les enjeux au lycée',
@@ -139,7 +139,7 @@ export const LEVELS: Record<'primaire' | 'college' | 'lycee' | 'superieur' | 'ad
   superieur: {
     label: 'Supérieur',
     inLabel: 'dans le supérieur',
-    role: 'student',
+    profile: 'etudiant',
     hero: {
       image: '/n.jpg',
       title: 'Les enjeux dans le supérieur',
@@ -176,7 +176,7 @@ export const LEVELS: Record<'primaire' | 'college' | 'lycee' | 'superieur' | 'ad
   adultes: {
     label: 'Adulte',
     inLabel: 'pour adultes',
-    role: 'student',
+    profile: 'adulte',
     hero: {
       image: '/k.jpg',
       title: 'Apprendre à tout âge',

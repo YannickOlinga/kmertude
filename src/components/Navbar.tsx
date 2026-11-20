@@ -120,7 +120,7 @@ export default function Navbar() {
                       <div className="dropdown-image-content">
                         <h3 className='text-black'>Excellence académique</h3>
                         <p className='text-black'>Nos professeurs qualifiés vous accompagnent vers la réussite scolaire</p>
-                        <button className="btn-tarif" type="button" onClick={() => navigate('/auth?role=parent')}>VOIR MON TARIF</button>
+                        <button className="btn-tarif" type="button" onClick={() => navigate('/demande')}>VOIR MON TARIF</button>
                       </div>
                     </div>
                     <div className="dropdown-section">
@@ -140,7 +140,7 @@ export default function Navbar() {
                         <li><a href="#">Réduction familiale</a></li>
                         <li><a href="#">Nos garanties de succès</a></li>
                       </ul>
-                      <button className="btn-tarif" type="button" onClick={() => navigate('/auth?role=parent')}>VOIR MON TARIF</button>
+                      <button className="btn-tarif" type="button" onClick={() => navigate('/demande')}>VOIR MON TARIF</button>
                     </div>
                   </div>
                 )}
@@ -232,7 +232,7 @@ export default function Navbar() {
           type="button"
           onClick={() => {
             closeMobileMenu()
-            navigate('/auth?role=parent')
+            navigate('/demande')
           }}
         >
           VOIR MON TARIF

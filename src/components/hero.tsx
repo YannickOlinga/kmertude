@@ -19,10 +19,10 @@ export default function Hero() {
   const submit = (e: FormEvent) => {
     e.preventDefault()
     saveSearch({ profile: 'parent', offerType, city, level })
-    const params = new URLSearchParams({ role: 'parent', offer: offerType })
+    const params = new URLSearchParams({ profile: 'parent', offer: offerType })
     if (city.trim()) params.set('city', city.trim())
     if (level) params.set('level', level)
-    navigate(`/auth?${params.toString()}`)
+    navigate(`/demande?${params.toString()}`)
   }
 
   return (
