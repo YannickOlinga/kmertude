@@ -1,8 +1,14 @@
 import './hero.css'
-import { useState } from 'react'
+import { useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { saveSearch } from '../lib/savedSearches'
 import { asset } from '../lib/asset'
+
+const LEVELS: { group: string; options: string[] }[] = [
+  { group: 'Primaire', options: ['SIL', 'CP', 'CE1', 'CE2', 'CM1', 'CM2'] },
+  { group: 'Collège', options: ['6e', '5e', '4e', '3e'] },
+  { group: 'Lycée', options: ['2nde', '1ère', 'Tle'] },
+]
 
 export default function Hero() {
   const navigate = useNavigate()
@@ -10,7 +16,8 @@ export default function Hero() {
   const [city, setCity] = useState('')
   const [level, setLevel] = useState('')
 
-  const submit = () => {
+  const submit = (e: FormEvent) => {
+    e.preventDefault()
     saveSearch({ profile: 'parent', offerType, city, level })
     const params = new URLSearchParams({ role: 'parent', offer: offerType })
     if (city.trim()) params.set('city', city.trim())
@@ -19,7 +26,7 @@ export default function Hero() {
   }
 
   return (
-    <section className="hero-section main-hero">
+    <section className="main-hero" aria-labelledby="hero-title">
       <video
         className="hero-video"
         autoPlay
@@ -33,60 +40,61 @@ export default function Hero() {
         <source src={asset('/12724010-uhd_4096_2160_60fps.mp4')} type="video/mp4" />
       </video>
 
-      <div className="herocontainer">
-        <div className="toptext">
-          <h1>Devenez le prochain <span>Kmertude</span> qui excelle</h1>
-          <p className="hero-subtitle">Rejoignez des milliers d'élèves camerounais qui excellent grâce à notre soutien scolaire de qualité</p>
+      <div className="hero-inner">
+        <div className="hero-headline">
+          <h1 id="hero-title">
+            Avec <span>des enseignants vérifiés près de chez vous</span>, combien me coûte 1h de cours particulier ?
+          </h1>
+          <svg className="hero-arrow" viewBox="0 0 40 80" aria-hidden="true">
+            <path d="M8 6c18 4 26 24 18 62" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" />
+            <path d="M14 56l12 14 8-17" fill="none" stroke="currentColor" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
         </div>
-        <div className="bottomtext">
-          <div className="tab-selector">
+
+        <div className="hero-search">
+          <div className="hero-tabs" role="tablist" aria-label="Type d'accompagnement">
             <button
               type="button"
-              className={`tab-button${offerType === 'individual' ? ' active' : ''}`}
+              role="tab"
+              aria-selected={offerType === 'individual'}
+              className={`hero-tab${offerType === 'individual' ? ' active' : ''}`}
               onClick={() => setOfferType('individual')}
             >
-              Cours particuliers
+              Cours particuliers à domicile
             </button>
             <button
               type="button"
-              className={`tab-button${offerType === 'group' ? ' active' : ''}`}
+              role="tab"
+              aria-selected={offerType === 'group'}
+              className={`hero-tab${offerType === 'group' ? ' active' : ''}`}
               onClick={() => setOfferType('group')}
             >
               Stages intensifs
             </button>
           </div>
-          <div className="form-container">
+
+          <form className="hero-form" onSubmit={submit}>
+            <label className="hero-sr" htmlFor="hero-city">Lieu des cours</label>
             <input
+              id="hero-city"
               type="text"
-              placeholder="Votre ville*"
-              className="form-input"
+              placeholder="Lieu des cours*"
+              className="hero-field"
               value={city}
               onChange={(e) => setCity(e.target.value)}
+              autoComplete="address-level2"
             />
-            <select className="form-input" value={level} onChange={(e) => setLevel(e.target.value)}>
-              <option value="">Niveau scolaire*</option>
-              <option value="SIL">SIL</option>
-              <option value="CP">CP</option>
-              <option value="CE1">CE1</option>
-              <option value="CE2">CE2</option>
-              <option value="CM1">CM1</option>
-              <option value="CM2">CM2</option>
-              <option value="6e">6e</option>
-              <option value="5e">5e</option>
-              <option value="4e">4e</option>
-              <option value="3e">3e</option>
-              <option value="2nd">2nd</option>
-              <option value="1ere">1ère</option>
-              <option value="Tle">Tle</option>
+            <label className="hero-sr" htmlFor="hero-level">Classe</label>
+            <select id="hero-level" className="hero-field hero-select" value={level} onChange={(e) => setLevel(e.target.value)}>
+              <option value="">Classe*</option>
+              {LEVELS.map((g) => (
+                <optgroup key={g.group} label={g.group}>
+                  {g.options.map((o) => <option key={o} value={o}>{o}</option>)}
+                </optgroup>
+              ))}
             </select>
-            <button
-              className="submit-button"
-              type="button"
-              onClick={submit}
-            >
-              <p className="button_text">VOIR MON TARIF</p>
-            </button>
-          </div>
+            <button className="hero-submit" type="submit">Voir mon tarif</button>
+          </form>
         </div>
       </div>
     </section>

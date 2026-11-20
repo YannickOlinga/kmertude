@@ -20,7 +20,7 @@
   max-height: 100%;
   padding: 36px 40px 36px 40px;
   border-radius: 22px;
-  background: #f7f3eb;
+  background: #f3effb;
   color: #111;
   font-family: 'Montserrat', 'Poppins', sans-serif;
   box-shadow: 0 30px 80px rgba(0, 0, 0, .35);
@@ -62,7 +62,7 @@
   line-height: 1.25;
 }
 .pfm-lead { margin: 0 0 22px; font-size: 15px; font-weight: 600; line-height: 1.5; }
-.pfm-lead mark { background: #fff44f; color: inherit; padding: 1px 2px; }
+.pfm-lead mark { background: #f8bbd0; color: inherit; padding: 1px 2px; }
 
 .pfm-stepper {
   display: flex;
@@ -97,8 +97,8 @@
   background: #c9c9c9;
   box-sizing: border-box;
 }
-.pfm-stepper li.active .pfm-dot { background: #1f8fe0; box-shadow: 0 0 0 5px rgba(31, 143, 224, .25); }
-.pfm-stepper li.done .pfm-dot { background: #1f8fe0; }
+.pfm-stepper li.active .pfm-dot { background: #6b46c1; box-shadow: 0 0 0 5px rgba(107, 70, 193, .25); }
+.pfm-stepper li.done .pfm-dot { background: #6b46c1; }
 
 .pfm-form h3 {
   margin: 0 0 10px;
@@ -112,19 +112,19 @@
   justify-content: center;
   gap: 6px;
   margin: 0 0 26px;
-  color: #1f8fe0;
+  color: #6b46c1;
   font-size: 15px;
   font-weight: 700;
   text-align: center;
 }
-.pfm-arrow { color: #1f8fe0; margin-top: 10px; }
+.pfm-arrow { color: #6b46c1; margin-top: 10px; }
 
 .pfm-input {
   display: block;
   width: 100%;
   min-height: 50px;
   padding: 12px 20px;
-  border: 1.5px solid #1f8fe0;
+  border: 1.5px solid #6b46c1;
   border-radius: 30px;
   background: #fff;
   color: #111;
@@ -132,25 +132,25 @@
   font-size: 15px;
 }
 .pfm-input::placeholder { color: #9a9a9a; }
-.pfm-input:focus { outline: 3px solid rgba(31, 143, 224, .25); }
+.pfm-input:focus { outline: 3px solid rgba(107, 70, 193, .25); }
 
 .pfm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 
 .pfm-chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; margin: -12px 0 22px; }
 .pfm-chips button {
   padding: 8px 14px;
-  border: 1.5px solid #1f8fe0;
+  border: 1.5px solid #6b46c1;
   border-radius: 30px;
   background: #fff;
-  color: #1f6fb5;
+  color: #6b46c1;
   font: inherit;
   font-size: 13px;
   font-weight: 600;
   cursor: pointer;
   transition: background .15s ease, color .15s ease;
 }
-.pfm-chips button:hover { background: #eaf4fd; }
-.pfm-chips button.selected { background: #1f8fe0; color: #fff; }
+.pfm-chips button:hover { background: #f3effb; }
+.pfm-chips button.selected { background: #6b46c1; color: #fff; }
 
 .pfm-actions {
   display: flex;
@@ -181,7 +181,7 @@
 .pfm-trust-brand { display: inline-flex; align-items: center; gap: 6px; font-size: 18px; font-weight: 600; }
 .pfm-trust-line { width: 80px; border-top: 1.5px solid #222; }
 .pfm-trust-score { font-size: 15px; font-weight: 600; }
-.pfm-trust-score small { color: #00b67a; font-size: 12px; }
+.pfm-trust-score small { color: #22c55e; font-size: 12px; }
 .pfm-trust p { margin: 8px 0 0; font-size: 13px; }
 
 @keyframes pfm-fade { from { opacity: 0; } to { opacity: 1; } }

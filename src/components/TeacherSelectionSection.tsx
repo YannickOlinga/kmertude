@@ -33,8 +33,8 @@ export default function TeacherSelectionSection() {
               {CRITERIA.map((item, i) => (
                 <li key={i}>
                   <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                    <circle cx="12" cy="12" r="9" fill="none" stroke="#1f8fe0" strokeWidth="1.8" />
-                    <path d="M8 12.5l2.5 2.5L16 9.5" fill="none" stroke="#1f8fe0" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+                    <circle cx="12" cy="12" r="9" fill="none" stroke="#6b46c1" strokeWidth="1.8" />
+                    <path d="M8 12.5l2.5 2.5L16 9.5" fill="none" stroke="#6b46c1" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                   <span>{item}</span>
                 </li>

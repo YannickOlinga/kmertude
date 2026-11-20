@@ -99,7 +99,7 @@ export default function LevelPage({ level }: { level: LevelData }) {
                   <ul>{current.support.map((s) => <li key={s}>{s}</li>)}</ul>
                 </div>
               </div>
-              <button type="button" className="lv-btn lv-btn-yellow" onClick={contact}>Je me renseigne</button>
+              <button type="button" className="lv-btn lv-btn-pink" onClick={contact}>Je me renseigne</button>
             </div>
           </div>
         </section>

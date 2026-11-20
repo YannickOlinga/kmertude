@@ -62,7 +62,7 @@
 }
 
 .navbar-phone {
-    background: #ff6b9d;
+    background: #e91e63;
     color: white !important;
     padding: 6px 12px;
     border-radius: 20px;
@@ -70,7 +70,7 @@
 }
 
 .navbar-phone:hover {
-    background: #ff5a8a;
+    background: #c2185b;
     color: white !important;
 }
 
@@ -270,7 +270,7 @@
 }
 
 .btn-tarif:hover {
-    background: #5a3aa0;
+    background: #5a3aa8;
     transform: translateY(-2px);
 }
 
@@ -688,7 +688,7 @@
 }
 
 .navbar-phone {
-    background: #ff6b9d;
+    background: #e91e63;
     color: white !important;
     padding: 6px 12px;
     border-radius: 20px;
@@ -696,7 +696,7 @@
 }
 
 .navbar-phone:hover {
-    background: #ff5a8a;
+    background: #c2185b;
     color: white !important;
 }
 

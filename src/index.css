@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Palette Kmertude : vert, rose, violet (+ neutres) */
+:root {
+  --km-green: #22c55e;
+  --km-green-dark: #16a34a;
+  --km-pink: #e91e63;
+  --km-pink-dark: #c2185b;
+  --km-pink-light: #fce4ec;
+  --km-violet: #6b46c1;
+  --km-violet-dark: #5a3aa8;
+  --km-violet-light: #f3effb;
+}
+
 /* Global Responsive Styles */
 * {
   box-sizing: border-box;

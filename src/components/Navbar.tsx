@@ -96,7 +96,7 @@ export default function Navbar() {
 
         <nav className="navbar-main">
           <div className="navbar-logo">
-            <Link to="/" className="logo-content" style={{textDecoration: 'none', color: 'yellow'}}>
+            <Link to="/" className="logo-content" style={{textDecoration: 'none'}}>
               <h1 className="logo-title">Kmertude</h1>
               <div className="logo-subtitle">
                 <div className="logo-icon"></div>

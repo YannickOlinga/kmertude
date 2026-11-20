@@ -82,7 +82,7 @@ export default function AcadomiaInspiredSection() {
         <h3>Les avis de nos familles</h3>
         <div className="km-academia-trust">
           <span className="km-academia-trust-star" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#00b67a" d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7.3L12 17.8 5.7 21.5l1.7-7.3L2 9.5l7.1-.6z" /></svg>
+            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#22c55e" d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7.3L12 17.8 5.7 21.5l1.7-7.3L2 9.5l7.1-.6z" /></svg>
           </span>
           Trustpilot
         </div>

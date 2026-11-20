@@ -53,7 +53,7 @@
 }
 
 .btn-primary:hover {
-  background: #5a3aa0;
+  background: #5a3aa8;
   transform: translateY(-1px);
 }
 
@@ -147,7 +147,7 @@
   position: absolute;
   top: 15px;
   right: 15px;
-  background: #28a745;
+  background: #22c55e;
   color: white;
   padding: 5px 12px;
   border-radius: 20px;
@@ -245,7 +245,7 @@
 }
 
 .btn-continue:hover {
-  background: #5a3aa0;
+  background: #5a3aa8;
 }
 
 .btn-details {

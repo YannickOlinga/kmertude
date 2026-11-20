@@ -36,8 +36,8 @@
 .lv-btn-dark:hover { background: #111; }
 .lv-btn-outline { border-color: #1a1a1a; background: transparent; color: #1a1a1a; }
 .lv-btn-outline:hover { background: #1a1a1a; color: #fff; }
-.lv-btn-yellow { background: #f2e35a; color: #1a1a1a; }
-.lv-btn-yellow:hover { background: #e8d63c; }
+.lv-btn-pink { background: #e91e63; color: #fff; }
+.lv-btn-pink:hover { background: #c2185b; }
 
 .lv-hand,
 .lv-hand-tag {
@@ -48,7 +48,7 @@
 /* Hero */
 .lv-hero {
   padding: 24px 0 64px;
-  background: linear-gradient(#f7f3eb 0 72%, #fff 72%);
+  background: linear-gradient(#f3effb 0 72%, #fff 72%);
 }
 
 .lv-breadcrumb {
@@ -110,7 +110,7 @@
   left: 24px;
   bottom: -18px;
   padding: 4px 22px;
-  background: #f2e35a;
+  background: #fce4ec;
   font-size: 1.6rem;
   transform: rotate(-2deg);
 }
@@ -176,13 +176,13 @@
   cursor: pointer;
   transition: background .2s, color .2s;
 }
-.lv-tab:hover { background: #f7f3eb; }
+.lv-tab:hover { background: #f3effb; }
 .lv-tab.active { background: #1a1a1a; color: #fff; }
 
 .lv-class-panel {
   padding: clamp(24px, 4vw, 44px);
   border-radius: 20px;
-  background: #f7f3eb;
+  background: #f3effb;
   text-align: center;
 }
 .lv-class-panel h3 { margin: 0 0 10px; font-size: clamp(1.3rem, 2.4vw, 1.7rem); }
@@ -203,7 +203,7 @@
 .lv-class-cols h4 {
   margin: 0 0 12px;
   padding-bottom: 10px;
-  border-bottom: 3px solid #f2e35a;
+  border-bottom: 3px solid #fce4ec;
   font-size: 1rem;
 }
 .lv-class-cols ul { margin: 0; padding: 0; list-style: none; }
@@ -274,7 +274,7 @@
   justify-content: center;
   padding: clamp(28px, 5vw, 56px);
   border-radius: 0 20px 20px 0;
-  background: #f2e35a;
+  background: #fce4ec;
 }
 .lv-cta-text .lv-hand { font-size: 1.7rem; }
 .lv-cta-text h2 { margin: 4px 0 12px; font-size: clamp(1.5rem, 2.6vw, 2rem); }
@@ -311,7 +311,7 @@
 }
 
 @media (max-width: 760px) {
-  .lv-hero { background: #f7f3eb; }
+  .lv-hero { background: #f3effb; }
   .lv-hero-grid,
   .lv-cta-grid { grid-template-columns: 1fr; }
   .lv-cta-grid img { min-height: 220px; border-radius: 20px 20px 0 0; }

@@ -29,7 +29,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background-color: #28a745;
+  background-color: #22c55e;
   color: white;
   border: none;
   padding: 10px 20px;
@@ -40,7 +40,7 @@
 }
 
 .btn-primary:hover {
-  background-color: #28a745;
+  background-color: #22c55e;
 }
 
 .btn-primary svg {
@@ -90,7 +90,7 @@
 
 .folder-item:hover {
   padding: 5px;
-  background-color: #f8f9ff;
+  background-color: #f3effb;
 }
 
 .folder-icon {
@@ -127,7 +127,7 @@
 
 .document-item:hover {
   padding: 20px;
-  background-color: #f8f9ff;
+  background-color: #f3effb;
 }
 
 .document-icon {
@@ -178,8 +178,8 @@
 }
 
 .btn-icon:hover {
-  border-color: #007bff;
-  background-color: #f8f9ff;
+  border-color: #6b46c1;
+  background-color: #f3effb;
 }
 
 .btn-icon svg {

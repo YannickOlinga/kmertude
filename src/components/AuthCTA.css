@@ -1,7 +1,7 @@
 /* Auth CTA Section */
 .auth-cta-section {
   padding: 80px 20px;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  background: linear-gradient(135deg, #f5f7fa 0%, #ddd3f3 100%);
   font-family: 'Poppins', sans-serif;
 }
 
@@ -92,13 +92,13 @@
 
 .card-icon {
   margin-bottom: 30px;
-  color: #f5576c;
+  color: #e91e63;
   display: flex;
   justify-content: center;
 }
 
 .auth-card-teacher .card-icon {
-  color: #f5576c;
+  color: #e91e63;
 }
 
 .auth-cta-cards h3 {
@@ -145,17 +145,17 @@
 }
 
 .parent-btn {
-  background: #01bd82;
+  background: #22c55e;
   color: white;
 }
 
 .parent-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+  box-shadow: 0 10px 25px rgba(107, 70, 193, 0.3);
 }
 
 .teacher-btn {
-  background: #01bd82;
+  background: #22c55e;
   color: white;
 }
 
@@ -179,8 +179,8 @@
 .login-link-btn {
   padding: 12px 30px;
   background: transparent;
-  color: #01bd82;
-  border: 2px solid #01bd82;
+  color: #22c55e;
+  border: 2px solid #22c55e;
   border-radius: 25px;
   font-size: 15px;
   font-weight: 600;
@@ -189,7 +189,7 @@
 }
 
 .login-link-btn:hover {
-  background: #01bd82;
+  background: #22c55e;
   color: white;
   transform: translateY(-2px);
 }

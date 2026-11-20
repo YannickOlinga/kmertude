@@ -180,7 +180,7 @@ export default function ProfileFormModal({ profile, initial, onClose }: Props) {
           <div className="pfm-trust">
             <div className="pfm-trust-row">
               <span className="pfm-trust-brand">
-                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#00b67a" d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7.3L12 17.8 5.7 21.5l1.7-7.3L2 9.5l7.1-.6z" /></svg>
+                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#22c55e" d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7.3L12 17.8 5.7 21.5l1.7-7.3L2 9.5l7.1-.6z" /></svg>
                 Trustpilot
               </span>
               <span className="pfm-trust-line" aria-hidden="true" />

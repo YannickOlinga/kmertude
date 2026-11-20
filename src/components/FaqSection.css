@@ -1,6 +1,6 @@
 .km-faq {
   padding: clamp(44px, 6vw, 80px) 24px;
-  background: #faf6ee;
+  background: #f3effb;
   color: #1a1a1a;
   font-family: 'Montserrat', 'Poppins', sans-serif;
 }
@@ -24,7 +24,7 @@
   width: 64px;
   height: 4px;
   border-radius: 999px;
-  background: #f2e35a;
+  background: #fce4ec;
 }
 
 .km-faq-list {
@@ -60,7 +60,7 @@
   color: #1a1a1a;
   cursor: pointer;
 }
-.km-faq-q:focus-visible { outline: 3px solid rgba(47, 111, 209, .35); outline-offset: -3px; }
+.km-faq-q:focus-visible { outline: 3px solid rgba(107, 70, 193, .35); outline-offset: -3px; }
 
 .km-faq-icon {
   flex: 0 0 auto;
@@ -69,13 +69,13 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #eef3fb;
-  color: #2f6fd1;
+  background: #f3effb;
+  color: #6b46c1;
   transition: transform .2s ease, background .2s ease;
 }
 .km-faq-item.open .km-faq-icon {
   transform: rotate(45deg);
-  background: #2f6fd1;
+  background: #6b46c1;
   color: #fff;
 }
 

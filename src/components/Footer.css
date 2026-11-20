@@ -186,7 +186,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #3498db;
+  background: #6b46c1;
   color: white;
   border-radius: 50%;
   text-decoration: none;
@@ -194,12 +194,12 @@
 }
 
 .social-icon:hover {
-  background: #2980b9;
+  background: #5a3aa8;
   transform: translateY(-2px);
 }
 
 .services-icon {
-  background: #3498db;
+  background: #6b46c1;
   padding: 8px 12px;
   border-radius: 20px;
   width: auto;

@@ -85,8 +85,8 @@
 }
 
 .badge-mini.warn {
-  background: #fef3c7;
-  color: #92400e;
+  background: #f3effb;
+  color: #5a3aa8;
 }
 
 .offer-form {
@@ -127,7 +127,7 @@
 }
 
 .btn-action.primary {
-  background: #2563eb;
+  background: #6b46c1;
   color: #fff;
 }
 
@@ -137,8 +137,8 @@
 }
 
 .btn-action.danger {
-  background: #fee2e2;
-  color: #991b1b;
+  background: #fce4ec;
+  color: #ad1457;
 }
 
 @media (max-width: 900px) {

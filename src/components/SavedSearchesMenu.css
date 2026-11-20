@@ -24,7 +24,7 @@
   height: 20px;
   padding: 0 6px;
   border-radius: 999px;
-  background: #1d4ed8;
+  background: #5a3aa8;
   color: #fff;
   font-size: 11px;
   font-weight: 700;
@@ -112,8 +112,8 @@
 .ssm-chip {
   padding: 3px 9px;
   border-radius: 999px;
-  background: #eff6ff;
-  color: #1d4ed8;
+  background: #f3effb;
+  color: #5a3aa8;
   font-size: 12px;
   font-weight: 600;
 }
@@ -131,7 +131,7 @@
   color: #94a3b8;
   cursor: pointer;
 }
-.ssm-remove:hover { background: #fee2e2; color: #b91c1c; }
+.ssm-remove:hover { background: #fce4ec; color: #c2185b; }
 
 @keyframes ssm-pop { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 

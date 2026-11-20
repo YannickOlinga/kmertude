@@ -51,7 +51,7 @@
   width: min(360px, 100%);
   padding: 14px 16px 20px;
   border-radius: 22px;
-  background: #faf6ee;
+  background: #f3effb;
   box-shadow: 0 16px 40px rgba(0, 0, 0, .25);
   color: #111;
 }
@@ -71,7 +71,7 @@
   min-height: 52px;
   margin-top: 8px;
   padding: 10px 12px;
-  border: 1.5px solid #2f6fd1;
+  border: 1.5px solid #6b46c1;
   border-radius: 10px;
   background: #fff;
   color: #111;
@@ -81,9 +81,9 @@
   transition: background .15s ease, box-shadow .15s ease;
 }
 .km-academia-option:first-of-type { margin-top: 0; }
-.km-academia-option:hover { background: #f3f7ff; }
-.km-academia-option:focus-visible { outline: 3px solid rgba(47, 111, 209, .35); outline-offset: 1px; }
-.km-academia-option.selected { box-shadow: 0 0 0 2px #2f6fd1 inset; }
+.km-academia-option:hover { background: #f3effb; }
+.km-academia-option:focus-visible { outline: 3px solid rgba(107, 70, 193, .35); outline-offset: 1px; }
+.km-academia-option.selected { box-shadow: 0 0 0 2px #6b46c1 inset; }
 
 .km-academia-radio {
   flex: 0 0 auto;
@@ -94,13 +94,13 @@
   background: #fff;
   position: relative;
 }
-.km-academia-option.selected .km-academia-radio { border-color: #2f6fd1; }
+.km-academia-option.selected .km-academia-radio { border-color: #6b46c1; }
 .km-academia-option.selected .km-academia-radio::after {
   content: '';
   position: absolute;
   inset: 3px;
   border-radius: 50%;
-  background: #2f6fd1;
+  background: #6b46c1;
 }
 
 .km-academia-option-text { display: flex; flex-direction: column; line-height: 1.25; }
@@ -162,9 +162,9 @@
   place-items: center;
   width: 20px;
   height: 20px;
-  background: #00b67a;
+  background: #22c55e;
 }
-.km-academia-star.half { background: linear-gradient(90deg, #00b67a 50%, #dcdce6 50%); }
+.km-academia-star.half { background: linear-gradient(90deg, #22c55e 50%, #dcdce6 50%); }
 .km-academia-reviews-link { color: #fff; font-size: 12px; font-weight: 700; text-decoration: none; }
 .km-academia-reviews-link:hover { text-decoration: underline; }
 .km-academia-reviews-note { margin: 10px 0 0; font-size: 11px; color: #cfcfcf; }

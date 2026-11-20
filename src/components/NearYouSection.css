@@ -30,7 +30,7 @@
   bottom: 14px;
   transform: translateX(-50%);
   padding: 2px 28px;
-  background: #f2e35a;
+  background: #fce4ec;
   font-family: 'Caveat', 'Comic Sans MS', cursive;
   font-size: 1.5rem;
   white-space: nowrap;
@@ -41,7 +41,7 @@
   display: flex;
   align-items: center;
   padding: 32px clamp(24px, 4vw, 56px) 32px 28px;
-  background: #f2e35a;
+  background: #fce4ec;
 }
 
 /* Encoche arrondie entre l'image et le bandeau jaune */
@@ -52,7 +52,7 @@
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  background: #f2e35a;
+  background: #fce4ec;
   transform: translateY(-50%);
 }
 

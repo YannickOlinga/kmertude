@@ -1,6 +1,6 @@
 .auth-container {
   min-height: 100vh;
-  background: radial-gradient(circle at top right, #e9edff 0, #f5f7ff 35%, #f8fafc 100%);
+  background: radial-gradient(circle at top right, #f3effb 0, #f3effb 35%, #f8fafc 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -11,7 +11,7 @@
 .auth-card {
   background: #ffffff;
   border-radius: 20px;
-  border: 1px solid #e8ebf4;
+  border: 1px solid #ddd3f3;
   box-shadow: 0 22px 48px rgba(15, 23, 42, 0.08);
   width: 100%;
   max-width: 620px;
@@ -27,7 +27,7 @@
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #5b6b93;
+  color: #666666;
   font-weight: 700;
 }
 
@@ -40,7 +40,7 @@
 
 .auth-subtitle {
   margin: 10px 0 0;
-  color: #52607a;
+  color: #555555;
   font-size: 14px;
 }
 
@@ -52,8 +52,8 @@
 }
 
 .role-card {
-  border: 1px solid #dce2f1;
-  background: #f8faff;
+  border: 1px solid #ddd3f3;
+  background: #f3effb;
   border-radius: 14px;
   padding: 14px;
   text-align: left;
@@ -63,13 +63,13 @@
 }
 
 .role-card:hover {
-  border-color: #b9c5eb;
+  border-color: #ddd3f3;
   transform: translateY(-1px);
 }
 
 .role-card.active {
-  border-color: #3b82f6;
-  background: #eff6ff;
+  border-color: #6b46c1;
+  background: #f3effb;
 }
 
 .role-title {
@@ -82,7 +82,7 @@
 .role-text {
   display: block;
   font-size: 13px;
-  color: #56637c;
+  color: #555555;
   line-height: 1.4;
 }
 
@@ -101,7 +101,7 @@
   border: 0;
   border-radius: 9px;
   background: transparent;
-  color: #52607a;
+  color: #555555;
   font-weight: 600;
   cursor: pointer;
 }
@@ -139,7 +139,7 @@
   display: block;
   font-size: 13px;
   font-weight: 600;
-  color: #344256;
+  color: #333333;
   margin-bottom: 7px;
 }
 
@@ -147,7 +147,7 @@
 .form-group select {
   width: 100%;
   padding: 11px 13px;
-  border: 1px solid #d8dfed;
+  border: 1px solid #ddd3f3;
   border-radius: 10px;
   font-size: 14px;
   color: #0f172a;
@@ -159,12 +159,12 @@
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
-  border-color: #3b82f6;
-  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+  border-color: #6b46c1;
+  box-shadow: 0 0 0 3px rgba(107, 70, 193, 0.12);
 }
 
 .form-group input::placeholder {
-  color: #9aa6bf;
+  color: #999999;
 }
 
 .form-options {
@@ -192,7 +192,7 @@
 
 .forgot-password {
   font-size: 13px;
-  color: #2563eb;
+  color: #6b46c1;
   text-decoration: none;
   font-weight: 600;
 }
@@ -200,7 +200,7 @@
 .submit-btn {
   width: 100%;
   padding: 12px;
-  background: #2563eb;
+  background: #6b46c1;
   color: white;
   border: 0;
   border-radius: 10px;
@@ -211,7 +211,7 @@
 }
 
 .submit-btn:hover {
-  background: #1d4ed8;
+  background: #5a3aa8;
 }
 
 @media (max-width: 768px) {
