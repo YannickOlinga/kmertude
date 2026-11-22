@@ -8,6 +8,10 @@ import FormSection from '../components/FormSection'
 import TestimonialSection from '../components/TestimonialSection'
 import Footer from '../components/Footer'
 import LazyOnView from '../components/LazyOnView'
+import NewsletterSection from '../components/NewsletterSection'
+import Reveal from '../components/Reveal'
+import BackToTop from '../components/BackToTop'
+import ScrollProgress from '../components/ScrollProgress'
   
 
 function SectionPlaceholder({ height = 420 }: { height?: number }) {
@@ -17,25 +21,28 @@ function SectionPlaceholder({ height = 420 }: { height?: number }) {
 export default function home() {
   return (
     <div>
+      <ScrollProgress />
       <Navbar />
       <Hero />
-      <TeacherSelectionSection />
-      <AcadomiaInspiredSection />
-      <NearYouSection />
+      <Reveal><TeacherSelectionSection /></Reveal>
+      <Reveal><AcadomiaInspiredSection /></Reveal>
+      <Reveal><NearYouSection /></Reveal>
      
-      <FormSection /> 
+      <Reveal><FormSection /></Reveal>
       <LazyOnView fallback={<SectionPlaceholder height={620} />}>
         <Suspense fallback={<SectionPlaceholder height={620} />}>
           
         </Suspense>
       </LazyOnView>
-      <TestimonialSection />
+      <Reveal><TestimonialSection /></Reveal>
       <LazyOnView fallback={<SectionPlaceholder height={500} />}>
         <Suspense fallback={<SectionPlaceholder height={500} />}>
         
         </Suspense>
       </LazyOnView>
+      <Reveal><NewsletterSection /></Reveal>
       <Footer />
+      <BackToTop />
     </div>
   )
 }

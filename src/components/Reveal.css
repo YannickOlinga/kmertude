@@ -1,0 +1,99 @@
+/*
+  Animations au scroll. Le conteneur .km-reveal ne fait qu'un fondu (pas de transform,
+  pour ne pas casser les éléments en position fixed) ; les éléments internes sont
+  chorégraphiés quand la section devient visible (.is-visible).
+*/
+.km-reveal {
+  --km-ease: cubic-bezier(.22, .9, .3, 1);
+  opacity: 0;
+  transition: opacity .6s ease;
+}
+.km-reveal.is-visible { opacity: 1; }
+
+/* Titres : montée douce */
+.km-reveal :is(h2, .km-teacher-header, .form-section-header) {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity .7s var(--km-ease), transform .7s var(--km-ease);
+}
+.km-reveal.is-visible :is(h2, .km-teacher-header, .form-section-header) { opacity: 1; transform: none; }
+
+/* Cartes et listes : apparition en cascade */
+.km-reveal :is(.service-card, .testimonial-card, .km-teacher-list li, .lv-challenge, .lv-subject, .lv-faq-item) {
+  opacity: 0;
+  transform: translateY(40px) scale(.98);
+  transition: opacity .7s var(--km-ease), transform .7s var(--km-ease), box-shadow .3s ease;
+}
+.km-reveal.is-visible :is(.service-card, .testimonial-card, .km-teacher-list li, .lv-challenge, .lv-subject, .lv-faq-item) {
+  opacity: 1;
+  transform: none;
+}
+.km-reveal.is-visible :is(.service-card, .testimonial-card, .km-teacher-list li, .lv-challenge, .lv-subject, .lv-faq-item):nth-child(2) { transition-delay: .12s; }
+.km-reveal.is-visible :is(.service-card, .testimonial-card, .km-teacher-list li, .lv-challenge, .lv-subject, .lv-faq-item):nth-child(3) { transition-delay: .24s; }
+.km-reveal.is-visible :is(.service-card, .testimonial-card, .km-teacher-list li, .lv-challenge, .lv-subject, .lv-faq-item):nth-child(4) { transition-delay: .36s; }
+.km-reveal.is-visible :is(.service-card, .testimonial-card, .km-teacher-list li, .lv-challenge, .lv-subject, .lv-faq-item):nth-child(5) { transition-delay: .48s; }
+.km-reveal.is-visible :is(.service-card, .testimonial-card, .km-teacher-list li, .lv-challenge, .lv-subject, .lv-faq-item):nth-child(n+6) { transition-delay: .6s; }
+
+/* Survol des cartes une fois visibles : léger soulèvement */
+.km-reveal.is-visible :is(.service-card, .testimonial-card, .lv-challenge):hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px rgba(107, 70, 193, .18);
+  transition-delay: 0s;
+}
+.service-card img,
+.lv-challenge img { transition: transform .6s var(--km-ease, ease); }
+.service-card:hover img,
+.lv-challenge:hover img { transform: scale(1.06); }
+.service-card,
+.lv-challenge { overflow: hidden; }
+
+/* Images : révélation en rideau + léger zoom arrière */
+.km-reveal :is(.km-teacher-photo, .km-near-media img, .lv-cta-grid > img) {
+  clip-path: inset(0 0 100% 0);
+  transform: scale(1.12);
+  transition: clip-path 1s var(--km-ease), transform 1.4s var(--km-ease);
+}
+.km-reveal.is-visible :is(.km-teacher-photo, .km-near-media img, .lv-cta-grid > img) {
+  clip-path: inset(0 0 0 0);
+  transform: none;
+}
+
+/* Blocs latéraux : glissent depuis leur côté */
+.km-reveal :is(.km-near-media, .nl-advice, .km-academia-card, .lv-cta-grid > img) {
+  opacity: 0;
+  translate: -48px 0;
+  transition: opacity .8s var(--km-ease), translate .8s var(--km-ease), clip-path 1s var(--km-ease), transform 1.4s var(--km-ease);
+}
+.km-reveal :is(.km-near-content, .nl-panel, .km-academia-reviews, .lv-cta-text) {
+  opacity: 0;
+  translate: 48px 0;
+  transition: opacity .8s var(--km-ease) .15s, translate .8s var(--km-ease) .15s;
+}
+.km-reveal.is-visible :is(.km-near-media, .nl-advice, .km-academia-card, .lv-cta-grid > img, .km-near-content, .nl-panel, .km-academia-reviews, .lv-cta-text) {
+  opacity: 1;
+  translate: 0 0;
+}
+
+/* Arrière-plan de la section formulaire : zoom lent */
+.km-reveal .km-academia-bg { transform: scale(1.15); transition: transform 2.4s var(--km-ease); }
+.km-reveal.is-visible .km-academia-bg { transform: scale(1); }
+
+/* Notes manuscrites : écriture qui apparaît */
+.km-reveal :is(.km-near-note, .nl-hand) {
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 1.2s var(--km-ease) .5s;
+}
+.km-reveal.is-visible :is(.km-near-note, .nl-hand) { clip-path: inset(0 0 0 0); }
+
+@media (prefers-reduced-motion: reduce) {
+  .km-reveal,
+  .km-reveal *,
+  .km-reveal *::before,
+  .km-reveal *::after {
+    opacity: 1 !important;
+    transform: none !important;
+    translate: none !important;
+    clip-path: none !important;
+    transition: none !important;
+  }
+}

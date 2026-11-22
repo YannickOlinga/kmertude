@@ -6,6 +6,7 @@ import './App.css'
 // Chargement à la demande : chaque page devient un chunk séparé pour
 // alléger le bundle initial (seule la page d'accueil est en eager).
 const DemandePage = lazy(() => import('./pages/DemandePage.tsx'))
+const DevenirEnseignantPage = lazy(() => import('./pages/DevenirEnseignantPage.tsx'))
 const UserHome = lazy(() => import('./pages/UserHome.tsx'))
 const UserStudents = lazy(() => import('./pages/UserStudents.tsx'))
 const UserAccounts = lazy(() => import('./pages/UserAccounts.tsx'))
@@ -37,6 +38,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/demande" element={<DemandePage />} />
+          <Route path="/devenir-enseignant" element={<DevenirEnseignantPage />} />
           <Route path="/auth" element={<LegacyAuthRedirect />} />
           <Route path="/user-home" element={<UserHome />} />
           <Route path="/user-parent" element={<UserParentDashboard />} />

@@ -3,6 +3,9 @@ import { Link, useNavigate } from 'react-router-dom'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import NearYouSection from './NearYouSection'
+import Reveal from './Reveal'
+import ScrollProgress from './ScrollProgress'
+import BackToTop from './BackToTop'
 import { asset } from '../lib/asset'
 import type { LevelData } from '../lib/levels'
 import './LevelPage.css'
@@ -15,9 +18,11 @@ export default function LevelPage({ level }: { level: LevelData }) {
 
   return (
     <>
+      <ScrollProgress />
       <Navbar />
       <main className="lv-page">
         {/* Fil d'Ariane + hero */}
+        <Reveal>
         <section className="lv-hero">
           <div className="lv-wrap">
             <nav className="lv-breadcrumb" aria-label="Fil d'Ariane">
@@ -60,8 +65,10 @@ export default function LevelPage({ level }: { level: LevelData }) {
             </div>
           </div>
         </section>
+        </Reveal>
 
         {/* Sélecteur de classe */}
+        <Reveal>
         <section className="lv-classes" aria-labelledby="lv-classes-title">
           <div className="lv-wrap">
             <h2 id="lv-classes-title" className="lv-title">{level.classesTitle}</h2>
@@ -103,8 +110,10 @@ export default function LevelPage({ level }: { level: LevelData }) {
             </div>
           </div>
         </section>
+        </Reveal>
 
         {/* Matières */}
+        <Reveal>
         <section className="lv-subjects" aria-labelledby="lv-subjects-title">
           <div className="lv-wrap">
             <h2 id="lv-subjects-title" className="lv-title">Les matières les plus demandées {level.inLabel}</h2>
@@ -119,8 +128,10 @@ export default function LevelPage({ level }: { level: LevelData }) {
             </div>
           </div>
         </section>
+        </Reveal>
 
         {/* Appel à l'action conseiller */}
+        <Reveal>
         <section className="lv-cta">
           <div className="lv-wrap lv-cta-grid">
             <img src={asset(level.cta.image)} alt="" loading="lazy" decoding="async" />
@@ -132,8 +143,10 @@ export default function LevelPage({ level }: { level: LevelData }) {
             </div>
           </div>
         </section>
+        </Reveal>
 
         {/* FAQ */}
+        <Reveal>
         <section className="lv-faq" aria-labelledby="lv-faq-title">
           <div className="lv-wrap lv-faq-wrap">
             <h2 id="lv-faq-title" className="lv-title">Questions fréquentes</h2>
@@ -145,10 +158,12 @@ export default function LevelPage({ level }: { level: LevelData }) {
             ))}
           </div>
         </section>
+        </Reveal>
 
-        <NearYouSection />
+        <Reveal><NearYouSection /></Reveal>
       </main>
       <Footer />
+      <BackToTop />
     </>
   )
 }

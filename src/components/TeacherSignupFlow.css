@@ -1,0 +1,86 @@
+.ts-stepper .rf-step-label { font-size: .78rem; }
+
+.ts-note { margin: -6px 0 16px; font-size: .88rem; color: #555; }
+.ts-hint { margin: 6px 0 0; font-size: .8rem; color: var(--km-green-dark); font-weight: 600; }
+.ts-gap { margin-top: 16px; }
+
+.ts-range { width: 100%; margin: 4px 0 0; accent-color: var(--km-violet); }
+
+/* Documents */
+.ts-docs { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.ts-docs li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 2px dashed #d4d4d4;
+  border-radius: 12px;
+  background: #fff;
+}
+.ts-docs li.has-file { border-style: solid; border-color: var(--km-green); background: #f0fdf4; }
+.ts-doc-info { min-width: 0; }
+.ts-doc-info strong { display: block; font-size: .92rem; }
+.ts-doc-file { font-size: .8rem; color: #555; overflow-wrap: anywhere; }
+.ts-badge {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--km-violet-light);
+  color: var(--km-violet-dark);
+  font-weight: 700;
+}
+.ts-doc-actions { display: flex; flex: none; align-items: center; gap: 10px; }
+.ts-upload { position: relative; padding: 10px 18px; font-size: .85rem; }
+.ts-upload input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.ts-upload:focus-within { box-shadow: 0 0 0 3px rgba(107, 70, 193, .25); }
+.ts-remove {
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--km-pink-dark);
+  font: inherit;
+  font-size: .82rem;
+  font-weight: 700;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.ts-remove:hover { background: none; box-shadow: none; transform: none; }
+
+/* Mot de passe */
+.ts-password { position: relative; }
+.ts-password .rf-input { padding-right: 90px; }
+.ts-password button {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  min-height: 0;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: var(--km-violet-light);
+  color: var(--km-violet-dark);
+  font: inherit;
+  font-size: .78rem;
+  font-weight: 700;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.ts-password button:hover { background: #e4dcf5; box-shadow: none; transform: translateY(-50%); }
+
+.ts-banner {
+  display: inline-block;
+  margin: 0 auto 14px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--km-violet-light);
+  color: var(--km-violet-dark);
+  font-weight: 700;
+}
+
+@media (max-width: 560px) {
+  .ts-stepper .rf-step-label { display: none; }
+  .ts-docs li { flex-direction: column; align-items: stretch; }
+  .ts-doc-actions { justify-content: space-between; }
+}

@@ -1,5 +1,5 @@
 import './hero.css'
-import { useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { saveSearch } from '../lib/savedSearches'
 import { asset } from '../lib/asset'
@@ -15,6 +15,23 @@ export default function Hero() {
   const [offerType, setOfferType] = useState<'individual' | 'group'>('individual')
   const [city, setCity] = useState('')
   const [level, setLevel] = useState('')
+  const sectionRef = useRef<HTMLElement>(null)
+
+  // Parallaxe : la vidéo défile plus lentement et le contenu s'estompe en quittant l'écran
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+    let frame = 0
+    const update = () => {
+      frame = 0
+      const y = Math.max(0, Math.min(window.scrollY, el.offsetHeight))
+      el.style.setProperty('--hero-scroll', String(y))
+    }
+    const onScroll = () => { if (!frame) frame = requestAnimationFrame(update) }
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => { cancelAnimationFrame(frame); window.removeEventListener('scroll', onScroll) }
+  }, [])
 
   const submit = (e: FormEvent) => {
     e.preventDefault()
@@ -26,7 +43,7 @@ export default function Hero() {
   }
 
   return (
-    <section className="main-hero" aria-labelledby="hero-title">
+    <section ref={sectionRef} className="main-hero" aria-labelledby="hero-title">
       <video
         className="hero-video"
         autoPlay

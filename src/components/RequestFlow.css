@@ -139,8 +139,9 @@
   cursor: pointer;
   transition: border-color .2s, background .2s, color .2s;
 }
-.rf-chips button:hover { border-color: var(--km-violet); }
-.rf-chips button.selected { border-color: var(--km-violet); background: var(--km-violet); color: #fff; }
+.rf-chips button:hover { border-color: var(--km-violet); background: #fff; box-shadow: none; transform: none; }
+.rf-chips button.selected,
+.rf-chips button.selected:hover { border-color: var(--km-violet); background: var(--km-violet); color: #fff; }
 
 .rf-split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
 

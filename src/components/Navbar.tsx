@@ -226,6 +226,7 @@ export default function Navbar() {
           <Link to="/dans-superieur" onClick={closeMobileMenu}>Cours dans le superieur</Link>
           <Link to="/pour-adultes" onClick={closeMobileMenu}>Pour adultes</Link>
           <Link to="/user-parent" onClick={closeMobileMenu}>Espace parent</Link>
+          <Link to="/devenir-enseignant" onClick={closeMobileMenu}>Devenir enseignant</Link>
         </nav>
         <button
           className="btn-tarif mobile-tarif-btn"

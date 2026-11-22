@@ -1,0 +1,12 @@
+.km-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1100;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, var(--km-green), var(--km-pink), var(--km-violet));
+  transform: scaleX(var(--km-progress, 0));
+  transform-origin: left center;
+  pointer-events: none;
+}

@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 import type { SearchFilters } from '../lib/savedSearches'
 import RequestFlow from './RequestFlow'
 import { asset } from '../lib/asset'
@@ -43,7 +44,8 @@ export default function ProfileFormModal({ profile, initial, onClose }: Props) {
     return () => { document.removeEventListener('keydown', onKey); document.body.style.overflow = prev }
   }, [onClose])
 
-  return (
+  // Rendu dans <body> : la popup échappe aux contextes d'empilement des sections (animations, z-index)
+  return createPortal(
     <div className="pfm-backdrop" style={{ top: navOffset }} onClick={onClose} role="presentation">
       <div
         className="pfm-dialog"
@@ -79,6 +81,7 @@ export default function ProfileFormModal({ profile, initial, onClose }: Props) {
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   )
 }
