@@ -48,15 +48,17 @@ export default function ProfileFormModal({ profile, initial, onClose }: Props) {
   return createPortal(
     <div className="pfm-backdrop" style={{ top: navOffset }} onClick={onClose} role="presentation">
       <div
-        className="pfm-dialog"
+        className="pfm-shell"
         role="dialog"
         aria-modal="true"
         aria-labelledby="pfm-title"
         onClick={(e) => e.stopPropagation()}
       >
-        <button type="button" className="pfm-close" onClick={onClose} aria-label="Fermer">
-          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" /></svg>
+        {/* Hors de la zone qui défile : la croix reste visible en permanence */}
+        <button type="button" className="pfm-close" onClick={onClose} aria-label="Fermer" title="Fermer">
+          <span className="pfm-x" aria-hidden="true" />
         </button>
+        <div className="pfm-dialog">
 
         <img className="pfm-photo" src={asset('/h.jpg')} alt="" loading="lazy" decoding="async" />
 
@@ -67,18 +69,7 @@ export default function ProfileFormModal({ profile, initial, onClose }: Props) {
           </p>
 
           <RequestFlow initial={{ ...initial, profile }} profileChosen onCancel={onClose} />
-
-          <div className="pfm-trust">
-            <div className="pfm-trust-row">
-              <span className="pfm-trust-brand">
-                <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="#22c55e" d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7.3L12 17.8 5.7 21.5l1.7-7.3L2 9.5l7.1-.6z" /></svg>
-                Trustpilot
-              </span>
-              <span className="pfm-trust-line" aria-hidden="true" />
-              <span className="pfm-trust-score">4.5 <small>★</small></span>
-            </div>
-            <p>4.5/5 sur la base de nos premiers avis</p>
-          </div>
+        </div>
         </div>
       </div>
     </div>,

@@ -2,9 +2,12 @@ import { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import './navbar.css'
 import Button from './Button.tsx'
+import { HOME_BY_ROLE, useSession } from '../lib/session'
 
 export default function Navbar() {
   const navigate = useNavigate()
+  const session = useSession()
+  const accountHref = session ? HOME_BY_ROLE[session.user.user_type] : '/login'
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const [isStagesDropdownOpen, setIsStagesDropdownOpen] = useState(false)
@@ -89,7 +92,7 @@ export default function Navbar() {
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
-              <Link to="/user-home" style={{textDecoration: 'none', color: 'black'}}>Mon compte</Link>
+              <Link to={accountHref} style={{textDecoration: 'none', color: 'black'}}>{session ? 'Mon compte' : 'Connexion'}</Link>
             </div>
           </div>
         </div>
@@ -225,7 +228,7 @@ export default function Navbar() {
           <Link to="/au-lycee" onClick={closeMobileMenu}>Cours au lycee</Link>
           <Link to="/dans-superieur" onClick={closeMobileMenu}>Cours dans le superieur</Link>
           <Link to="/pour-adultes" onClick={closeMobileMenu}>Pour adultes</Link>
-          <Link to="/user-parent" onClick={closeMobileMenu}>Espace parent</Link>
+          <Link to={accountHref} onClick={closeMobileMenu}>{session ? 'Mon espace' : 'Connexion'}</Link>
           <Link to="/devenir-enseignant" onClick={closeMobileMenu}>Devenir enseignant</Link>
         </nav>
         <button

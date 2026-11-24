@@ -2,32 +2,28 @@ import { useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { saveSearch } from '../lib/savedSearches'
 import {
-  CALLBACK_SLOTS, EMPTY_REQUEST, FORMATS, FREQUENCIES, GOALS, LEVELS, PROFILES, SUBJECTS,
+  CALLBACK_SLOTS, EMPTY_REQUEST, FORMATS, LEVELS, PROFILES, SUBJECTS,
   isValidEmail, isValidPhone, saveRequest, type StoredRequest, type TeacherRequest,
 } from '../lib/teacherRequests'
 import './RequestFlow.css'
 
-const STEPS = ['Profil', 'Lieu', 'Besoin', 'Coordonnées'] as const
+const STEPS = ['Profil', 'Lieu', 'Classe', 'Matières', 'Coordonnées'] as const
 const PHONE = '+237 622 244 994'
 
 type Props = {
   initial?: Partial<TeacherRequest>
-  // Le profil a déjà été choisi (ex. depuis la home) : on démarre à l'étape suivante
+  // Le profil a déjà été choisi (ex. depuis la home) : on démarre à l'étape Lieu
   profileChosen?: boolean
   onCancel?: () => void
 }
 
-function firstStep(r: TeacherRequest, profileChosen: boolean) {
-  if (!profileChosen) return 0
-  if (r.format !== 'en-ligne' && r.city.trim().length < 2) return 1
-  return 2
-}
-
 export default function RequestFlow({ initial, profileChosen = false, onCancel }: Props) {
   const [data, setData] = useState<TeacherRequest>(() => ({ ...EMPTY_REQUEST, ...initial }))
-  const [step, setStep] = useState(() => firstStep({ ...EMPTY_REQUEST, ...initial }, profileChosen || Boolean(initial?.profile)))
+  const [step, setStep] = useState(profileChosen || initial?.profile ? 1 : 0)
   const [done, setDone] = useState<StoredRequest | null>(null)
   const [showErrors, setShowErrors] = useState(false)
+  const [sending, setSending] = useState(false)
+  const [submitError, setSubmitError] = useState('')
 
   const set = <K extends keyof TeacherRequest>(key: K, value: TeacherRequest[K]) => setData((d) => ({ ...d, [key]: value }))
   const toggleSubject = (s: string) =>
@@ -35,24 +31,21 @@ export default function RequestFlow({ initial, profileChosen = false, onCancel }
 
   const errors: Partial<Record<keyof TeacherRequest, string>> = {}
   if (step === 1 && data.format !== 'en-ligne' && data.city.trim().length < 2) errors.city = 'Indiquez une ville ou un quartier.'
-  if (step === 2) {
-    if (!data.level) errors.level = 'Choisissez un niveau.'
-    if (data.subjects.length === 0) errors.subjects = 'Choisissez au moins une matière.'
-    if (!data.goal) errors.goal = 'Choisissez un objectif.'
-    if (!data.frequency) errors.frequency = 'Choisissez un rythme.'
-  }
-  if (step === 3) {
-    if (!data.firstName.trim()) errors.firstName = 'Prénom requis.'
-    if (!data.lastName.trim()) errors.lastName = 'Nom requis.'
+  if (step === 2 && !data.level) errors.level = 'Choisissez un niveau.'
+  if (step === 3 && data.subjects.length === 0) errors.subjects = 'Choisissez au moins une matière.'
+  if (step === 4) {
+    if (data.firstName.trim().length < 2) errors.firstName = 'Prénom requis (2 caractères minimum).'
+    if (data.lastName.trim().length < 2) errors.lastName = 'Nom requis (2 caractères minimum).'
     if (!isValidPhone(data.phone)) errors.phone = 'Numéro camerounais à 9 chiffres (ex. 6 90 00 00 00).'
-    if (!isValidEmail(data.email)) errors.email = 'Adresse email invalide.'
+    if (data.email.trim() && !isValidEmail(data.email)) errors.email = 'Adresse email invalide.'
     if (!data.consent) errors.consent = 'Votre accord est nécessaire pour être recontacté(e).'
   }
   const err = (key: keyof TeacherRequest) =>
     showErrors && errors[key] ? <p className="rf-error" role="alert">{errors[key]}</p> : null
 
-  const next = (e: FormEvent) => {
+  const next = async (e: FormEvent) => {
     e.preventDefault()
+    if (sending) return
     if (Object.keys(errors).length) { setShowErrors(true); return }
     setShowErrors(false)
     if (step < STEPS.length - 1) { setStep(step + 1); return }
@@ -63,7 +56,15 @@ export default function RequestFlow({ initial, profileChosen = false, onCancel }
       level: data.level,
       subjects: data.subjects,
     })
-    setDone(saveRequest(data))
+    setSending(true)
+    setSubmitError('')
+    try {
+      setDone(await saveRequest(data))
+    } catch (error) {
+      setSubmitError(error instanceof Error ? error.message : 'Une erreur est survenue. Réessayez.')
+    } finally {
+      setSending(false)
+    }
   }
 
   const back = () => {
@@ -72,9 +73,19 @@ export default function RequestFlow({ initial, profileChosen = false, onCancel }
     else setStep(step - 1)
   }
 
+  // Choix unique : on passe directement à l'étape suivante
+  const pickAndNext = (patch: Partial<TeacherRequest>) => {
+    setData((d) => ({ ...d, ...patch }))
+    setShowErrors(false)
+    setStep((n) => Math.min(n + 1, STEPS.length - 1))
+  }
+
   if (done) return <Confirmation request={done} />
 
   const levels = LEVELS[data.profile]
+  const chip = (selected: boolean, label: string, onClick: () => void) => (
+    <button key={label} type="button" aria-pressed={selected} className={selected ? 'selected' : ''} onClick={onClick}>{label}</button>
+  )
 
   return (
     <div className="rf">
@@ -98,7 +109,7 @@ export default function RequestFlow({ initial, profileChosen = false, onCancel }
                     type="radio"
                     name="profile"
                     checked={data.profile === p.id}
-                    onChange={() => setData((d) => ({ ...d, profile: p.id, level: '' }))}
+                    onChange={() => pickAndNext({ profile: p.id, level: data.profile === p.id ? data.level : '' })}
                   />
                   <strong>{p.title}</strong>
                   <span>{p.subtitle}</span>
@@ -111,8 +122,7 @@ export default function RequestFlow({ initial, profileChosen = false, onCancel }
         {step === 1 && (
           <>
             <fieldset>
-              <legend>Vérifions la disponibilité de nos enseignants</legend>
-              <p className="rf-question">Comment souhaitez-vous suivre les cours ?</p>
+              <legend>Comment souhaitez-vous suivre les cours ?</legend>
               <div className="rf-cards rf-cards-3">
                 {FORMATS.map((f) => (
                   <label key={f.id} className={`rf-card${data.format === f.id ? ' selected' : ''}`}>
@@ -130,7 +140,7 @@ export default function RequestFlow({ initial, profileChosen = false, onCancel }
               id="rf-city"
               className="rf-input"
               type="text"
-              placeholder="Ville ou quartier (ex. Douala, Bonapriso)"
+              placeholder="Ville et quartier (ex. Douala, Bonapriso)"
               value={data.city}
               onChange={(e) => set('city', e.target.value)}
               autoComplete="address-level2"
@@ -140,61 +150,36 @@ export default function RequestFlow({ initial, profileChosen = false, onCancel }
         )}
 
         {step === 2 && (
-          <>
-            <fieldset>
-              <legend>Précisons votre besoin</legend>
-              <p className="rf-question">{data.profile === 'adulte' ? 'Quel est votre objectif ?' : 'Quelle classe ?'}</p>
-              {levels.map((g) => (
-                <div key={g.group} className="rf-chip-group">
-                  {levels.length > 1 && <span className="rf-chip-title">{g.group}</span>}
-                  <div className="rf-chips">
-                    {g.options.map((o) => (
-                      <button key={o} type="button" aria-pressed={data.level === o} className={data.level === o ? 'selected' : ''} onClick={() => set('level', o)}>{o}</button>
-                    ))}
-                  </div>
+          <fieldset>
+            <legend>{data.profile === 'adulte' ? 'Quel est votre objectif ?' : 'Quelle classe ?'}</legend>
+            {levels.map((g) => (
+              <div key={g.group} className="rf-chip-group">
+                {levels.length > 1 && <span className="rf-chip-title">{g.group}</span>}
+                <div className="rf-chips">
+                  {g.options.map((o) => chip(data.level === o, o, () => pickAndNext({ level: o })))}
                 </div>
-              ))}
-              {err('level')}
-            </fieldset>
-
-            <fieldset>
-              <p className="rf-question">Quelle(s) matière(s) ?</p>
-              <div className="rf-chips">
-                {SUBJECTS.map((s) => (
-                  <button key={s} type="button" aria-pressed={data.subjects.includes(s)} className={data.subjects.includes(s) ? 'selected' : ''} onClick={() => toggleSubject(s)}>{s}</button>
-                ))}
               </div>
-              {err('subjects')}
-            </fieldset>
-
-            <div className="rf-split">
-              <fieldset>
-                <p className="rf-question">Objectif principal</p>
-                <div className="rf-chips">
-                  {GOALS.map((g) => (
-                    <button key={g} type="button" aria-pressed={data.goal === g} className={data.goal === g ? 'selected' : ''} onClick={() => set('goal', g)}>{g}</button>
-                  ))}
-                </div>
-                {err('goal')}
-              </fieldset>
-              <fieldset>
-                <p className="rf-question">Rythme souhaité</p>
-                <div className="rf-chips">
-                  {FREQUENCIES.map((f) => (
-                    <button key={f} type="button" aria-pressed={data.frequency === f} className={data.frequency === f ? 'selected' : ''} onClick={() => set('frequency', f)}>{f}</button>
-                  ))}
-                </div>
-                {err('frequency')}
-              </fieldset>
-            </div>
-          </>
+            ))}
+            {err('level')}
+          </fieldset>
         )}
 
         {step === 3 && (
+          <fieldset>
+            <legend>Quelle(s) matière(s) ?</legend>
+            <p className="rf-question">Plusieurs choix possibles.</p>
+            <div className="rf-chips">
+              {SUBJECTS.map((s) => chip(data.subjects.includes(s), s, () => toggleSubject(s)))}
+            </div>
+            {err('subjects')}
+          </fieldset>
+        )}
+
+        {step === 4 && (
           <>
             <div className="rf-almost">
-              <strong>Vous y étiez presque !</strong>
-              <span>Laissez vos coordonnées pour recevoir votre bilan et votre devis personnalisés, gratuitement.</span>
+              <strong>Dernière étape !</strong>
+              <span>Un conseiller vous rappelle gratuitement pour préciser l’objectif, le rythme et vous proposer un tarif.</span>
             </div>
             <div className="rf-grid">
               <div>
@@ -213,18 +198,12 @@ export default function RequestFlow({ initial, profileChosen = false, onCancel }
                 {err('phone')}
               </div>
               <div>
-                <label className="rf-label" htmlFor="rf-email">Email</label>
+                <label className="rf-label" htmlFor="rf-email">Email (facultatif)</label>
                 <input id="rf-email" className="rf-input" type="email" value={data.email} onChange={(e) => set('email', e.target.value)} autoComplete="email" />
                 {err('email')}
               </div>
-              {data.profile === 'parent' && (
-                <div>
-                  <label className="rf-label" htmlFor="rf-child">Prénom de votre enfant (facultatif)</label>
-                  <input id="rf-child" className="rf-input" value={data.childFirstName} onChange={(e) => set('childFirstName', e.target.value)} />
-                </div>
-              )}
               <div>
-                <label className="rf-label" htmlFor="rf-slot">Quand souhaitez-vous être rappelé(e) ?</label>
+                <label className="rf-label" htmlFor="rf-slot">Quand vous rappeler ?</label>
                 <select id="rf-slot" className="rf-input" value={data.callbackSlot} onChange={(e) => set('callbackSlot', e.target.value)}>
                   {CALLBACK_SLOTS.map((s) => <option key={s} value={s}>{s}</option>)}
                 </select>
@@ -232,20 +211,24 @@ export default function RequestFlow({ initial, profileChosen = false, onCancel }
             </div>
             <label className="rf-consent">
               <input type="checkbox" checked={data.consent} onChange={(e) => set('consent', e.target.checked)} />
-              <span>J’accepte d’être recontacté(e) par un conseiller pédagogique Kmertude au sujet de ma demande. Mes données ne sont utilisées que pour cette demande.</span>
+              <span>
+                J’accepte d’être recontacté(e) par un conseiller Kmertude au sujet de ma demande
+                (<Link to="/donnees-personnelles" target="_blank">données personnelles</Link>).
+              </span>
             </label>
             {err('consent')}
           </>
         )}
 
+        {submitError && <p className="rf-error" role="alert">{submitError}</p>}
         <div className="rf-actions">
           {(step > 0 || onCancel) && (
             <button type="button" className="rf-btn rf-btn-ghost" onClick={back}>
               ← {step === 0 ? 'Annuler' : 'Précédent'}
             </button>
           )}
-          <button type="submit" className="rf-btn rf-btn-primary">
-            {step === STEPS.length - 1 ? 'Envoyer ma demande' : 'Continuer →'}
+          <button type="submit" className="rf-btn rf-btn-primary" disabled={sending}>
+            {step === STEPS.length - 1 ? (sending ? 'Envoi en cours…' : 'Envoyer ma demande') : 'Continuer →'}
           </button>
         </div>
       </form>
@@ -275,7 +258,7 @@ function Confirmation({ request }: { request: StoredRequest }) {
         <li><span>Cours</span>{format}{request.city && ` · ${request.city}`}</li>
         <li><span>Niveau</span>{request.level}</li>
         <li><span>Matières</span>{request.subjects.join(', ')}</li>
-        <li><span>Objectif</span>{request.goal} · {request.frequency}</li>
+        {request.goal && <li><span>Objectif</span>{[request.goal, request.frequency].filter(Boolean).join(' · ')}</li>}
       </ul>
 
       <h3>Et ensuite ?</h3>

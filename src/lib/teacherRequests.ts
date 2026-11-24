@@ -1,4 +1,5 @@
 import type { SearchFilters } from './savedSearches'
+import { api } from './api'
 
 export type Profile = NonNullable<SearchFilters['profile']>
 export type Format = 'domicile' | 'en-ligne' | 'stage'
@@ -73,27 +74,47 @@ export const EMPTY_REQUEST: TeacherRequest = {
   consent: false,
 }
 
-// Numéro camerounais : 9 chiffres commençant par 6 ou 2, indicatif +237 facultatif
-export const isValidPhone = (phone: string) => /^(\+?237)?[26]\d{8}$/.test(phone.replace(/[\s.-]/g, ''))
+// Numéro mobile camerounais : 9 chiffres commençant par 6, indicatif +237 facultatif
+// (même règle que normalize_cameroon_phone_number côté backend)
+export const isValidPhone = (phone: string) => /^(\+?237)?6\d{8}$/.test(phone.replace(/[\s.-]/g, ''))
 export const isValidEmail = (email: string) => /^\S+@\S+\.\S+$/.test(email.trim())
 
-const STORAGE_KEY = 'kmertude:teacherRequests'
+// Correspondances front → enums du backend (ProspectLeadConseillerCreate)
+const PROFIL_API: Record<Profile, 'parent' | 'eleve_adulte'> = {
+  parent: 'parent',
+  eleve: 'eleve_adulte',
+  etudiant: 'eleve_adulte',
+  adulte: 'eleve_adulte',
+}
+const MODALITE_API: Record<Format, string> = { domicile: 'presentiel', 'en-ligne': 'en_ligne', stage: 'presentiel' }
+const CRENEAU_API = ['immediat', 'matin', 'midi', 'apres_midi', 'soir']
 
-// Pas encore de backend : la demande est conservée localement sur l'appareil.
-export function saveRequest(request: TeacherRequest): StoredRequest {
-  const stored: StoredRequest = {
-    ...request,
-    reference: `KM-${Date.now().toString(36).toUpperCase().slice(-6)}`,
-    createdAt: Date.now(),
-  }
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    const list = raw ? (JSON.parse(raw) as StoredRequest[]) : []
-    localStorage.setItem(STORAGE_KEY, JSON.stringify([stored, ...list].slice(0, 20)))
-  } catch {
-    // stockage indisponible (navigation privée…) : la confirmation s'affiche quand même
-  }
-  return stored
+type LeadResponse = { id: number; created_at: string }
+
+// Demande publique sans compte : POST /leads/conseiller
+export async function saveRequest(request: TeacherRequest): Promise<StoredRequest> {
+  const cycle = LEVELS[request.profile].find((g) => g.options.includes(request.level))?.group
+  const lead = await api<LeadResponse>('/leads/conseiller', {
+    method: 'POST',
+    body: JSON.stringify({
+      prenom: request.firstName.trim(),
+      nom: request.lastName.trim(),
+      telephone: request.phone,
+      email: request.email.trim() || null,
+      profil: PROFIL_API[request.profile],
+      creneau_rappel: CRENEAU_API[CALLBACK_SLOTS.indexOf(request.callbackSlot)] ?? null,
+      message: request.format === 'stage' ? 'Souhaite un stage en petit groupe.' : null,
+      prenom_eleve: request.childFirstName.trim() || null,
+      modalite: MODALITE_API[request.format],
+      ville: request.format === 'en-ligne' ? null : request.city.trim() || null,
+      cycle: cycle ?? null,
+      classe_niveau: request.level,
+      matieres: request.subjects.join(', '),
+      objectif_principal: request.goal || null,
+      rythme: request.frequency || null,
+    }),
+  })
+  return { ...request, reference: `KM-${lead.id}`, createdAt: Date.parse(lead.created_at) || Date.now() }
 }
 
 const PROFILE_IDS = PROFILES.map((p) => p.id)

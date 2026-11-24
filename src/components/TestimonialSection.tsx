@@ -1,4 +1,3 @@
-import { asset } from '../lib/asset'
 import './TestimonialSection.css'
 
 export default function TestimonialSection() {
@@ -15,16 +14,6 @@ export default function TestimonialSection() {
               <span className="reviewer-name">Marie-Claire</span>
               <span className="review-date">il y a 2 jours</span>
             </div>
-            <div className="trustpilot-info">
-              <img src={asset('/trustpilot-logo.png')} alt="Trustpilot" className="trustpilot-logo" />
-              <div className="stars">
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-              </div>
-            </div>
           </div>
           <h3 className="testimonial-title">Super prof et super méthode</h3>
           <p className="testimonial-text">
@@ -38,16 +27,6 @@ export default function TestimonialSection() {
               <span className="reviewer-name">Jean-Pierre</span>
               <span className="review-date">il y a 1 semaine</span>
             </div>
-            <div className="trustpilot-info">
-              <img src={asset('/trustpilot-logo.png')} alt="Trustpilot" className="trustpilot-logo" />
-              <div className="stars">
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-              </div>
-            </div>
           </div>
           <h3 className="testimonial-title">Excellente prise en charge</h3>
           <p className="testimonial-text">
@@ -60,16 +39,6 @@ export default function TestimonialSection() {
             <div className="reviewer-info">
               <span className="reviewer-name">Aïssatou</span>
               <span className="review-date">il y a 2 semaines</span>
-            </div>
-            <div className="trustpilot-info">
-              <img src={asset('/trustpilot-logo.png')} alt="Trustpilot" className="trustpilot-logo" />
-              <div className="stars">
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-                <span className="star">★</span>
-              </div>
             </div>
           </div>
           <h3 className="testimonial-title">Stage de vacances réussi</h3>

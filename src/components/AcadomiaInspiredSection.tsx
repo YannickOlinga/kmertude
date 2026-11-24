@@ -77,30 +77,6 @@ export default function AcadomiaInspiredSection() {
           </svg>
         </a>
       </div>
-
-      <aside className="km-academia-reviews" aria-label="Les avis de nos familles">
-        <h3>Les avis de nos familles</h3>
-        <div className="km-academia-trust">
-          <span className="km-academia-trust-star" aria-hidden="true">
-            <svg viewBox="0 0 24 24" width="18" height="18"><path fill="#22c55e" d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7.3L12 17.8 5.7 21.5l1.7-7.3L2 9.5l7.1-.6z" /></svg>
-          </span>
-          Trustpilot
-        </div>
-        <div className="km-academia-rating">
-          <div className="km-academia-stars" aria-label="Note 4,5 sur 5">
-            {[0, 1, 2, 3].map((i) => (
-              <span key={i} className="km-academia-star full">
-                <svg viewBox="0 0 24 24" width="14" height="14"><path fill="#fff" d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7.3L12 17.8 5.7 21.5l1.7-7.3L2 9.5l7.1-.6z" /></svg>
-              </span>
-            ))}
-            <span className="km-academia-star half">
-              <svg viewBox="0 0 24 24" width="14" height="14"><path fill="#fff" d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7.3L12 17.8 5.7 21.5l1.7-7.3L2 9.5l7.1-.6z" /></svg>
-            </span>
-          </div>
-          <a href="#avis" className="km-academia-reviews-link">Lire les avis</a>
-        </div>
-        <p className="km-academia-reviews-note">Note moyenne 4,5/5 | 0 avis</p>
-      </aside>
     </section>
   )
 }

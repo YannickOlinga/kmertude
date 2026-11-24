@@ -1,8 +1,8 @@
-import { useState, type FormEvent } from 'react'
+import { useRef, useState, type FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import {
   ACCEPTED_FILES, DOCUMENTS, EMPTY_APPLICATION, NIVEAUX_ENSEIGNES, NIVEAUX_ETUDES, OTHER, SPECIALITES, VILLES,
-  fileError, formatFcfa, isCanonicalPhone, normalizePhone, parseFcfa, saveApplication,
+  fileError, formatFcfa, isCanonicalPhone, newSession, normalizePhone, parseFcfa, submitApplication,
   type DocumentType, type TeacherApplication,
 } from '../lib/teacherApplications'
 import { isValidEmail } from '../lib/teacherRequests'
@@ -54,7 +54,10 @@ export default function TeacherSignupFlow() {
   const [showErrors, setShowErrors] = useState(false)
   const [fileErrors, setFileErrors] = useState<Partial<Record<DocumentType, string>>>({})
   const [showPassword, setShowPassword] = useState(false)
-  const [done, setDone] = useState<ReturnType<typeof saveApplication> | null>(null)
+  const [done, setDone] = useState<Awaited<ReturnType<typeof submitApplication>> | null>(null)
+  const [sending, setSending] = useState(false)
+  const [submitError, setSubmitError] = useState('')
+  const session = useRef(newSession())
 
   const set = <K extends keyof TeacherApplication>(key: K, value: TeacherApplication[K]) => setData((d) => ({ ...d, [key]: value }))
   const toggle = (key: 'specialites' | 'niveaux_enseignes', v: string) =>
@@ -75,8 +78,9 @@ export default function TeacherSignupFlow() {
     set('documents', next)
   }
 
-  const next = (e: FormEvent) => {
+  const next = async (e: FormEvent) => {
     e.preventDefault()
+    if (sending) return
     if (Object.keys(errors).length) { setShowErrors(true); return }
     setShowErrors(false)
     if (step === 0) {
@@ -89,7 +93,18 @@ export default function TeacherSignupFlow() {
       }))
     }
     if (step < STEPS.length - 1) { setStep(step + 1); return }
-    setDone(saveApplication(data))
+    setSending(true)
+    setSubmitError('')
+    try {
+      setDone(await submitApplication(data, session.current))
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Une erreur est survenue.'
+      setSubmitError(session.current.token
+        ? `Votre compte est créé, mais l’envoi du dossier s’est interrompu : ${message} Cliquez à nouveau pour reprendre.`
+        : message)
+    } finally {
+      setSending(false)
+    }
   }
 
   const back = () => { setShowErrors(false); setStep((s) => Math.max(0, s - 1)) }
@@ -297,10 +312,11 @@ export default function TeacherSignupFlow() {
           </fieldset>
         )}
 
+        {submitError && <p className="rf-error" role="alert">{submitError}</p>}
         <div className="rf-actions">
           {step > 0 && <button type="button" className="rf-btn rf-btn-ghost" onClick={back}>← Précédent</button>}
-          <button type="submit" className="rf-btn rf-btn-primary">
-            {step === STEPS.length - 1 ? 'Envoyer mon dossier' : 'Continuer →'}
+          <button type="submit" className="rf-btn rf-btn-primary" disabled={sending}>
+            {step === STEPS.length - 1 ? (sending ? 'Envoi en cours…' : 'Envoyer mon dossier') : 'Continuer →'}
           </button>
         </div>
       </form>
@@ -330,6 +346,7 @@ function Submitted({ firstName, reference, email }: { firstName: string; referen
       </ol>
       <div className="rf-actions rf-actions-center">
         <Link to="/" className="rf-btn rf-btn-ghost">Retour à l’accueil</Link>
+        <Link to="/enseignant" className="rf-btn rf-btn-primary">Accéder à mon espace</Link>
       </div>
     </div>
   )

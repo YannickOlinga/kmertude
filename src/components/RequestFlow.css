@@ -280,3 +280,8 @@
   .rf-btn { width: 100%; }
   .rf-btn-primary { margin-left: 0; }
 }
+
+/* 5 étapes : sur très petit écran, seul le libellé de l'étape en cours reste visible */
+@media (max-width: 420px) {
+  .rf-stepper li:not(.active) .rf-step-label { display: none; }
+}

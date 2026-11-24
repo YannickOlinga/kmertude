@@ -1,6 +1,8 @@
 // Inscription enseignant — champs alignés sur le cahier des charges MVP :
 // POST /auth/register (user_type ENSEIGNANT), POST /zones-intervention, PUT /coordonnees-paiement/me,
-// POST /documents-enseignants/upload. Pas encore de backend : le dossier est conservé localement.
+// POST /documents-enseignants/upload. Voir submitApplication en bas de fichier.
+import { api } from './api'
+import { adoptSession } from './session'
 
 export type MomoOperator = 'mtn_momo' | 'orange_money'
 export type DocumentType = 'cni' | 'diplome' | 'justificatif_etudes' | 'casier_judiciaire' | 'autre'
@@ -87,40 +89,81 @@ export function fileError(file: File) {
   return ''
 }
 
-const STORAGE_KEY = 'kmertude:teacherApplications'
+type RegisterResponse = {
+  user: { id: number; username: string; email: string; user_type: 'enseignant' }
+  access_token: string
+  refresh_token: string
+}
+type CoordonneesResponse = { enseignant_id: number }
 
-export function saveApplication(a: TeacherApplication) {
-  const record = {
-    reference: `ENS-${Date.now().toString(36).toUpperCase().slice(-6)}`,
-    createdAt: Date.now(),
-    statut_validation: 'en_attente' as const,
-    user_type: 'ENSEIGNANT' as const,
-    first_name: a.first_name.trim(),
-    last_name: a.last_name.trim(),
-    email: a.email.trim(),
-    phone: normalizePhone(a.phone),
-    username: a.username.trim(),
-    specialites: a.specialites,
-    niveaux_enseignes: a.niveaux_enseignes,
-    niveau_etudes: a.niveau_etudes,
-    tarif_horaire: parseFcfa(a.tarif_horaire),
-    zone: {
-      ville: a.ville === OTHER ? a.ville_autre.trim() : a.ville,
-      arrondissement: a.arrondissement.trim(),
-      quartier: a.quartier.trim(),
-      rayon_km: a.rayon_km,
-      pays: 'Cameroun',
-    },
-    paiement: { operateur: a.operateur, numero_telephone: normalizePhone(a.numero_momo), nom_titulaire_compte: a.nom_titulaire_compte.trim() },
-    // Le mot de passe et les fichiers ne sont jamais stockés localement
-    documents: Object.entries(a.documents).map(([type, f]) => ({ type_document: type, nom_fichier_original: f?.name, statut: 'en_attente' })),
+// Garde le jeton entre deux tentatives : si une étape après l'inscription échoue,
+// un nouvel envoi reprend sans recréer le compte (sinon « email déjà utilisé »).
+export type SubmitSession = { token?: string; register?: RegisterResponse; enseignantId?: number; zoneDone?: boolean; uploaded: DocumentType[] }
+export const newSession = (): SubmitSession => ({ uploaded: [] })
+
+// Envoi du dossier enseignant, dans l'ordre imposé par le backend :
+// 1. POST /auth/register   2. PUT /coordonnees-paiement/me (renvoie enseignant_id)
+// 3. POST /zones-intervention/enseignants/{id}   4. POST /documents-enseignants/upload (un appel par fichier)
+export async function submitApplication(a: TeacherApplication, session: SubmitSession) {
+  if (!session.token) {
+    const res = await api<RegisterResponse>('/auth/register', {
+      method: 'POST',
+      body: JSON.stringify({
+        username: a.username.trim(),
+        email: a.email.trim(),
+        password: a.password,
+        user_type: 'enseignant',
+        first_name: a.first_name.trim(),
+        last_name: a.last_name.trim(),
+        phone: normalizePhone(a.phone),
+        // Le backend n'a pas de champ « niveaux enseignés » : on les ajoute aux spécialités
+        specialites: `${a.specialites.join(', ')} — Niveaux : ${a.niveaux_enseignes.join(', ')}`,
+        niveau_etudes: a.niveau_etudes,
+        tarif_horaire: parseFcfa(a.tarif_horaire),
+      }),
+    })
+    session.token = res.access_token
+    session.register = res
   }
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    const list = raw ? JSON.parse(raw) : []
-    localStorage.setItem(STORAGE_KEY, JSON.stringify([record, ...list].slice(0, 10)))
-  } catch {
-    // stockage indisponible : la confirmation s'affiche quand même
+  const token = session.token
+
+  if (!session.enseignantId) {
+    const coord = await api<CoordonneesResponse>('/coordonnees-paiement/me', {
+      method: 'PUT',
+      token,
+      body: JSON.stringify({
+        operateur: a.operateur,
+        numero_mobile_money: normalizePhone(a.numero_momo),
+        nom_titulaire_compte: a.nom_titulaire_compte.trim(),
+      }),
+    })
+    session.enseignantId = coord.enseignant_id
   }
-  return record
+
+  if (!session.zoneDone) {
+    await api(`/zones-intervention/enseignants/${session.enseignantId}`, {
+      method: 'POST',
+      token,
+      body: JSON.stringify({
+        ville: a.ville === OTHER ? a.ville_autre.trim() : a.ville,
+        commune_arrondissement: a.arrondissement.trim() || null,
+        quartier: a.quartier.trim(),
+        rayon_km: a.rayon_km,
+      }),
+    })
+    session.zoneDone = true
+  }
+
+  for (const [type, file] of Object.entries(a.documents) as [DocumentType, File | undefined][]) {
+    if (!file || session.uploaded.includes(type)) continue
+    const form = new FormData()
+    form.append('type_document', type)
+    form.append('file', file)
+    await api('/documents-enseignants/upload', { method: 'POST', token, body: form })
+    session.uploaded.push(type)
+  }
+
+  // Le dossier est complet : l'enseignant est connecté et peut suivre sa validation dans son espace
+  if (session.register) await adoptSession(session.register).catch(() => null)
+  return { first_name: a.first_name.trim(), email: a.email.trim(), reference: `ENS-${session.enseignantId}` }
 }

@@ -1,11 +1,17 @@
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import SavedSearchesMenu from './SavedSearchesMenu'
-import { asset } from '../lib/asset'
+import { ROLE_LABEL, displayName, logout, useSession } from '../lib/session'
 import './UserNavbar.css'
 
 export default function UserNavbar() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const session = useSession()
+  const navigate = useNavigate()
+  const name = session ? displayName(session.user) : ''
+  const role = session ? ROLE_LABEL[session.user.user_type] : ''
+  const initials = name.split(/\s+/).map((w) => w[0]).join('').slice(0, 2).toUpperCase()
+  const signOut = async () => { await logout(); navigate('/login', { replace: true }) }
 
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? 'hidden' : ''
@@ -30,13 +36,11 @@ export default function UserNavbar() {
 
         <div className="user-navbar-center">
           <nav className="user-nav">
-            {/* <Link to="/user-home" className="nav-link">Accueil</Link> */}
-            <Link to="/user-students" className="nav-link">Mes élèves</Link>
-            <Link to="/user-accounts" className="nav-link">Mes acomptes</Link>
-            {/* <Link to="/user-courses" className="nav-link">Mes bulletins de paie</Link> */}
-            <a href="#" className="nav-link">Mes récapitulatifs annuels</a>
+            <Link to="/enseignant" className="nav-link">Propositions</Link>
+            <Link to="/enseignant/seance" className="nav-link">Séance</Link>
+            <Link to="/enseignant/gains" className="nav-link">Gains</Link>
+            <Link to="/enseignant/dossier" className="nav-link">Dossier</Link>
             <Link to="/user-videos" className="nav-link">Mes vidéos</Link>
-            <Link to="/user-documents" className="nav-link">Mes documents utiles</Link>
           </nav>
         </div>
 
@@ -44,15 +48,15 @@ export default function UserNavbar() {
           <SavedSearchesMenu />
           <div className="user-info">
             <div className="user-avatar">
-              <img src={asset('/yannick.jpg')} alt="Avatar" />
+              <span aria-hidden="true" style={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', fontWeight: 700 }}>{initials}</span>
             </div>
             <div className="user-details">
-              <Link to="/user-profile" className="user-name">Yannick olinga</Link>
-              <span className="user-role">Parent</span>
+              <Link to="/profil" className="user-name">{name}</Link>
+              <span className="user-role">{role}</span>
             </div>
           </div>
           <div className="user-actions">
-            <button className="btn-logout">
+            <button className="btn-logout" type="button" onClick={signOut} aria-label="Se déconnecter" title="Se déconnecter">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
                 <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
                 <polyline points="16,17 21,12 16,7"></polyline>
@@ -97,11 +101,11 @@ export default function UserNavbar() {
           <div className="user-mobile-user-section">
             <div className="user-mobile-user-info">
               <div className="user-mobile-avatar">
-                <img src={asset('/yannick.jpg')} alt="Avatar" />
+                <span aria-hidden="true" style={{ display: 'grid', placeItems: 'center', width: '100%', height: '100%', fontWeight: 700 }}>{initials}</span>
               </div>
               <div className="user-mobile-details">
-                <h4>Yannick olinga</h4>
-                <p>Parent</p>
+                <h4>{name}</h4>
+                <p>{role}</p>
               </div>
             </div>
           </div>
@@ -111,11 +115,13 @@ export default function UserNavbar() {
           </div>
 
           <ul className="user-mobile-nav">
-            <li><Link to="/user-students" onClick={closeMenu}>Mes eleves</Link></li>
-            <li><Link to="/user-accounts" onClick={closeMenu}>Mes acomptes</Link></li>
-            <li><Link to="/user-videos" onClick={closeMenu}>Mes videos</Link></li>
-            <li><Link to="/user-documents" onClick={closeMenu}>Mes documents utiles</Link></li>
-            <li><Link to="/user-profile" onClick={closeMenu}>Mon profil</Link></li>
+            <li><Link to="/enseignant" onClick={closeMenu}>Propositions</Link></li>
+            <li><Link to="/enseignant/seance" onClick={closeMenu}>Séance</Link></li>
+            <li><Link to="/enseignant/gains" onClick={closeMenu}>Gains</Link></li>
+            <li><Link to="/enseignant/dossier" onClick={closeMenu}>Dossier</Link></li>
+            <li><Link to="/user-videos" onClick={closeMenu}>Mes vidéos</Link></li>
+            <li><Link to="/profil" onClick={closeMenu}>Mon profil</Link></li>
+            <li><button type="button" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer', font: 'inherit', color: 'inherit' }} onClick={signOut}>Se déconnecter</button></li>
           </ul>
         </div>
       </aside>
