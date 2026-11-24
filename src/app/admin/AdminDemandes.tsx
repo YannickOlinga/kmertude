@@ -1,11 +1,14 @@
 import { useState } from 'react'
 import AppShell from '../AppShell'
+import PageHero from '../PageHero'
 import { Bd, Field, Loadable, Msg } from '../ui'
 import {
   DEMANDE_STATUT, MODALITE_LABEL, PROPOSITION_STATUT, confirmerAffectation, createProposition, dateFr, fcfa, getBeneficiaire,
   getFamille, getProposition, listDemandes, listEnseignants, listZones, updateDemande, type DemandeAdmin, type Zone,
 } from '../../lib/backend'
 import { errorMessage, useApi } from '../../lib/useApi'
+import '../space.css'
+import './admin.css'
 
 // L'API n'expose pas la liste des propositions d'une demande : on garde les ids émis depuis cet écran.
 const SENT_KEY = 'kmertude:admin:propositions'
@@ -53,25 +56,35 @@ function Qualification({ demande, onSaved }: { demande: DemandeAdmin; onSaved: (
 
   const fam = ctx.data?.famille?.user
   const b = ctx.data?.benef
+  const lieu = [demande.localisation_quartier, demande.commune_arrondissement, demande.localisation_ville].filter(Boolean).join(', ')
   return (
-    <div>
-      <div className="ks-sp"><h2>Demande #D-{demande.id}</h2><Bd s={DEMANDE_STATUT[demande.statut]} /></div>
-      <div className="ks-card">
-        {fam ? <>{fam.full_name} · {fam.phone ?? fam.email}</> : '…'}
-        {b && <> · {b.prenom} ({b.classe_niveau}{b.serie ? ` ${b.serie}` : ''})</>}<br />
-        {demande.matiere} · {MODALITE_LABEL[demande.modalite]} · {demande.heures_semaine_souhaitees} h/sem{demande.rythme ? ` · ${demande.rythme}` : ''}<br />
-        {[demande.localisation_ville, demande.commune_arrondissement, demande.localisation_quartier].filter(Boolean).join(' · ')}
-        {demande.localisation_point_repere && <> · {demande.localisation_point_repere}</>}<br />
-        {demande.disponibilites && <span className="ks-mu">Dispo : {demande.disponibilites}<br /></span>}
-        {demande.objectifs && <span className="ks-mu">Objectifs : {demande.objectifs}<br /></span>}
-        {b?.besoins_specifiques && <span className="ks-mu">Besoins : {b.besoins_specifiques}<br /></span>}
-        <span className="ks-mu ks-sm">Soumise le {dateFr(demande.date_soumission, true)}</span>
+    <section className="ks-card ad-panel">
+      <div className="ad-panel-head">
+        <span className="ad-step">1</span>
+        <div>
+          <h2>Qualification</h2>
+          <span className="ks-mu ks-sm">Demande D-{demande.id} · soumise le {dateFr(demande.date_soumission, true)}</span>
+        </div>
+        <Bd s={DEMANDE_STATUT[demande.statut]} />
       </div>
-      <Field label="Tarif client (FCFA/h)"><input inputMode="numeric" value={tarif} onChange={(e) => setTarif(e.target.value)} placeholder="5 000" /></Field>
-      <Field label="Notes administratives"><textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} /></Field>
+
+      <dl className="ad-facts">
+        <div><dt>Famille</dt><dd>{fam ? fam.full_name : '…'}<small>{fam?.phone ?? fam?.email}</small></dd></div>
+        <div><dt>Élève</dt><dd>{b ? `${b.prenom} ${b.nom}` : '…'}<small>{b ? `${b.classe_niveau}${b.serie ? ` · ${b.serie}` : ''}` : ''}</small></dd></div>
+        <div><dt>Cours</dt><dd>{demande.matiere}<small>{MODALITE_LABEL[demande.modalite]} · {demande.heures_semaine_souhaitees} h/sem{demande.rythme ? ` · ${demande.rythme}` : ''}</small></dd></div>
+        <div><dt>Lieu</dt><dd>{lieu || '—'}{demande.localisation_point_repere && <small>{demande.localisation_point_repere}</small>}</dd></div>
+        {demande.disponibilites && <div className="full"><dt>Disponibilités</dt><dd>{demande.disponibilites}</dd></div>}
+        {demande.objectifs && <div className="full"><dt>Objectifs</dt><dd>{demande.objectifs}</dd></div>}
+        {b?.besoins_specifiques && <div className="full"><dt>Besoins spécifiques</dt><dd>{b.besoins_specifiques}</dd></div>}
+      </dl>
+
+      <div className="ad-tarif">
+        <Field label="Tarif client (FCFA/h)"><input inputMode="numeric" value={tarif} onChange={(e) => setTarif(e.target.value)} placeholder="5 000" /></Field>
+        <Field label="Notes administratives"><textarea rows={2} value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Résumé de l’appel, contraintes…" /></Field>
+      </div>
       <Msg {...msg} />
-      <button type="button" className="ks-btn p" disabled={busy} onClick={save}>Enregistrer la qualification</button>
-    </div>
+      <button type="button" className="ks-btn p w" disabled={busy} onClick={save}>{busy ? 'Enregistrement…' : 'Enregistrer la qualification'}</button>
+    </section>
   )
 }
 
@@ -128,27 +141,34 @@ function Propositions({ demande, onChange }: { demande: DemandeAdmin; onChange: 
   const byProf = new Map((sent.data ?? []).filter(Boolean).map((p) => [p!.enseignant_id, p!]))
   const name = (id: number) => profs.data?.valides.find((e) => e.id === id)?.user.full_name ?? `Enseignant #${id}`
 
+  const envoyees = (sent.data ?? []).filter(Boolean)
   return (
-    <div>
-      <h2>Enseignants validés</h2>
-      <div className="ks-row" style={{ marginBottom: 10 }}>
+    <section className="ks-card ad-panel">
+      <div className="ad-panel-head">
+        <span className="ad-step">2</span>
+        <div>
+          <h2>Proposer un enseignant</h2>
+          <span className="ks-mu ks-sm">{client ? `Tarif client : ${fcfa(client)}/h` : 'Fixez d’abord le tarif client'}</span>
+        </div>
+      </div>
+
+      <div className="ad-filters">
+        <span className="ks-mu ks-sm">Filtres :</span>
         {demande.modalite !== 'en_ligne' && (
-          <button type="button" className={`ks-btn sm ${filtreQuartier ? 'p' : ''}`} onClick={() => setFiltreQuartier(!filtreQuartier)}>{demande.localisation_quartier}</button>
+          <button type="button" aria-pressed={filtreQuartier} className={filtreQuartier ? 'on' : ''} onClick={() => setFiltreQuartier(!filtreQuartier)}>📍 {demande.localisation_quartier}</button>
         )}
-        <button type="button" className={`ks-btn sm ${filtreMatiere ? 'p' : ''}`} onClick={() => setFiltreMatiere(!filtreMatiere)}>{demande.matiere}</button>
+        <button type="button" aria-pressed={filtreMatiere} className={filtreMatiere ? 'on' : ''} onClick={() => setFiltreMatiere(!filtreMatiere)}>📘 {demande.matiere}</button>
       </div>
       <Msg {...msg} />
 
-      {(sent.data?.filter(Boolean).length ?? 0) > 0 && (
-        <div className="ks-card soft">
+      {envoyees.length > 0 && (
+        <div className="ad-sent">
           <h3>Propositions envoyées</h3>
-          {sent.data!.filter(Boolean).map((p) => (
-            <div key={p!.id} className="ks-sp" style={{ marginBottom: 6 }}>
-              <span className="ks-sm">{name(p!.enseignant_id)} · {fcfa(p!.tarif_horaire_propose)}/h</span>
-              <span className="ks-row" style={{ marginTop: 0 }}>
-                <Bd s={p!.statut === 'option_posee' ? { label: 'Accord du prof', tone: 'ok' } : PROPOSITION_STATUT[p!.statut]} />
-                {p!.statut === 'option_posee' && <button type="button" className="ks-btn sm ok" onClick={() => affecter(p!.id)}>Confirmer l’affectation</button>}
-              </span>
+          {envoyees.map((p) => (
+            <div key={p!.id} className="ad-sent-row">
+              <span><b>{name(p!.enseignant_id)}</b><small>{fcfa(p!.tarif_horaire_propose)}/h</small></span>
+              <Bd s={p!.statut === 'option_posee' ? { label: 'Accord du prof', tone: 'ok' } : PROPOSITION_STATUT[p!.statut]} />
+              {p!.statut === 'option_posee' && <button type="button" className="ks-btn sm ok" onClick={() => affecter(p!.id)}>Confirmer l’affectation</button>}
             </div>
           ))}
         </div>
@@ -158,29 +178,41 @@ function Propositions({ demande, onChange }: { demande: DemandeAdmin; onChange: 
         {list.map((e) => {
           const t = Number.parseInt((tarifs[e.id] ?? String(e.tarif_horaire ?? '')).replace(/\D/g, ''), 10) || 0
           const deja = byProf.get(e.id)
+          const marge = client ? client - t : null
+          const zones = (profs.data?.zones.get(e.id) ?? []).map((z) => z.quartier ?? z.ville).join(', ')
           return (
-            <div key={e.id} className="ks-card">
-              <div className="ks-sp"><b>{e.user.first_name} {e.user.last_name?.[0] ?? ''}.</b><span className="ks-mu">★ {e.note_sur_5.toFixed(1)} ({e.nombre_avis})</span></div>
-              <div className="ks-mu ks-sm">
-                {e.specialites} · {(profs.data?.zones.get(e.id) ?? []).map((z) => z.quartier ?? z.ville).join(', ') || 'zones non renseignées'}
+            <article key={e.id} className="ad-cand">
+              <div className="ad-cand-top">
+                <span className="ad-cand-av">{(e.user.first_name?.[0] ?? '?').toUpperCase()}</span>
+                <span className="ad-cand-id">
+                  <b>{e.user.first_name} {e.user.last_name?.[0] ?? ''}.</b>
+                  <small>{e.specialites} · {zones || 'zones non renseignées'}</small>
+                </span>
+                <span className="ad-rating">★ {e.note_sur_5.toFixed(1)} <small>({e.nombre_avis})</small></span>
               </div>
-              <div className="ks-sp" style={{ marginTop: 6 }}>
-                <label className="ks-sm">Proposé (FCFA/h)
-                  <input className="ks-input" style={{ width: 110, display: 'inline-block', marginLeft: 6 }} inputMode="numeric"
-                    value={tarifs[e.id] ?? String(e.tarif_horaire ?? '')} onChange={(x) => setTarifs({ ...tarifs, [e.id]: x.target.value })} />
+              <div className="ad-cand-deal">
+                <label>
+                  <span>Tarif prof (FCFA/h)</span>
+                  <input className="ks-input" inputMode="numeric" value={tarifs[e.id] ?? String(e.tarif_horaire ?? '')}
+                    onChange={(x) => setTarifs({ ...tarifs, [e.id]: x.target.value })} />
                 </label>
-                <span className="ks-sm">{client ? `marge ${fcfa(client - t)}` : 'tarif client à fixer'}</span>
+                <div className={`ad-marge ${marge == null ? '' : marge > 0 ? 'ok' : 'er'}`}>
+                  <span>Marge / h</span>
+                  <b>{marge == null ? '—' : fcfa(marge)}</b>
+                </div>
                 {deja && ['en_attente', 'option_posee', 'acceptee'].includes(deja.statut)
-                  ? <Bd s={{ label: deja.statut === 'en_attente' ? 'Envoyée · expire 48 h' : PROPOSITION_STATUT[deja.statut].label, tone: 'ok' }} />
-                  : <button type="button" className="ks-btn sm p" disabled={busy === e.id} onClick={() => send(e.id, e.tarif_horaire)}>Envoyer une proposition</button>}
+                  ? <Bd s={{ label: deja.statut === 'en_attente' ? 'Envoyée · 48 h' : PROPOSITION_STATUT[deja.statut].label, tone: 'ok' }} />
+                  : <button type="button" className="ks-btn sm p" disabled={busy === e.id || !client} onClick={() => send(e.id, e.tarif_horaire)}>Proposer</button>}
               </div>
-            </div>
+            </article>
           )
         })}
       </Loadable>
-    </div>
+    </section>
   )
 }
+
+const A_TRAITER: string[] = ['soumise', 'en_cours_traitement', 'proposee']
 
 // 4B — Qualification & proposition
 export default function AdminDemandes() {
@@ -189,37 +221,53 @@ export default function AdminDemandes() {
   const [selected, setSelected] = useState<number | null>(null)
 
   const list = (demandes.data ?? []).filter((d) =>
-    statut === 'toutes' ? true : statut === 'affectee' ? d.statut === 'affectee' : ['soumise', 'en_cours_traitement', 'proposee'].includes(d.statut))
+    statut === 'toutes' ? true : statut === 'affectee' ? d.statut === 'affectee' : A_TRAITER.includes(d.statut))
     .sort((a, b) => a.date_soumission.localeCompare(b.date_soumission))
   const demande = list.find((d) => d.id === selected) ?? list[0]
 
+  const all = demandes.data ?? []
+  const count = (k: typeof statut) => all.filter((d) => k === 'toutes' ? true : k === 'affectee' ? d.statut === 'affectee' : A_TRAITER.includes(d.statut)).length
+
   return (
     <AppShell>
-      <h1>Demandes</h1>
-      <div className="ks-row" style={{ marginBottom: 12 }}>
+      <PageHero eyebrow="Back-office" title="Demandes" text="Qualifiez chaque demande, fixez le tarif client, puis proposez un enseignant validé." />
+      <div className="ad-seg" role="tablist">
         {([['a_traiter', 'À traiter'], ['affectee', 'Affectées'], ['toutes', 'Toutes']] as const).map(([k, l]) => (
-          <button key={k} type="button" className={`ks-btn sm ${statut === k ? 'p' : ''}`} onClick={() => setStatut(k)}>{l}</button>
+          <button key={k} type="button" role="tab" aria-selected={statut === k} className={statut === k ? 'on' : ''} onClick={() => setStatut(k)}>
+            {l} <span>{demandes.data ? count(k) : '…'}</span>
+          </button>
         ))}
       </div>
-      <Loadable loading={demandes.loading} error={demandes.error} onRetry={demandes.reload} empty={!list.length} emptyText="Aucune demande dans cette catégorie.">
-        <div className="ks-scroll" style={{ marginBottom: 16 }}>
-          <table className="ks-table">
-            <thead><tr><th>#</th><th>Date</th><th>Matière</th><th>Lieu</th><th>Tarif client</th><th>Statut</th></tr></thead>
-            <tbody>
+      <Loadable loading={demandes.loading} error={demandes.error} onRetry={demandes.reload}>
+        {list.length === 0 ? (
+          <div className="ks-card cp-empty">
+            <span className="cp-empty-ico">📭</span>
+            <b>Aucune demande dans cette catégorie</b>
+            <p className="ks-mu ks-sm">Les nouvelles demandes des familles arrivent ici.</p>
+          </div>
+        ) : (
+          <div className="ad-md">
+            <nav className="ad-list" aria-label="Demandes">
               {list.map((d) => (
-                <tr key={d.id} onClick={() => setSelected(d.id)} style={{ cursor: 'pointer', background: d.id === demande?.id ? 'var(--ks-so)' : undefined }}>
-                  <td>D-{d.id}</td><td>{dateFr(d.date_soumission)}</td><td>{d.matiere} · {d.niveau}</td>
-                  <td>{d.localisation_quartier}, {d.localisation_ville}</td><td>{d.tarif_horaire_client ? fcfa(d.tarif_horaire_client) : '—'}</td>
-                  <td><Bd s={DEMANDE_STATUT[d.statut]} /></td>
-                </tr>
+                <button key={d.id} type="button" className={`ad-item ${d.id === demande?.id ? 'on' : ''}`} onClick={() => setSelected(d.id)}>
+                  <span className="ks-sp">
+                    <b>{d.matiere} · {d.niveau}</b>
+                    <Bd s={DEMANDE_STATUT[d.statut]} />
+                  </span>
+                  <small>📍 {d.localisation_quartier}, {d.localisation_ville}</small>
+                  <small className="ks-sp">
+                    <span>D-{d.id} · {dateFr(d.date_soumission)}</span>
+                    <span>{d.tarif_horaire_client ? `${fcfa(d.tarif_horaire_client)}/h` : 'Tarif à fixer'}</span>
+                  </small>
+                </button>
               ))}
-            </tbody>
-          </table>
-        </div>
-        {demande && (
-          <div className="ks-split">
-            <Qualification key={`q${demande.id}`} demande={demande} onSaved={demandes.reload} />
-            <Propositions key={`p${demande.id}`} demande={demande} onChange={demandes.reload} />
+            </nav>
+            {demande && (
+              <div className="ad-detail">
+                <Qualification key={`q${demande.id}`} demande={demande} onSaved={demandes.reload} />
+                <Propositions key={`p${demande.id}`} demande={demande} onChange={demandes.reload} />
+              </div>
+            )}
           </div>
         )}
       </Loadable>

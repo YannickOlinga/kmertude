@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import AppShell from '../AppShell'
-import { Alert, Bd, Field, Loadable, Msg } from '../ui'
+import PageHero from '../PageHero'
+import { Icon, type IconName } from '../icons'
+import { Bd, Field, Loadable, Msg, Seg } from '../ui'
 import {
   BORDEREAU_STATUT, FACTURE_STATUT, confirmerVersement, dateFr, emettreFacture, fcfa, genererBordereau, genererFacturesMensuelles,
   getCoordonneesEnseignant, getFamille, listBordereauxAdmin, listEnseignants, listFacturesAdmin, rapprochementManuel, validerBordereau,
@@ -8,6 +10,8 @@ import {
 } from '../../lib/backend'
 import { isCanonicalPhone, normalizePhone } from '../../lib/teacherApplications'
 import { errorMessage, useApi } from '../../lib/useApi'
+import '../space.css'
+import './admin.css'
 
 const ouvertes = (f: Facture) => !f.est_soldee && f.montant_solde_du_fcfa > 0 && ['emise', 'partiellement_payee', 'en_retard'].includes(f.statut)
 const isoDay = (d: Date) => d.toISOString().slice(0, 10)
@@ -66,36 +70,45 @@ function Rapprochement({ factures, onDone }: { factures: Facture[]; onDone: () =
   }
 
   return (
-    <div>
-      <h2>Rapprochement manuel (SMS)</h2>
+    <div className="ad-rappro">
+      <div>
+      <p className="ks-mu ks-sm ad-intro">Saisissez un paiement reçu par SMS : il est réparti automatiquement sur les factures ouvertes du client, de la plus ancienne à la plus récente.</p>
       <Field label="Client">
         <select value={famille} onChange={(e) => setFamille(e.target.value)}>
           <option value="">{familleIds.length ? 'Choisir…' : 'Aucune facture ouverte'}</option>
           {familleIds.map((id) => <option key={id} value={id}>{noms.data?.get(id) ?? `Famille #${id}`}</option>)}
         </select>
       </Field>
-      <Field label="Montant (FCFA)"><input inputMode="numeric" value={montant} onChange={(e) => setMontant(e.target.value)} placeholder="45 000" /></Field>
-      <Field label="Opérateur">
-        <select value={op} onChange={(e) => setOp(e.target.value as typeof op)}>
-          <option value="mtn_momo">MTN MoMo</option><option value="orange_money">Orange Money</option>
-        </select>
-      </Field>
-      <Field label="Code SMS reçu"><input value={sms} onChange={(e) => setSms(e.target.value)} /></Field>
+      <div className="ks-f">Opérateur</div>
+      <Seg value={op} onChange={setOp} options={[['mtn_momo', 'MTN MoMo'], ['orange_money', 'Orange Money']]} />
+      <div className="ks-g2">
+        <Field label="Montant (FCFA)"><input inputMode="numeric" value={montant} onChange={(e) => setMontant(e.target.value)} placeholder="45 000" /></Field>
+        <Field label="Code SMS reçu"><input value={sms} onChange={(e) => setSms(e.target.value)} placeholder="Ex. MP241124.1530.A12345" /></Field>
+      </div>
       <Field label="Numéro payeur (facultatif)"><input type="tel" value={tel} onChange={(e) => setTel(e.target.value)} placeholder="+237 6XX XX XX XX" /></Field>
-      <Field label="Note de rapprochement"><textarea rows={2} value={note} onChange={(e) => setNote(e.target.value)} /></Field>
-      {preview.length > 0 && (
-        <div className="ks-card soft">
-          <b>Ventilation automatique</b>
-          <p className="ks-sm">
+      <Field label="Note de rapprochement"><textarea rows={2} value={note} onChange={(e) => setNote(e.target.value)} placeholder="Ex. paiement reçu sur le numéro agence" /></Field>
+      </div>
+
+      <aside className="ad-preview">
+        <h3>Ventilation automatique</h3>
+        {!fam || !m ? (
+          <p className="ks-mu ks-sm">Choisissez le client et le montant pour voir la répartition.</p>
+        ) : (
+          <>
+            {preview.length === 0 && <p className="ks-mu ks-sm">Aucune facture ouverte : tout le montant ira en crédit.</p>}
             {preview.map(({ f, alloue, soldee }) => (
-              <span key={f.id}>Facture {f.numero_facture} {fcfa(alloue)} → {soldee ? 'soldée' : 'partiellement payée'}<br /></span>
+              <div key={f.id} className="ad-alloc">
+                <span><b>{f.numero_facture}</b><small>échéance {dateFr(f.date_echeance)}</small></span>
+                <span className="ad-alloc-amt"><b>{fcfa(alloue)}</b><Bd s={soldee ? { label: 'Soldée', tone: 'ok' } : { label: 'Partielle', tone: 'wn' }} /></span>
+              </div>
             ))}
-            {credit > 0 && <>Crédit client : {fcfa(credit)}</>}
-          </p>
-        </div>
-      )}
-      <Msg {...msg} />
-      <button type="button" className="ks-btn p" disabled={busy} onClick={submit}>Valider le rapprochement</button>
+            {credit > 0 && <div className="ad-alloc credit"><span><b>Crédit client</b><small>utilisé sur les prochaines factures</small></span><b>{fcfa(credit)}</b></div>}
+            <div className="ad-alloc total"><span><b>Total reçu</b></span><b>{fcfa(m)}</b></div>
+          </>
+        )}
+        <Msg {...msg} />
+        <button type="button" className="ks-btn p w" disabled={busy} onClick={submit}>{busy ? 'Enregistrement…' : 'Valider le rapprochement'}</button>
+      </aside>
     </div>
   )
 }
@@ -125,46 +138,47 @@ function Bordereaux() {
 
   return (
     <div>
-      <h2>Bordereaux enseignants</h2>
       <Loadable loading={data.loading} error={data.error} onRetry={data.reload}>
-        <div className="ks-scroll">
-          <table className="ks-table">
-            <thead><tr><th>Prof</th><th>Période</th><th>Montant</th><th>MoMo</th><th>Statut</th></tr></thead>
-            <tbody>
-              {list.map((b) => {
-                const c = data.data?.coords.get(b.enseignant_id)
-                return (
-                  <tr key={b.id}>
-                    <td>{nom(b.enseignant_id)}</td>
-                    <td>{dateFr(b.periode_debut)} → {dateFr(b.periode_fin)}</td>
-                    <td>{fcfa(b.montant_total_fcfa)}</td>
-                    <td>
-                      {b.numero_mobile_money ?? c?.numero_mobile_money ?? '—'}{' '}
-                      {c && <Bd s={c.est_verifie ? { label: 'Vérifié', tone: 'ok' } : { label: 'Non vérifié', tone: 'wn' }} />}
-                    </td>
-                    <td>
-                      <Bd s={BORDEREAU_STATUT[b.statut]} />
-                      {b.statut === 'brouillon' && (
-                        <div className="ks-row"><button type="button" className="ks-btn sm" disabled={busy} onClick={() => run(() => validerBordereau(b.id), 'Bordereau validé.')}>Valider</button></div>
-                      )}
-                      {(b.statut === 'valide' || b.statut === 'en_cours_transfert') && (
-                        <div className="ks-row">
-                          <input className="ks-input" style={{ marginTop: 0 }} placeholder="Référence de transfert" value={refs[b.id] ?? ''} onChange={(e) => setRefs({ ...refs, [b.id]: e.target.value })} />
-                          <button type="button" className="ks-btn sm ok" disabled={busy || !(refs[b.id] ?? '').trim()}
-                            onClick={() => run(() => confirmerVersement(b.id, refs[b.id].trim()), 'Virement confirmé.')}>Confirmer le virement</button>
-                        </div>
-                      )}
-                    </td>
-                  </tr>
-                )
-              })}
-              {list.length === 0 && <tr><td colSpan={5} className="ks-mu">Aucun bordereau.</td></tr>}
-            </tbody>
-          </table>
+        {list.length === 0 && <p className="ks-mu ks-sm">Aucun bordereau pour le moment.</p>}
+        <div className="ad-bords">
+          {list.map((b) => {
+            const c = data.data?.coords.get(b.enseignant_id)
+            const numero = b.numero_mobile_money ?? c?.numero_mobile_money
+            return (
+              <article key={b.id} className={`ad-bord ${b.statut}`}>
+                <div className="ad-bord-main">
+                  <span className="ad-bord-id">
+                    <b>{nom(b.enseignant_id)}</b>
+                    <small>{dateFr(b.periode_debut)} → {dateFr(b.periode_fin)} · {b.lignes.length} séance{b.lignes.length > 1 ? 's' : ''}</small>
+                  </span>
+                  <b className="ad-bord-amt">{fcfa(b.montant_total_fcfa)}</b>
+                  <Bd s={BORDEREAU_STATUT[b.statut]} />
+                </div>
+                <div className="ad-bord-pay">
+                  <span className="ks-sm">
+                    📱 {numero ?? 'Numéro Mobile Money manquant'}{' '}
+                    {c && <Bd s={c.est_verifie ? { label: 'Vérifié', tone: 'ok' } : { label: 'Non vérifié', tone: 'wn' }} />}
+                  </span>
+                  {b.statut === 'brouillon' && (
+                    <button type="button" className="ks-btn sm" disabled={busy} onClick={() => run(() => validerBordereau(b.id), 'Bordereau validé.')}>Valider le bordereau</button>
+                  )}
+                  {(b.statut === 'valide' || b.statut === 'en_cours_transfert') && (
+                    <span className="ad-bord-ref">
+                      <input className="ks-input" placeholder="Référence de transfert" value={refs[b.id] ?? ''} onChange={(e) => setRefs({ ...refs, [b.id]: e.target.value })} />
+                      <button type="button" className="ks-btn sm ok" disabled={busy || !(refs[b.id] ?? '').trim()}
+                        onClick={() => run(() => confirmerVersement(b.id, refs[b.id].trim()), 'Virement confirmé.')}>Confirmer le virement</button>
+                    </span>
+                  )}
+                  {b.statut === 'paye' && b.date_paiement_effectif && <span className="ks-sm ks-mu">Payé le {dateFr(b.date_paiement_effectif)}</span>}
+                </div>
+              </article>
+            )
+          })}
         </div>
 
-        <div className="ks-card soft" style={{ marginTop: 12 }}>
+        <div className="ad-gen">
           <h3>Générer un bordereau</h3>
+          <p className="ks-mu ks-sm">Seules les séances dont la famille a payé la facture sont incluses.</p>
           <Field label="Enseignant">
             <select value={prof} onChange={(e) => setProf(e.target.value)}>
               <option value="">Choisir…</option>
@@ -175,7 +189,7 @@ function Bordereaux() {
             <Field label="Du"><input type="date" value={debut} onChange={(e) => setDebut(e.target.value)} /></Field>
             <Field label="Au"><input type="date" value={fin} onChange={(e) => setFin(e.target.value)} /></Field>
           </div>
-          <button type="button" className="ks-btn" disabled={busy || !prof}
+          <button type="button" className="ks-btn p" disabled={busy || !prof}
             onClick={() => run(() => genererBordereau({ enseignant_id: Number(prof), periode_debut: debut, periode_fin: fin }), 'Bordereau généré (fonds encaissés uniquement).')}>
             Générer un bordereau
           </button>
@@ -202,24 +216,31 @@ function Facturation({ factures, onDone }: { factures: Facture[]; onDone: () => 
 
   return (
     <div>
-      <h2>Facturation mensuelle</h2>
+      <p className="ks-mu ks-sm ad-intro">1. Générez les factures de la période à partir des séances validées (elles sont créées en brouillon). 2. Vérifiez-les puis émettez-les : la famille les voit alors dans son espace, avec 10 jours pour payer.</p>
       <div className="ks-g2">
         <Field label="Du"><input type="date" value={debut} onChange={(e) => setDebut(e.target.value)} /></Field>
         <Field label="Au"><input type="date" value={fin} onChange={(e) => setFin(e.target.value)} /></Field>
       </div>
-      <button type="button" className="ks-btn" disabled={busy}
+      <button type="button" className="ks-btn p" disabled={busy}
         onClick={() => run(async () => `${(await genererFacturesMensuelles({ periode_debut: debut, periode_fin: fin })).length} facture(s) générée(s) en brouillon.`)}>
         Générer les factures de la période
       </button>
       {brouillons.length > 0 && (
         <>
-          <h3 style={{ marginTop: 12 }}>Brouillons à émettre</h3>
-          {brouillons.map((f) => (
-            <div key={f.id} className="ks-card ks-sp">
-              <span>{f.numero_facture} · {fcfa(f.montant_total_fcfa)} · <Bd s={FACTURE_STATUT[f.statut]} /></span>
-              <button type="button" className="ks-btn sm p" disabled={busy} onClick={() => run(async () => { await emettreFacture(f.id); return `Facture ${f.numero_facture} émise.` })}>Émettre</button>
-            </div>
-          ))}
+          <h3 className="ad-sub">Brouillons à émettre · {brouillons.length}</h3>
+          <div className="cf-list ad-list-flat">
+            {brouillons.map((f) => (
+              <div key={f.id} className="cf-row ad-fact-row">
+                <div className="cf-month">
+                  <b>{f.numero_facture}</b>
+                  <span>{dateFr(f.periode_debut)} → {dateFr(f.periode_fin)}</span>
+                </div>
+                <b>{fcfa(f.montant_total_fcfa)}</b>
+                <Bd s={FACTURE_STATUT[f.statut]} />
+                <button type="button" className="ks-btn sm p" disabled={busy} onClick={() => run(async () => { await emettreFacture(f.id); return `Facture ${f.numero_facture} émise.` })}>Émettre</button>
+              </div>
+            ))}
+          </div>
         </>
       )}
       <Msg {...msg} />
@@ -227,20 +248,57 @@ function Facturation({ factures, onDone }: { factures: Facture[]; onDone: () => 
   )
 }
 
+type Tab = 'r' | 'b' | 'f'
+const TABS: [Tab, string, IconName, string][] = [
+  ['r', 'Rapprochement', 'wallet', 'Paiements reçus par SMS'],
+  ['b', 'Bordereaux', 'receipt', 'Rémunération des enseignants'],
+  ['f', 'Facturation', 'calendar', 'Factures mensuelles des familles'],
+]
+
+function Sum({ label, value, tone, hint }: { label: string; value: number; tone?: 'er' | 'wn'; hint: string }) {
+  const n = new Intl.NumberFormat('fr-FR').format(value).replace(/[\u00a0\u202f]/g, ' ')
+  return (
+    <div className={`ad-sum ${tone && value > 0 ? tone : ''}`}>
+      <span>{label}</span>
+      <p><b>{n}</b><small>FCFA</small></p>
+      <small>{hint}</small>
+    </div>
+  )
+}
+
 // 4C — Finance : rapprochement SMS, bordereaux enseignants, facturation
 export default function AdminFinance() {
   const factures = useApi(() => listFacturesAdmin())
-  const retard = (factures.data ?? []).filter((f) => f.statut === 'en_retard')
+  const [tab, setTab] = useState<Tab>('r')
+  const all = factures.data ?? []
+  const retard = all.filter((f) => f.statut === 'en_retard')
+  const ouv = all.filter(ouvertes)
+  const brouillons = all.filter((f) => f.statut === 'brouillon')
+  const somme = (l: Facture[], k: 'montant_solde_du_fcfa' | 'montant_total_fcfa') => l.reduce((s, f) => s + f[k], 0)
+
   return (
     <AppShell>
-      <h1>Finance</h1>
-      {retard.length > 0 && <Alert tone="wn">{retard.length} facture(s) en retard · {fcfa(retard.reduce((s, f) => s + f.montant_solde_du_fcfa, 0))} à recouvrer.</Alert>}
+      <PageHero eyebrow="Back-office" title="Finance" text="Encaissements des familles, rémunération des enseignants et facturation mensuelle." />
       <Loadable loading={factures.loading} error={factures.error} onRetry={factures.reload}>
-        <div className="ks-split">
-          <Rapprochement factures={factures.data ?? []} onDone={factures.reload} />
-          <Bordereaux />
+        <div className="ad-sums">
+          <Sum label="À encaisser" value={somme(ouv, 'montant_solde_du_fcfa')} hint={`${ouv.length} facture${ouv.length > 1 ? 's' : ''} ouverte${ouv.length > 1 ? 's' : ''}`} />
+          <Sum label="En retard" value={somme(retard, 'montant_solde_du_fcfa')} tone="er" hint={`${retard.length} facture${retard.length > 1 ? 's' : ''} à recouvrer`} />
+          <Sum label="Brouillons à émettre" value={somme(brouillons, 'montant_total_fcfa')} tone="wn" hint={`${brouillons.length} facture${brouillons.length > 1 ? 's' : ''} en attente d’émission`} />
         </div>
-        <Facturation factures={factures.data ?? []} onDone={factures.reload} />
+
+        <div className="sp-tabs" role="tablist">
+          {TABS.map(([id, label, icon, hint]) => (
+            <button key={id} type="button" role="tab" aria-selected={tab === id} className={tab === id ? 'on' : ''} onClick={() => setTab(id)}>
+              <span className="sp-tab-ico"><Icon name={icon} /></span>
+              <span><b>{label}</b><small>{hint}</small></span>
+            </button>
+          ))}
+        </div>
+        <section className="ks-card ad-panel">
+          {tab === 'r' && <Rapprochement factures={all} onDone={factures.reload} />}
+          {tab === 'b' && <Bordereaux />}
+          {tab === 'f' && <Facturation factures={all} onDone={factures.reload} />}
+        </section>
       </Loadable>
     </AppShell>
   )

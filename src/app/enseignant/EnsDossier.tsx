@@ -1,5 +1,7 @@
 import { useRef, useState, type FormEvent } from 'react'
 import AppShell from '../AppShell'
+import PageHero from '../PageHero'
+import { Icon, type IconName } from '../icons'
 import { Bd, Field, Loadable, Msg, Seg } from '../ui'
 import { AdresseFields } from '../fields'
 import { EMPTY_ADRESSE, type Adresse } from '../referentiels'
@@ -10,6 +12,8 @@ import {
 } from '../../lib/backend'
 import { ACCEPTED_FILES, fileError, isCanonicalPhone, normalizePhone } from '../../lib/teacherApplications'
 import { errorMessage, useApi } from '../../lib/useApi'
+import '../space.css'
+import './ens.css'
 
 type Tab = 'z' | 'm' | 'd'
 
@@ -50,14 +54,22 @@ function Zones({ enseignantId }: { enseignantId: number | undefined }) {
   return (
     <>
       <Loadable loading={zones.loading} error={zones.error} onRetry={zones.reload}>
-        {zones.data?.map((z) => (
-          <div key={z.id} className="ks-card ks-sp">
-            <span>{[z.ville, z.commune_arrondissement, z.quartier].filter(Boolean).join(' · ')} · {z.rayon_km ?? '—'} km</span>
-            <button type="button" className="ks-btn er sm" onClick={() => remove(z.id)}>Supprimer</button>
-          </div>
-        ))}
+        {zones.data?.length === 0 && <p className="ks-mu ks-sm">Aucune zone : ajoutez les quartiers où vous pouvez vous déplacer.</p>}
+        <div className="ed-zones">
+          {zones.data?.map((z) => (
+            <div key={z.id} className="ed-zone">
+              <span className="ed-zone-pin" aria-hidden="true">📍</span>
+              <span className="ed-zone-txt">
+                <b>{z.quartier || z.commune_arrondissement || z.ville}</b>
+                <small>{[z.quartier && z.commune_arrondissement, z.ville].filter(Boolean).join(' · ')} · rayon {z.rayon_km ?? '—'} km</small>
+              </span>
+              <button type="button" className="ed-x" onClick={() => remove(z.id)} aria-label="Supprimer la zone" title="Supprimer">×</button>
+            </div>
+          ))}
+        </div>
       </Loadable>
-      <form onSubmit={add} noValidate>
+      <form onSubmit={add} noValidate className="ed-sub">
+        <h3>Ajouter une zone</h3>
         <AdresseFields value={adresse} onChange={setAdresse} repere={false} />
         <Field label="Rayon (km)"><input type="number" min={1} max={100} value={rayon} onChange={(e) => setRayon(e.target.value)} /></Field>
         <Msg {...msg} />
@@ -99,6 +111,7 @@ function MobileMoneyForm({ initial, onSaved }: { initial: Awaited<ReturnType<typ
 
   return (
     <form onSubmit={save} noValidate>
+      <p className="ks-mu ks-sm">Vos rémunérations sont versées sur ce numéro. Le nom du titulaire doit correspondre à votre identité.</p>
       {initial && <p className="ks-sm">{initial.est_verifie ? <Bd s={{ label: 'Numéro vérifié', tone: 'ok' }} /> : <Bd s={{ label: 'Vérification en attente', tone: 'wn' }} />}</p>}
       <Seg value={op} onChange={setOp} options={[['mtn_momo', 'MTN MoMo'], ['orange_money', 'Orange Money']]} />
       <Field label="Numéro"><input type="tel" value={num} onChange={(e) => setNum(e.target.value)} placeholder="+237 6XX XX XX XX" /></Field>
@@ -168,12 +181,15 @@ function Documents() {
       <input ref={input} type="file" accept={ACCEPTED_FILES} hidden onChange={(e) => upload(e.target.files?.[0])} />
       <Loadable loading={docs.loading} error={docs.error} onRetry={docs.reload}>
         {docs.data?.map((d) => (
-          <div key={d.id} className="ks-card">
-            <div className="ks-sp">
-              <b>{DOCUMENT_LABEL[d.type_document]}</b>
+          <div key={d.id} className={`ed-doc ${d.statut}`}>
+            <div className="ed-doc-top">
+              <span className="ed-doc-ico" aria-hidden="true">📄</span>
+              <span className="ed-doc-txt">
+                <b>{DOCUMENT_LABEL[d.type_document]}</b>
+                <small>{d.nom_fichier_original}</small>
+              </span>
               <Bd s={DOC_STATUS[d.statut]} />
             </div>
-            <div className="ks-mu ks-sm">{d.nom_fichier_original}</div>
             {d.statut === 'refuse' && d.motif_rejet && <p className="ks-err">Motif : {d.motif_rejet}</p>}
             <div className="ks-row">
               <button type="button" className="ks-btn sm" onClick={() => open(d)}>Télécharger</button>
@@ -183,17 +199,26 @@ function Documents() {
           </div>
         ))}
       </Loadable>
-      <Field label="Type de document à téléverser">
+      <div className="ed-sub">
+      <h3>Ajouter un document</h3>
+      <Field label="Type de document">
         <select value={type} onChange={(e) => setType(e.target.value as DocumentType)}>
           {(Object.keys(DOCUMENT_LABEL) as DocumentType[]).map((t) => <option key={t} value={t}>{DOCUMENT_LABEL[t]}</option>)}
         </select>
       </Field>
       <Msg {...msg} />
       <button type="button" className="ks-btn w" disabled={busy} onClick={() => pick(type)}>{busy ? 'Envoi…' : '＋ Téléverser un document'}</button>
-      <p className="ks-mu ks-sm">PDF, JPG ou PNG · 10 Mo max</p>
+      <p className="ks-mu ks-sm ks-c">PDF, JPG ou PNG · 10 Mo max</p>
+      </div>
     </>
   )
 }
+
+const TABS: [Tab, string, IconName, string][] = [
+  ['z', 'Mes zones', 'home', 'Où pouvez-vous donner des cours ?'],
+  ['m', 'Mobile Money', 'wallet', 'Où recevoir vos rémunérations ?'],
+  ['d', 'Documents', 'folder', 'Pièce d’identité et diplômes'],
+]
 
 // 3B — Mon dossier : zones, Mobile Money, documents
 export default function EnsDossier() {
@@ -201,11 +226,21 @@ export default function EnsDossier() {
   const [tab, setTab] = useState<Tab>('z')
   return (
     <AppShell>
-      <h1>Mon dossier</h1>
-      <Seg value={tab} onChange={setTab} options={[['z', 'Mes zones'], ['m', 'Mobile Money'], ['d', 'Documents']]} />
-      {tab === 'z' && <Zones enseignantId={ens.data?.id} />}
-      {tab === 'm' && <MobileMoney onSaved={ens.reload} />}
-      {tab === 'd' && <Documents />}
+      <PageHero eyebrow="Espace enseignant" title="Mon dossier"
+        text="Un dossier complet est vérifié plus vite et vous permet de recevoir des missions près de chez vous." />
+      <div className="sp-tabs" role="tablist">
+        {TABS.map(([id, label, icon, hint]) => (
+          <button key={id} type="button" role="tab" aria-selected={tab === id} className={tab === id ? 'on' : ''} onClick={() => setTab(id)}>
+            <span className="sp-tab-ico"><Icon name={icon} /></span>
+            <span><b>{label}</b><small>{hint}</small></span>
+          </button>
+        ))}
+      </div>
+      <section className="ks-card ed-panel">
+        {tab === 'z' && <Zones enseignantId={ens.data?.id} />}
+        {tab === 'm' && <MobileMoney onSaved={ens.reload} />}
+        {tab === 'd' && <Documents />}
+      </section>
     </AppShell>
   )
 }

@@ -12,9 +12,20 @@ export class ApiError extends Error {
 
 // FastAPI renvoie { detail: "..." } ou, pour une erreur de validation (422),
 // { detail: [{ loc: [...], msg: "..." }] }
+// Messages d'authentification renvoyés en anglais par le backend
+const DETAIL_FR: Record<string, string> = {
+  'Username already registered': 'Ce nom d’utilisateur est déjà pris. Choisissez-en un autre.',
+  'Email already registered': 'Un compte existe déjà avec cet email. Connectez-vous ou utilisez un autre email.',
+  'Incorrect username/email or password': 'Identifiant ou mot de passe incorrect.',
+  'Inactive user': 'Ce compte est désactivé. Contactez l’équipe Kmertude.',
+  'Could not validate credentials': 'Votre session a expiré. Reconnectez-vous.',
+  'Invalid refresh token': 'Votre session a expiré. Reconnectez-vous.',
+  'Registration as administrator is not allowed': 'L’inscription en tant qu’administrateur n’est pas autorisée.',
+}
+
 function readDetail(body: unknown): string {
   const detail = (body as { detail?: unknown })?.detail
-  if (typeof detail === 'string') return detail
+  if (typeof detail === 'string') return DETAIL_FR[detail] ?? detail
   if (Array.isArray(detail)) {
     return detail
       .map((d: { loc?: (string | number)[]; msg?: string }) => {

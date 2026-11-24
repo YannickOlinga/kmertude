@@ -1,14 +1,33 @@
 import { useState, type FormEvent } from 'react'
 import AppShell from '../AppShell'
 import MissionChat from '../MissionChat'
-import { Alert, Bd, Field, Loadable, Msg, type Status } from '../ui'
+import PageHero from '../PageHero'
+import { Icon } from '../icons'
+import { Bd, Field, Loadable, Msg, type Status } from '../ui'
 import {
-  SEANCE_STATUT, createCourse, dateFr, declarerSeance, listCourses, listMissions, type Course,
+  MISSION_STATUS, SEANCE_STATUT, createCourse, dateFr, declarerSeance, fcfa, listCourses, listMissions, type Course,
 } from '../../lib/backend'
 import { errorMessage, useApi } from '../../lib/useApi'
+import '../space.css'
+import './ens.css'
 
 const ASSIMILATION = ['Excellent', 'Satisfaisant', 'Partiel', 'Insuffisant']
 const ATTITUDE = ['Très attentif', 'Correct', 'Dissipé', 'Fatigué']
+const jour = (iso: string) => new Date(iso).toLocaleDateString('fr-FR', { day: '2-digit' })
+const mois = (iso: string) => new Date(iso).toLocaleDateString('fr-FR', { month: 'short' }).replace('.', '')
+const heureDe = (iso: string) => new Date(iso).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })
+
+// Choix en pastilles (assimilation, attitude)
+function Chips({ options, value, onChange }: { options: string[]; value: string; onChange: (v: string) => void }) {
+  return (
+    <div className="es-chips">
+      {options.map((o) => (
+        <button key={o} type="button" aria-pressed={value === o} className={value === o ? 'on' : ''} onClick={() => onChange(value === o ? '' : o)}>{o}</button>
+      ))}
+    </div>
+  )
+}
+
 const status = (c: Course): Status => (c.status === 'contestee' ? { label: 'Contestée', tone: 'er' } : SEANCE_STATUT[c.status])
 
 // Formulaire post-cours en une colonne. heures_declarees = durée réelle en MINUTES (15–480).
@@ -46,21 +65,17 @@ function Declaration({ course, onDone, onCancel }: { course: Course; onDone: () 
   }
 
   return (
-    <form onSubmit={submit} noValidate>
-      <h2>Déclarer la séance du {dateFr(course.date_heure_debut, true)}</h2>
+    <form onSubmit={submit} noValidate className="ks-card ch-form es-decl">
+      <button type="button" className="ch-back" onClick={onCancel}>← Retour aux séances</button>
+      <h1>Compte rendu de séance</h1>
+      <p className="ks-mu ks-sm ch-form-lead">Séance du {dateFr(course.date_heure_debut, true)}. Le parent le lit avant de confirmer la séance.</p>
       <Field label="Durée réelle (minutes)"><input type="number" min={15} max={480} value={f.minutes} onChange={(e) => set('minutes', e.target.value)} /></Field>
       <label className="ks-check"><input type="checkbox" checked={f.absence} onChange={(e) => set('absence', e.target.checked)} />Absence de l’élève</label>
       <Field label="Notions abordées"><textarea rows={2} value={f.notions} onChange={(e) => set('notions', e.target.value)} placeholder="Min. 3 caractères" /></Field>
-      <Field label="Niveau d’assimilation">
-        <select value={f.assimilation} onChange={(e) => set('assimilation', e.target.value)}>
-          <option value="">Choisir…</option>{ASSIMILATION.map((o) => <option key={o}>{o}</option>)}
-        </select>
-      </Field>
-      <Field label="Attitude / concentration">
-        <select value={f.attitude} onChange={(e) => set('attitude', e.target.value)}>
-          <option value="">Choisir…</option>{ATTITUDE.map((o) => <option key={o}>{o}</option>)}
-        </select>
-      </Field>
+      <div className="ks-f">Niveau d’assimilation</div>
+      <Chips options={ASSIMILATION} value={f.assimilation} onChange={(v) => set('assimilation', v)} />
+      <div className="ks-f">Attitude / concentration</div>
+      <Chips options={ATTITUDE} value={f.attitude} onChange={(v) => set('attitude', v)} />
       <Field label="Points de blocage"><textarea rows={2} value={f.blocage} onChange={(e) => set('blocage', e.target.value)} /></Field>
       <Field label="Exercices recommandés"><textarea rows={2} value={f.exercices} onChange={(e) => set('exercices', e.target.value)} /></Field>
       <Field label="Message aux parents"><textarea rows={2} value={f.parents} onChange={(e) => set('parents', e.target.value)} /></Field>
@@ -108,14 +123,16 @@ function Planifier({ missionId, onDone }: { missionId: number; onDone: () => voi
   }
 
   return (
-    <form onSubmit={submit} className="ks-card soft" noValidate>
-      <h3>Planifier une séance</h3>
+    <form onSubmit={submit} className="ks-card es-plan" noValidate>
+      <h2><Icon name="calendar" /> Planifier une séance</h2>
       <div className="ks-g2">
         <Field label="Date"><input type="date" value={date} onChange={(e) => setDate(e.target.value)} /></Field>
         <Field label="Heure"><input type="time" value={heure} onChange={(e) => setHeure(e.target.value)} /></Field>
       </div>
-      <Field label="Durée prévue (minutes)"><input type="number" min={15} max={480} value={minutes} onChange={(e) => setMinutes(e.target.value)} /></Field>
-      <Field label="Sujet (facultatif)"><input value={sujet} onChange={(e) => setSujet(e.target.value)} placeholder="Ex. équations du 2nd degré" /></Field>
+      <div className="ks-g2">
+        <Field label="Durée prévue (minutes)"><input type="number" min={15} max={480} step={15} value={minutes} onChange={(e) => setMinutes(e.target.value)} /></Field>
+        <Field label="Sujet (facultatif)"><input value={sujet} onChange={(e) => setSujet(e.target.value)} placeholder="Ex. équations du 2nd degré" /></Field>
+      </div>
       <Msg {...msg} />
       <button type="submit" className="ks-btn p w" disabled={busy}>Planifier</button>
     </form>
@@ -146,48 +163,84 @@ export default function EnsSeance() {
     )
   }
 
+  const aDeclarer = seances.filter((c) => c.status === 'planifiee' && c.is_past).length
+
   return (
     <AppShell>
-      <h1>Mes séances</h1>
-      {sent && <Alert tone="ok"><b>Compte rendu envoyé.</b> Le parent a 72 h pour confirmer.</Alert>}
-      <Loadable loading={data.loading} error={data.error} onRetry={data.reload} empty={!missions.length} emptyText="Aucune mission active : acceptez une proposition pour commencer.">
+      <PageHero eyebrow="Espace enseignant" title="Mes séances"
+        text={aDeclarer > 0
+          ? `${aDeclarer} séance${aDeclarer > 1 ? 's' : ''} à déclarer : envoyez le compte rendu pour être rémunéré.`
+          : 'Planifiez vos cours, déclarez-les après chaque séance et échangez avec la famille.'} />
+      {sent && (
+        <div className="ch-todo es-sent" role="status">
+          <span className="ch-todo-ico"><Icon name="check" /></span>
+          <span><b>Compte rendu envoyé</b><small>La famille a 72 h pour confirmer la séance.</small></span>
+        </div>
+      )}
+      <Loadable loading={data.loading} error={data.error} onRetry={data.reload}>
+        {missions.length === 0 && (
+          <div className="ks-card cp-empty">
+             <b>Aucune mission active</b>
+            <p className="ks-mu ks-sm">Acceptez une proposition pour commencer vos cours.</p>
+          </div>
+        )}
         {mission && (
           <>
             {missions.length > 1 && (
-              <Field label="Mission">
-                <select value={mission.id} onChange={(e) => { setMissionId(Number(e.target.value)); setSent(false) }}>
-                  {missions.map((m) => <option key={m.id} value={m.id}>{m.beneficiaire?.prenom ?? m.titre} — {m.matiere}</option>)}
-                </select>
-              </Field>
-            )}
-            <div className="ks-card">
-              <div className="ks-sp">
-                <div>
-                  <b>{mission.beneficiaire ? `${mission.beneficiaire.prenom} ${mission.beneficiaire.nom}` : mission.titre}</b> · {mission.matiere}
-                  <div className="ks-mu ks-sm">{mission.beneficiaire?.classe_niveau ?? mission.niveau} · {mission.nombre_heures_realisees} h réalisée(s)</div>
-                </div>
-                <button type="button" className="ks-btn sm" onClick={() => setChat(true)}>Chat de mission</button>
+              <div className="es-missions" role="tablist" aria-label="Missions">
+                {missions.map((m) => (
+                  <button key={m.id} type="button" role="tab" aria-selected={m.id === mission.id} className={m.id === mission.id ? 'on' : ''}
+                    onClick={() => { setMissionId(m.id); setSent(false) }}>
+                    <b>{m.beneficiaire?.prenom ?? m.titre}</b>
+                    <span>{m.matiere}</span>
+                  </button>
+                ))}
               </div>
+            )}
+
+            <div className="ks-card cm-head">
+              <div className="cm-id">
+                <span className="cm-av">{(mission.beneficiaire?.prenom?.[0] ?? '?').toUpperCase()}</span>
+                <div>
+                  <b>{mission.beneficiaire ? `${mission.beneficiaire.prenom} ${mission.beneficiaire.nom}` : mission.titre}</b>
+                  <span className="ks-mu ks-sm">{mission.matiere} · {mission.beneficiaire?.classe_niveau ?? mission.niveau}</span>
+                </div>
+                <Bd s={MISSION_STATUS[mission.status]} />
+              </div>
+              <div className="cm-facts">
+                <div><span>Depuis le</span><b>{dateFr(mission.date_debut)}</b></div>
+                <div><span>Heures réalisées</span><b>{mission.nombre_heures_realisees} h</b></div>
+                <div><span>Votre tarif</span><b>{mission.tarif_horaire_enseignant ? `${fcfa(mission.tarif_horaire_enseignant)}/h` : '—'}</b></div>
+              </div>
+              <button type="button" className="ks-btn cm-chat" onClick={() => setChat(true)}>💬 Écrire à la famille</button>
             </div>
 
             {mission.status === 'active' && <Planifier missionId={mission.id} onDone={data.reload} />}
 
-            <h3>Séances</h3>
-            {seances.length === 0 && <p className="ks-state">Aucune séance planifiée.</p>}
-            {seances.map((c) => (
-              <div key={c.id} className="ks-card">
-                <div className="ks-sp">
-                  <span>{dateFr(c.date_heure_debut, true)} · {Math.round(c.duree_minutes / 6) / 10} h{c.sujet ? ` · ${c.sujet}` : ''}</span>
-                  <Bd s={status(c)} />
-                </div>
-                {c.motif_contestation && <p className="ks-err">Contestation de la famille : {c.motif_contestation}</p>}
-                {c.status === 'planifiee' && (
-                  c.is_past
-                    ? <div className="ks-row"><button type="button" className="ks-btn p" onClick={() => { setDeclaring(c); setSent(false) }}>Déclarer la séance</button></div>
-                    : <p className="ks-mu ks-sm">À déclarer après le cours.</p>
-                )}
-              </div>
-            ))}
+            <h2>Séances</h2>
+            {seances.length === 0 && <p className="ks-mu ks-sm">Aucune séance planifiée.</p>}
+            <div className="cm-list">
+              {seances.map((c) => {
+                const todo = c.status === 'planifiee' && c.is_past
+                return (
+                  <article key={c.id} className={`ks-card cm-seance ${todo ? 'todo' : ''}`}>
+                    <div className="cm-date"><b>{jour(c.date_heure_debut)}</b><span>{mois(c.date_heure_debut)}</span></div>
+                    <div className="cm-body">
+                      <div className="ks-sp">
+                        <span><b>{heureDe(c.date_heure_debut)}</b> · {Math.round(c.duree_minutes / 6) / 10} h{c.sujet ? ` · ${c.sujet}` : ''}</span>
+                        <Bd s={todo ? { label: 'À déclarer', tone: 'wn' } : status(c)} />
+                      </div>
+                      {c.motif_contestation && <p className="ks-sm cm-contest"><b>Contestation de la famille :</b> {c.motif_contestation}</p>}
+                      {c.status === 'planifiee' && (
+                        todo
+                          ? <div className="ks-row"><button type="button" className="ks-btn p" onClick={() => { setDeclaring(c); setSent(false) }}>Déclarer la séance</button></div>
+                          : <p className="ks-mu ks-sm" style={{ marginBottom: 0 }}>À déclarer après le cours.</p>
+                      )}
+                    </div>
+                  </article>
+                )
+              })}
+            </div>
             {chat && <MissionChat missionId={mission.id} title={mission.beneficiaire?.prenom ?? mission.matiere} onClose={() => setChat(false)} />}
           </>
         )}

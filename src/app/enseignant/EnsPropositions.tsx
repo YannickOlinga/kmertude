@@ -1,19 +1,23 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import AppShell from '../AppShell'
-import { Alert, Bd, Field, Loadable, Modal, Msg, type Status } from '../ui'
+import PageHero from '../PageHero'
+import { Icon } from '../icons'
+import { Bd, Field, Loadable, Modal, Msg, type Status } from '../ui'
 import { useEnseignant } from './useEnseignant'
 import {
   MODALITE_LABEL, PROPOSITION_STATUT, fcfa, heuresRestantes, listMesPropositions, repondreProposition, type Proposition,
 } from '../../lib/backend'
 import { errorMessage, useApi } from '../../lib/useApi'
+import '../space.css'
+import './ens.css'
 
 const status = (p: Proposition): Status => {
   if (p.statut === 'en_attente') {
     const h = heuresRestantes(p.date_expiration)
     return { label: h != null ? `Expire dans ${h} h` : 'En attente', tone: 'wn' }
   }
-  if (p.statut === 'option_posee') return { label: 'Acceptée — confirmation en cours', tone: 'wn' }
+  if (p.statut === 'option_posee') return { label: 'Acceptée · confirmation en cours', tone: 'wn' }
   return PROPOSITION_STATUT[p.statut]
 }
 
@@ -42,49 +46,92 @@ export default function EnsPropositions() {
   const list = props.data ?? []
   const actives = list.filter((p) => ['en_attente', 'option_posee', 'acceptee'].includes(p.statut))
   const autres = list.filter((p) => !actives.includes(p))
+  const nbAttente = list.filter((p) => p.statut === 'en_attente').length
 
   return (
     <AppShell>
-      <h1>Propositions reçues</h1>
-      {ens.data && !certifie && <Alert tone="wn">Votre profil doit être certifié pour accepter une mission. <Link to="/enseignant">Voir mon statut</Link></Alert>}
-      <Loadable loading={props.loading} error={props.error} onRetry={props.reload} empty={!list.length} emptyText="Aucune proposition pour le moment.">
-        {actives.map((p) => (
-          <div key={p.id} className="ks-card">
-            <div className="ks-sp"><b>{p.demande.matiere}</b><Bd s={status(p)} /></div>
-            <p className="ks-sm">
-              Niveau : {p.demande.classe_niveau}{p.demande.serie ? ` ${p.demande.serie}` : ''}<br />
-              Élève : {p.demande.prenom_eleve}<br />
-              Lieu : {p.demande.modalite === 'en_ligne' ? 'En ligne' : `${p.demande.localisation_quartier}, ${p.demande.localisation_ville}`} · {MODALITE_LABEL[p.demande.modalite]}<br />
-              Volume : {p.demande.heures_semaine_souhaitees} h/semaine{p.demande.rythme ? ` · ${p.demande.rythme}` : ''}
-              {p.demande.disponibilites && <><br />Disponibilités : {p.demande.disponibilites}</>}
-              {p.demande.objectifs && <><br />Objectifs : {p.demande.objectifs}</>}
-            </p>
-            {p.message_admin && <p className="ks-sm ks-mu">Message du conseiller : {p.message_admin}</p>}
-            <div className="ks-big">{fcfa(p.tarif_horaire_propose)}/h</div>
+      <PageHero eyebrow="Espace enseignant" title="Propositions reçues"
+        text={nbAttente > 0
+          ? `${nbAttente} proposition${nbAttente > 1 ? 's' : ''} attend${nbAttente > 1 ? 'ent' : ''} votre réponse. Elles sont valables 48 h.`
+          : 'Les missions que notre équipe vous propose, selon vos matières et vos zones.'} />
 
-            {p.statut === 'acceptee' ? (
-              <Alert tone="ok"><b>Mission active.</b> Les coordonnées et le chat sont dans <Link to="/enseignant/seance">Séance</Link>.</Alert>
-            ) : (
-              <div className="ks-lock">🔒 Nom de famille, téléphone et point de repère masqués jusqu’à la confirmation de l’affectation.</div>
-            )}
-            {p.statut === 'option_posee' && <p className="ks-sm ks-mu">Votre accord est enregistré : l’équipe confirme l’affectation officielle avec la famille.</p>}
-            {p.statut === 'en_attente' && (
-              <div className="ks-row">
-                <button type="button" className="ks-btn ok" disabled={!certifie || busy === p.id} onClick={() => accept(p)}>Accepter la mission</button>
-                <button type="button" className="ks-btn er" disabled={busy === p.id} onClick={() => { setRefus(p); setMotif(''); setErr('') }}>Refuser</button>
-              </div>
-            )}
+      {ens.data && !certifie && (
+        <div className="cp-block-banner">
+          <div>
+            <b>Profil pas encore certifié</b>
+            <p>Vous pourrez accepter une mission dès que votre dossier sera validé.</p>
           </div>
-        ))}
+          <Link to="/enseignant/dossier" className="ks-btn">Voir mon dossier</Link>
+        </div>
+      )}
+
+      <Loadable loading={props.loading} error={props.error} onRetry={props.reload}>
+        {list.length === 0 && (
+          <div className="ks-card cp-empty">
+             <b>Aucune proposition pour le moment</b>
+            <p className="ks-mu ks-sm">Complétez vos zones et vos matières pour recevoir des missions proches de chez vous.</p>
+          </div>
+        )}
+
+        <div className="ep-list">
+          {actives.map((p) => (
+            <article key={p.id} className={`ks-card ep-card ${p.statut === 'en_attente' ? 'new' : ''}`}>
+              <div className="ks-sp">
+                <div>
+                  <h2 className="ep-title">{p.demande.matiere}</h2>
+                  <span className="ks-mu ks-sm">{p.demande.classe_niveau}{p.demande.serie ? ` · Série ${p.demande.serie}` : ''}</span>
+                </div>
+                <Bd s={status(p)} />
+              </div>
+
+              <div className="ep-price">
+                <b>{fcfa(p.tarif_horaire_propose)}</b><span>/ heure</span>
+              </div>
+
+              <dl className="ep-facts">
+                <div><dt>Élève</dt><dd>{p.demande.prenom_eleve}</dd></div>
+                <div><dt>Lieu</dt><dd>{p.demande.modalite === 'en_ligne' ? 'En ligne' : `${p.demande.localisation_quartier}, ${p.demande.localisation_ville}`}</dd></div>
+                <div><dt>Format</dt><dd>{MODALITE_LABEL[p.demande.modalite]}</dd></div>
+                <div><dt>Volume</dt><dd>{p.demande.heures_semaine_souhaitees} h / semaine{p.demande.rythme ? ` · ${p.demande.rythme}` : ''}</dd></div>
+                {p.demande.disponibilites && <div className="full"><dt>Disponibilités</dt><dd>{p.demande.disponibilites}</dd></div>}
+                {p.demande.objectifs && <div className="full"><dt>Objectifs</dt><dd>{p.demande.objectifs}</dd></div>}
+              </dl>
+
+              {p.message_admin && <div className="cm-report"><b>Message du conseiller</b><p>{p.message_admin}</p></div>}
+
+              {p.statut === 'acceptee' ? (
+                <div className="ep-note ok"><b>Mission active.</b> Retrouvez les séances et le chat dans <Link to="/enseignant/seance">Séance</Link>.</div>
+              ) : (
+                <div className="ep-note lock">🔒 Nom de famille, téléphone et point de repère restent masqués jusqu’à la confirmation de l’affectation.</div>
+              )}
+              {p.statut === 'option_posee' && <p className="ks-sm ks-mu">Votre accord est enregistré : l’équipe confirme l’affectation avec la famille.</p>}
+              {p.statut === 'en_attente' && (
+                <div className="ks-row">
+                  <button type="button" className="ks-btn ok ep-btn" disabled={!certifie || busy === p.id} onClick={() => accept(p)}>
+                    <Icon name="check" size={16} /> Accepter la mission
+                  </button>
+                  <button type="button" className="ks-btn er" disabled={busy === p.id} onClick={() => { setRefus(p); setMotif(''); setErr('') }}>Refuser</button>
+                </div>
+              )}
+            </article>
+          ))}
+        </div>
+
         {autres.length > 0 && (
           <>
             <h2>Historique</h2>
-            {autres.map((p) => (
-              <div key={p.id} className="ks-card ks-sp">
-                <span>{p.demande.matiere} · {p.demande.classe_niveau} · {p.demande.localisation_ville}</span>
-                <Bd s={status(p)} />
-              </div>
-            ))}
+            <div className="ks-card cf-list">
+              {autres.map((p) => (
+                <div key={p.id} className="cf-row ep-hist">
+                  <div className="cf-month">
+                    <b>{p.demande.matiere}</b>
+                    <span>{p.demande.classe_niveau} · {p.demande.localisation_ville}</span>
+                  </div>
+                  <span className="ks-sm">{fcfa(p.tarif_horaire_propose)}/h</span>
+                  <Bd s={status(p)} />
+                </div>
+              ))}
+            </div>
           </>
         )}
       </Loadable>

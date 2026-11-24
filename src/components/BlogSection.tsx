@@ -84,9 +84,7 @@ export default function BlogSection() {
         <div className="relative max-w-7xl mx-auto px-4 py-20 sm:px-6 lg:px-8">
           <div className="text-center">
             <div className="mb-6">
-              <span className="px-4 py-2 bg-white/20 backdrop-blur-sm text-white border border-white/30 rounded-full text-sm font-medium">
-                📚 Blog Kmertude
-              </span>
+             
             </div>
             <h1 className="text-5xl font-bold mb-6 tracking-tight">
               Ressources et conseils pour l'excellence académique
